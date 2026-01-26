@@ -1,0 +1,165 @@
+{
+	"folders": [
+		{
+			"name": "AI Agent Agency",
+			"path": "."
+		},
+		{
+			"path": "C:/Workspaces"
+		}
+	],
+	"settings": {
+		"background.enabled": true,
+		"background.useFront": false,
+		"background.useDefault": false,
+		"background.customImages": [
+			"https://raw.githubusercontent.com/YOUR_USERNAME/Agency/main/agents/images/GraphViz.jpg"
+		],
+		"background.style": {
+			"content": "''",
+			"pointer-events": "none",
+			"position": "absolute",
+			"z-index": "99999",
+			"width": "100%",
+			"height": "100%",
+			"background-position": "center",
+			"background-repeat": "no-repeat",
+			"background-size": "cover",
+			"opacity": 0.1
+		},
+		"background.styles": [
+			{
+				"opacity": 0.1
+			},
+			{
+				"opacity": 0.1
+			},
+			{
+				"opacity": 0.1
+			}
+		],
+		"background.interval": 30,
+
+		"workbench.colorCustomizations": {
+			"activityBar.background": "#1A1A2E",
+			"activityBar.foreground": "#00D4FF",
+			"activityBar.activeBorder": "#9D4EDD",
+			"activityBarBadge.background": "#FF6B6B",
+			"sideBar.background": "#121218cc",
+			"sideBar.foreground": "#E8E8E8",
+			"sideBarTitle.foreground": "#00D4FF",
+			"sideBarSectionHeader.background": "#1A1A2E",
+			"sideBarSectionHeader.foreground": "#9D4EDD",
+			"editor.background": "#0D0D14e6",
+			"editor.foreground": "#E8E8E8",
+			"editor.lineHighlightBackground": "#1A1A2E44",
+			"editor.selectionBackground": "#9D4EDD44",
+			"editorCursor.foreground": "#00D4FF",
+			"editorLineNumber.foreground": "#4A4A5A",
+			"editorLineNumber.activeForeground": "#9D4EDD",
+			"editorGutter.addedBackground": "#00D4FF",
+			"editorGutter.deletedBackground": "#FF6B6B",
+			"editorGutter.modifiedBackground": "#9D4EDD",
+			"tab.activeBackground": "#1A1A2Ecc",
+			"tab.activeForeground": "#00D4FF",
+			"tab.activeBorderTop": "#9D4EDD",
+			"tab.inactiveBackground": "#121218cc",
+			"tab.inactiveForeground": "#6A6A7A",
+			"editorGroupHeader.tabsBackground": "#0D0D14e6",
+			"titleBar.activeBackground": "#0D0D14",
+			"titleBar.activeForeground": "#E8E8E8",
+			"titleBar.inactiveBackground": "#0D0D14",
+			"statusBar.background": "#1A1A2E",
+			"statusBar.foreground": "#00D4FF",
+			"statusBar.debuggingBackground": "#9D4EDD",
+			"panel.background": "#0D0D14e6",
+			"panel.border": "#1A1A2E",
+			"panelTitle.activeBorder": "#9D4EDD",
+			"panelTitle.activeForeground": "#00D4FF",
+			"terminal.background": "#0D0D14",
+			"terminal.foreground": "#E8E8E8",
+			"terminalCursor.foreground": "#00D4FF",
+			"input.background": "#121218",
+			"input.foreground": "#E8E8E8",
+			"input.border": "#1A1A2E",
+			"dropdown.background": "#121218",
+			"dropdown.foreground": "#E8E8E8",
+			"button.background": "#9D4EDD",
+			"button.foreground": "#FFFFFF",
+			"list.activeSelectionBackground": "#9D4EDD44",
+			"list.activeSelectionForeground": "#FFFFFF",
+			"list.hoverBackground": "#1A1A2E44",
+			"scrollbarSlider.background": "#1A1A2E88",
+			"badge.background": "#9D4EDD",
+			"badge.foreground": "#FFFFFF",
+			"gitDecoration.addedResourceForeground": "#00D4FF",
+			"gitDecoration.modifiedResourceForeground": "#9D4EDD",
+			"gitDecoration.deletedResourceForeground": "#FF6B6B",
+			"gitDecoration.untrackedResourceForeground": "#F093FB"
+		},
+		"editor.tokenColorCustomizations": {
+			"comments": "#6A6A7A",
+			"strings": "#00D4FF",
+			"keywords": "#9D4EDD",
+			"numbers": "#FF8E53",
+			"functions": "#F093FB",
+			"variables": "#E8E8E8",
+			"types": "#00D4FF"
+		},
+		"editor.fontLigatures": true,
+		"editor.cursorBlinking": "smooth",
+		"editor.cursorSmoothCaretAnimation": "on",
+		"editor.smoothScrolling": true,
+		"editor.bracketPairColorization.enabled": true,
+		"editor.guides.bracketPairs": "active",
+		"editor.minimap.enabled": true,
+		"editor.minimap.renderCharacters": false
+	},
+	"extensions": {
+		"recommendations": [
+			"shalldie.background",
+			"eamodio.gitlens",
+			"esbenp.prettier-vscode"
+		]
+	},
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "Monday: Vidette Audit",
+				"type": "shell",
+				"command": "powershell",
+				"args": ["-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/scripts/audit-video-pages.ps1"],
+				"problemMatcher": []
+			},
+			{
+				"label": "Tuesday: Bloggie Audit",
+				"type": "shell",
+				"command": "powershell",
+				"args": ["-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/scripts/audit-blog-posts.ps1"],
+				"problemMatcher": []
+			},
+			{
+				"label": "Wednesday: GraphViz Audit",
+				"type": "shell",
+				"command": "powershell",
+				"args": ["-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/scripts/audit-styles.ps1"],
+				"problemMatcher": []
+			},
+			{
+				"label": "Thursday: GamerGirl Audit",
+				"type": "shell",
+				"command": "powershell",
+				"args": ["-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/scripts/audit-game-pages.ps1"],
+				"problemMatcher": []
+			},
+			{
+				"label": "Friday: DivineDesign Audit",
+				"type": "shell",
+				"command": "powershell",
+				"args": ["-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/scripts/audit-layouts.ps1"],
+				"problemMatcher": []
+			}
+		]
+	}
+}

@@ -1,0 +1,47 @@
+# AI Agent Agency - .gitignore
+# =============================
+
+# Audit reports (generated locally)
+audits/*.md
+!audits/.gitkeep
+
+# Claude Code context (user-specific session data)
+.claude/
+
+# VSCode user settings (workspace-specific, not the .code-workspace file)
+.vscode/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor backup files
+*~
+*.swp
+*.swo
+*.bak
+
+# Node modules (if scripts use npm)
+node_modules/
+
+# Logs
+*.log
+logs/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# -------------------------------------------
+# TRACKED FILES (not ignored)
+# -------------------------------------------
+# The following are tracked as framework examples:
+# - agents/*.md (example agent profiles)
+# - .config/mcp_agents.json (example configuration)
+# - .config/mcp_agents.example.json (template)
+# - ai-agent-agency.code-workspace (penthouse studio theme)
+# - docs/ (documentation)
+# - templates/ (agent templates)
+# - examples/ (working examples)
