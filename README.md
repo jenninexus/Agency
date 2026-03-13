@@ -152,6 +152,7 @@ agency/
 │   ├── images/                        # Generated agent portraits
 │   │   └── GraphViz.jpg              # Example portrait
 │   └── video/                         # Agent video content
+│       └── .gitkeep
 │
 ├── docs/                              # Framework documentation
 │   ├── AGENT-GUIDE.md                 # Character creation & design guide
