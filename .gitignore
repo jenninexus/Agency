@@ -8,13 +8,10 @@ audits/*.md
 audits/*.log
 !audits/.gitkeep
 
-# Dated audit archives (local only)
-audits/*-20[0-9][0-9]-*.md
-
 # Claude Code context (user-specific session data)
 .claude/
 
-# VSCode user settings (workspace-specific, not the .code-workspace file)
+# VSCode user settings
 .vscode/
 
 # Operating system files
@@ -35,27 +32,31 @@ node_modules/
 *.log
 logs/
 
-# Environment files (contain local paths)
+# Environment files (contain local paths and secrets)
 .env
 .env.local
 .env.*.local
 
-# Agent images (large binary files, deploy separately)
-agents/images/*.jpg
-agents/images/*.png
-agents/images/*.webp
-!agents/images/.gitkeep
+# Production config (customize from .example — contains local paths)
+.config/mcp_agents.json
+
+# Customized workspace (customize from .example)
+agency.code-workspace
+
+# Agent portrait images (generated per project, keep example only)
+agents/images/
 
 # -------------------------------------------
 # TRACKED FILES (pushed to GitHub)
 # -------------------------------------------
-# - agents/*.md (agent profiles — useful as real-world examples)
-# - agents/templates/ (blank agent template)
-# - .config/mcp_agents.json (production configuration example)
+# - README.md (public-facing introduction)
+# - .env.example (environment template)
+# - .gitattributes (line ending normalization)
 # - .config/mcp_agents.example.json (clean template for new projects)
-# - ai-agent-agency.code-workspace (penthouse studio VS Code theme)
-# - docs/ (documentation, guides, optimization ideas)
-# - templates/ (agent templates)
+# - agency.example.code-workspace (VS Code studio theme template)
+# - agents/*.md (agent profiles — useful as real-world examples)
+# - docs/ (documentation, guides, schedules)
+# - templates/ (blank agent template)
 # - examples/ (working example agents)
 # - scripts/ (audit utilities and templates)
-# - README.md (public-facing introduction)
+# - resources/images/ (example agent artwork — tracked)

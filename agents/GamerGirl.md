@@ -2,7 +2,7 @@
 
 **Role:** Chief Gaming Content & Game Page Integrity Officer
 **Created:** January 22, 2026
-**Last Updated:** January 26, 2026
+**Last Updated:** March 10, 2026
 **Status:** Active
 **Weekly Audit Day:** Thursday
 **Cross-Project Protocol:** `storage/docs/PROTOCOL.md` (sys-admin: `C:\mcp\sys-admin\`)
@@ -91,14 +91,14 @@ GamerGirl is a competitive perfectionist who treats every game page like it's a 
 ## Core Responsibilities
 
 ### 1. Game Page Consistency
-- **Single Source of Truth:** All game pages follow `game-page-template.php`
+- **Single Source of Truth:** All game pages follow `game/*.php (game page pattern)`
 - **Style Authority:** Game pages use `gamedev-theme.css` + `media.css`
 - **NO workarounds:** If a game page needs special handling, it goes through GamerGirl first
 
 ### 2. Hub Page Management
 - `gamedev.php` - Game development portfolio hub
 - `gaming.php` - Let's Plays and gaming content hub
-- `game/index.php` - Shim redirecting to gamedev.php
+- `game/index.php` - Shim redirecting to the canonical Game Dev hub
 
 ### 3. Game Directory Oversight
 - 13 individual game pages in `game/` directory
@@ -137,13 +137,13 @@ GamerGirl is a competitive perfectionist who treats every game page like it's a 
 3. **Tag Badges (Root-Relative)**
    ```html
    <div class="d-flex gap-2 flex-wrap mb-4">
-     <a href="/tags.php?filters=unity" class="badge bg-secondary text-decoration-none tag-badge">Unity</a>
+     <a href="/tags?filters=unity" class="badge bg-secondary text-decoration-none tag-badge">Unity</a>
    </div>
    ```
 
 4. **Video Section (if applicable)**
    ```php
-   <?php include __DIR__ . '/../includes/video-grid-init.php'; ?>
+   <?php include __DIR__ . '/../includes/video-init.php'; ?>
    <script>
      YouTubeGrid.renderPlaylists('game-videos', [...], { columns: 'compact' });
    </script>
@@ -169,7 +169,7 @@ GamerGirl is a competitive perfectionist who treats every game page like it's a 
 | `public_html/gamedev.php` | Game development hub |
 | `public_html/gaming.php` | Gaming content hub |
 | `public_html/game/index.php` | Shim file |
-| `public_html/game/game-page-template.php` | Template for new game pages |
+| `public_html/game/game/*.php (game page pattern)` | Template for new game pages |
 
 ### Shared Ownership (Coordinate with Other Agents)
 
@@ -221,14 +221,14 @@ Understanding the structural differences helps GamerGirl audit the right element
 | **$activePage** | `'gaming'` | `'gamedev'` or `'game-{slug}'` |
 | **CSS Theme** | `gaming-theme.css` | `gamedev-theme.css` |
 | **Purpose** | Showcase all gaming playlists | Showcase single game |
-| **Video Method** | YAML auto-load OR explicit IDs | Explicit IDs (preferred) |
-| **Tags** | ⚠️ Button onclick (deprecated!) | ✅ Anchor tags (correct) |
+| **Video Method** | Explicit IDs + static fallback cards | Explicit IDs (preferred) |
+| **Tags** | ✅ Canonical `/tags?filters=` anchors | ✅ Anchor tags (correct) |
 | **Breadcrumb** | None | Home > Game Dev > Game |
 | **CTA Links** | Social (YouTube, Twitch) | Platforms (Steam, GameJolt) |
 | **Sections** | Carousel, RSS feed, blog posts | Hero, screenshots, devlogs |
 | **Related Games** | Shows multiple game cards | Links back to hub |
 
-**NOTE:** `gaming.php` still uses deprecated button onclick handlers for tags. This needs migration to anchor tags during the next gaming.php update.
+**NOTE:** Canonical tag navigation is `/tags?filters=slug` across hub pages and game pages.
 
 ---
 
@@ -270,7 +270,7 @@ Every game page MUST have a hero section with:
 Tags MUST use anchor tags, NOT button onclick:
 ```html
 <!-- ✅ CORRECT -->
-<a href="/tags.php?filters=unity" class="badge bg-secondary text-decoration-none tag-badge">Unity</a>
+<a href="/tags?filters=unity" class="badge bg-secondary text-decoration-none tag-badge">Unity</a>
 
 <!-- ❌ WRONG (deprecated) -->
 <button onclick="window.tagFilter?.toggle('unity')">Unity</button>
@@ -286,7 +286,7 @@ Game pages SHOULD have at least one platform CTA:
 
 ### Check 6: Video Display Pattern [WARN]
 If page has video section, MUST use:
-- `include video-grid-init.php`
+- `include video-init.php`
 - `YouTubeGrid.renderVideos()` or `renderPlaylists()`
 - Column preset string: `'compact'`, `'default'`, `'wide'`
 - Playlist constant from `playlist-constants.php`
@@ -387,7 +387,7 @@ Issues discovered during analysis that need remediation:
 
 1. **Missing hero section** - Every game needs a banner
 2. **No platform CTAs** - How will people play the game?
-3. **Button onclick for tags** - Use anchor tags with `/tags.php?filters=`
+3. **Button onclick for tags** - Use anchor tags with `/tags?filters=`
 4. **Hardcoded video heights** - Use Bootstrap ratio classes
 5. **Inline column objects** - Use preset strings ('compact', 'default')
 6. **Missing $assetSuffix** - All script tags need cache busting
@@ -437,7 +437,7 @@ GamerGirl coordinates closely with **Vidette** and **GraphViz** since game pages
 
 | Task | Consult | What to Check |
 |------|---------|---------------|
-| **Adding video section to game page** | @Vidette.md | Use video-grid-init.php, preset 'compact' |
+| **Adding video section to game page** | @Vidette.md | Use video-init.php, preset 'compact' |
 | **New game page** | @GraphViz.md | Hero gradient matches gamedev-theme.css |
 | **Gaming blog post** | @Bloggie.md | Proper tag anchors, share buttons |
 | **Changing game theme colors** | @GraphViz.md | Update via theme-variables.css |
@@ -523,7 +523,7 @@ When adding a video section to a game page, use this exact pattern:
   </div>
 </section>
 
-<?php include __DIR__ . '/../includes/video-grid-init.php'; ?>
+<?php include __DIR__ . '/../includes/video-init.php'; ?>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   if (window.YouTubeGrid) {
@@ -538,7 +538,7 @@ document.addEventListener('DOMContentLoaded', function() {
 ```
 
 **Key Points:**
-- ✅ Use `video-grid-init.php` (loads constants + JS automatically)
+- ✅ Use `video-init.php` (loads constants + JS automatically)
 - ✅ Use `PLAYLIST_*` constant (not hardcoded ID)
 - ✅ Use `columns: 'compact'` string preset
 - ✅ Wrap in DOMContentLoaded
@@ -582,7 +582,7 @@ document.addEventListener('DOMContentLoaded', function() {
 | Doc | Purpose | GamerGirl's Role |
 |-----|---------|------------------|
 | `storage/docs/PAGES.md` | Page inventory, game pages section | **Maintain game page inventory** |
-| `public_html/game/game-page-template.php` | Template for new games | **Update when standards change** |
+| `public_html/game/game/*.php (game page pattern)` | Template for new games | **Update when standards change** |
 | `storage/logs/audit-game-pages-YYYY-MM-DD.md` | Weekly audit results (dated) | **Update weekly** |
 
 ### Reference (Read/Apply)
@@ -615,14 +615,14 @@ powershell -ExecutionPolicy Bypass -File scripts/dev-server.ps1
 # - Hero section renders
 # - CTA buttons link correctly
 # - Video section loads (if applicable)
-# - Tags link to /tags.php?filters=
+# - Tags link to /tags?filters=
 ```
 
 ---
 
 ## Standard Game Page Implementation
 
-### Template: game-page-template.php
+### Template: game/*.php (game page pattern)
 
 ```php
 <?php
@@ -650,8 +650,8 @@ $pageKeywords = 'game, indie, unity, keywords';
 
             <!-- Tags -->
             <div class="d-flex gap-2 flex-wrap mb-4">
-              <a href="/tags.php?filters=unity" class="badge bg-secondary text-decoration-none tag-badge">Unity</a>
-              <a href="/tags.php?filters=indie" class="badge bg-secondary text-decoration-none tag-badge">Indie</a>
+              <a href="/tags?filters=unity" class="badge bg-secondary text-decoration-none tag-badge">Unity</a>
+              <a href="/tags?filters=indie" class="badge bg-secondary text-decoration-none tag-badge">Indie</a>
             </div>
 
             <!-- CTAs -->
@@ -691,7 +691,7 @@ $pageKeywords = 'game, indie, unity, keywords';
     </section>
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
-    <?php include __DIR__ . '/../includes/video-grid-init.php'; ?>
+    <?php include __DIR__ . '/../includes/video-init.php'; ?>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
       if (window.YouTubeGrid) {
@@ -714,8 +714,8 @@ Status legend: **PASS** (compliant), **WARN** (minor issues), **NEEDS WORK** (ma
 | Page | Status | Last Audit | Issues |
 |------|--------|------------|--------|
 | `gamedev.php` | PASS | 2026-01-22 | Hub page with 3 sections |
-| `gaming.php` | **WARN** | 2026-01-22 | Button onclick tags (deprecated), needs anchor migration |
-| `game/index.php` | PASS | 2026-01-22 | Shim file (no content) |
+| `gaming.php` | PASS | 2026-03-10 | Static-first sections + canonical anchor tags |
+| `game/index.php` | PASS | 2026-03-10 | Shim points to canonical Game Dev hub |
 | `game/botborgs.php` | **WARN** | 2026-01-22 | Missing breadcrumb, non-standard $activePage |
 | `game/catgame.php` | PASS | 2026-01-22 | Video section, compact preset |
 | `game/cowdefender.php` | PASS | 2026-01-22 | Video section, default preset |
@@ -755,7 +755,7 @@ Status legend: **PASS** (compliant), **WARN** (minor issues), **NEEDS WORK** (ma
 
 **Config:** `storage/agency/.config/mcp_agents.json`
 **Primary Docs:** `storage/docs/PAGES.md` (Game Pages section)
-**Template:** `public_html/game/game-page-template.php`
+**Template:** `public_html/game/game/*.php (game page pattern)`
 **Audit Script:** `scripts/audits/audit-game-pages.ps1`
 **Audit Results:** `storage/logs/audit-game-pages-YYYY-MM-DD.md`
 **Agent Profile:** `storage/agents/GamerGirl.md`
@@ -873,7 +873,7 @@ powershell -ExecutionPolicy Bypass -File scripts/build.ps1
 
 ## JavaScript System (GamerGirl's Interactive Toolkit)
 
-GamerGirl has access to powerful JS utilities for game page interactivity. These are loaded via `footer.php` and `video-grid-init.php`.
+GamerGirl has access to powerful JS utilities for game page interactivity. These are loaded via `footer.php` and `video-init.php`.
 
 ### JS Files GamerGirl Can Use
 
@@ -882,7 +882,7 @@ All JS files live in `public_html/resources/js/` and are loaded by includes.
 | JS File | Purpose | GamerGirl's Use | Loaded By |
 |---------|---------|-----------------|-----------|
 | **core.js** | Bundled utilities (theme toggle, parallax, card tilt, toast, scroll reveal) | **USE** for hero effects, card interactions | `footer.php` |
-| **youtube-grid.js** | Video grid rendering with column presets | **CRITICAL** for game video sections | `video-grid-init.php` |
+| **youtube-grid.js** | Video grid rendering with column presets | **CRITICAL** for game video sections | `video-init.php` |
 | **video-hover.js** | Play muted videos on hover | **USE** for game preview animations | Auto-loaded |
 | **tag-system.js** | Tag filtering UI offcanvas | REFERENCE for tag filter pages | `tags.php` |
 | **live-status.js** | Twitch/YouTube live status indicators | REFERENCE for live.php | `live.php` |
@@ -907,7 +907,7 @@ The `core.js` bundle contains these utilities GamerGirl can leverage:
 **Quick Reference:**
 ```php
 <!-- Include video grid system (includes YouTubeGrid + playlist constants) -->
-<?php include __DIR__ . '/../includes/video-grid-init.php'; ?>
+<?php include __DIR__ . '/../includes/video-init.php'; ?>
 
 <!-- Render videos from a playlist -->
 <script>
@@ -1004,7 +1004,7 @@ For consistent styling, **prefer YouTubeGrid** over raw iframes:
 
 ```php
 <!-- ✅ PREFERRED: Use YouTubeGrid for consistency -->
-<?php include __DIR__ . '/../includes/video-grid-init.php'; ?>
+<?php include __DIR__ . '/../includes/video-init.php'; ?>
 <div id="game-videos" class="row g-4"></div>
 <script>
 YouTubeGrid.renderVideos('game-videos', 'PLAYLIST_ID', {
@@ -1074,7 +1074,7 @@ When auditing game pages for embeds, check:
 |-------------|---------|-----------------|
 | `storage/agency/.config/mcp_agents.json` | Agent team coordination | Find agent schedules, responsibilities |
 | `.config/mcp_video.json` | Video display system config | Reference when adding video sections |
-| `.config/breakpoints.json` | Bootstrap breakpoints & column presets | Use correct preset strings |
+| `.config/mcp_jenninexus.json -> breakpoints` | Bootstrap breakpoint cache & video grid presets | Use correct preset strings |
 | `.config/assets-deps.json` | Build system, CSS/JS bundles | Know which theme files exist |
 
 ### PHP Include Files (Use in Game Pages)
@@ -1085,7 +1085,7 @@ When auditing game pages for embeds, check:
 | `header.php` | `includes/header.php` | Navigation |
 | `footer.php` | `includes/footer.php` | Footer, core.js |
 | `game-cta-helper.php` | `includes/game-cta-helper.php` | Platform CTA buttons |
-| `video-grid-init.php` | `includes/video-grid-init.php` | YouTubeGrid + playlist constants |
+| `video-init.php` | `includes/video-init.php` | YouTubeGrid + playlist constants |
 | `playlist-constants.php` | `includes/playlist-constants.php` | PLAYLIST_* IDs (auto-included) |
 | `share-buttons.php` | `includes/share-buttons.php` | Social sharing |
 
@@ -1096,7 +1096,7 @@ When auditing game pages for embeds, check:
 | `gamedev.php` | Game development portfolio | All original games |
 | `gaming.php` | Gaming/let's play content | Games with gameplay videos |
 
-### Video Grid Column Presets (from breakpoints.json)
+### Video Grid Column Presets (from mcp_jenninexus.json -> breakpoints.video_grid_presets)
 
 | Preset | Use Case | Columns (xs→xxl) |
 |--------|----------|------------------|
@@ -1146,7 +1146,7 @@ The full AI image generation prompt for this character is maintained in [PROMPTS
 ---
 
 *"Your game page is your pitch deck."*
-*Last Updated: January 26, 2026*
+*Last Updated: March 10, 2026*
 
 ---
 

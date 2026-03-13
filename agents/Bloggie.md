@@ -2,7 +2,7 @@
 
 **Role:** Chief Blog Page Design & Consistency Officer
 **Created:** January 21, 2026
-**Last Updated:** January 26, 2026
+**Last Updated:** March 9, 2026
 **Status:** Active
 **Weekly Audit Day:** Tuesday
 
@@ -71,9 +71,17 @@ Bloggie is a detail-oriented content curator with a love for visual storytelling
 
 **Bloggie tracks changes to:**
 - All blog posts in `public_html/blog/*.php`
+- Blog listing page in `public_html/page/blog.php`
+- Blog route shim in `public_html/blog/index.php`
 - Blog metadata in `src/assets/playlists/blog-posts.yaml`
 - Share buttons include: `public_html/includes/share-buttons.php`
 - Template: `public_html/blog/blog-post-template.php`
+
+**Current route architecture:**
+- Public blog listing route: `/blog/`
+- Listing implementation: `public_html/page/blog.php`
+- Directory shim: `public_html/blog/index.php`
+- Individual blog posts: `public_html/blog/*.php`, public URLs `/blog/{slug}`
 
 **When making blog changes:** Update the Page Status Tracker below and add to the Changelog.
 
@@ -128,6 +136,15 @@ if (!defined('RES_ROOT')) {
 - Include "Topics:" header before tags
 - Use `d-flex flex-wrap gap-2` container (NOT individual margins)
 - Reference: `storage/docs/TAG-SYSTEM.md` → "Blog System Integration" section
+
+### 4b. Back to Blog Uses Clean Route
+```html
+<a href="/blog/" class="btn btn-outline-primary">
+  <i class="fa-solid fa-arrow-left me-2"></i>Back to Blog
+</a>
+```
+- Do not use legacy `../blog.php`
+- Blog posts should always return to the public `/blog/` route
 
 ### 5. Share Buttons via Include
 ```php
@@ -238,7 +255,7 @@ Bloggie ensures cohesive, professional blog page design across all JenniNexus bl
 ### Dev Reference Pages
 - `public_html/blog/blog-post-template.php` - **THE** template for all blog posts
 - `public_html/dev-only/theme-demo.php` - Live theme examples
-- `public_html/blog.php` - Main blog listing page
+- `public_html/page/blog.php` - Main blog listing page (served at `/blog/`)
 
 ---
 
@@ -249,7 +266,7 @@ Bloggie ensures cohesive, professional blog page design across all JenniNexus bl
 public_html/blog/blog-post-template.php  → Template (REFERENCE)
 public_html/blog/*.php                    → All blog posts (MONITOR)
 public_html/includes/share-buttons.php   → Share button component
-public_html/blog/index.php               → Index shim (redirects to blog.php)
+public_html/blog/index.php               → Index shim (includes ../page/blog.php)
 ```
 
 ### YAML/JSON (Blog Metadata)
@@ -295,7 +312,7 @@ if (!defined('RES_ROOT')) {
 3. **Post Body** - Inside `.glass-card` container (standard per template)
 4. **Recommended Posts** - 3 related posts with glass-card styling
 5. **Tags Section** - "Topics:" header + anchor tag badges
-6. **Share & Navigation** - Back to Blog + share buttons
+6. **Share & Navigation** - Back to Blog (`/blog/`) + share buttons
 
 ### Glass Styling Standard
 - **Post content:** Use `.glass-card p-4 rounded-4` (as per `blog-post-template.php` line 84)
@@ -418,7 +435,7 @@ Posts marked ✅ PASS follow all Bloggie standards. Update this table when modif
 | File | Status | Last Audit | Notes |
 |------|--------|------------|-------|
 | `blog-post-template.php` | 📋 Template | - | Reference for all posts |
-| `index.php` | ➡️ Shim | - | Redirects to blog.php |
+| `index.php` | ➡️ Shim | 2026-03-09 | Includes `../page/blog.php` for `/blog/` |
 | `ai-agent-studio-sim.php` | ✅ PASS | 2026-01-25 | **NEW** - Bloggie's first assignment! |
 | `ai-sora-2025.php` | ✅ PASS | 2026-01-25 | Renamed from sora-ai-2025.php for alphabetical grouping |
 | `ai-tools-for-technical-artists.php` | ✅ PASS | 2026-01-25 | Updated recommended post links |
@@ -448,10 +465,11 @@ Posts marked ✅ PASS follow all Bloggie standards. Update this table when modif
 4. **Missing share buttons** - All 3 required (X, Facebook, LinkedIn)
 5. **Missing recommended posts** - Must have 3 related posts
 6. **Wrong tag href format** - Must be `../tags.php?filters=slug`
-7. **Missing RES_ROOT definition** - Always define defensively
-8. **Hardcoded image paths** - Use `<?= RES_ROOT ?>` always
-9. **White backgrounds** - Never. Use glass-card/glass-panel
-10. **Missing YAML entry** - Post won't appear in blog listing
+7. **Legacy back link** - Do not use `../blog.php`; use `/blog/`
+8. **Missing RES_ROOT definition** - Always define defensively
+9. **Hardcoded image paths** - Use `<?= RES_ROOT ?>` always
+10. **White backgrounds** - Never. Use glass-card/glass-panel
+11. **Missing YAML entry** - Post won't appear in blog listing
 
 ---
 
@@ -481,7 +499,8 @@ Bloggie operates under **GraphViz's visual authority** - all glass effects and c
 │         │    • Use columns: 'compact' for blog video embeds                 │
 │         │                                                                   │
 │         └──► Tag System - SHARED                                            │
-│              • Blog tags use anchor pattern: ../tags.php?filters=slug       │
+│              • Blog post topics use ../tags.php?filters=slug                │
+│              • Blog index cards may use /tag/index.php?slug=slug            │
 │              • Tags must exist in tags.json                                 │
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -510,7 +529,7 @@ Bloggie operates under **GraphViz's visual authority** - all glass effects and c
 
 | System | Integration Point |
 |--------|-------------------|
-| Tag System | Bloggie ensures proper `../tags.php?filters=` links |
+| Tag System | Bloggie ensures in-post topics use `../tags.php?filters=` and index cards stay intentional |
 | Theme System | Blog posts inherit theme via CSS variables |
 | Build System | blog-posts.yaml → blog-posts.json at build time |
 | Share Buttons | Uses share-buttons.php include |
@@ -531,7 +550,7 @@ Bloggie operates under **GraphViz's visual authority** - all glass effects and c
 .\scripts\dev-server.ps1
 
 # Test blog listing
-# Visit: http://localhost:8002/blog.php
+# Visit: http://localhost:8002/blog/
 
 # Test specific post
 # Visit: http://localhost:8002/blog/your-post-slug
@@ -567,11 +586,14 @@ Per blog post file in `public_html/blog/*.php`:
 | 2 | RES_ROOT defined | `if (!defined('RES_ROOT'))` before includes | FAIL |
 | 3 | Required includes (order) | `head.php` → `header.php` → `share-buttons.php` → `footer.php` | FAIL |
 | 4 | RES_ROOT usage | `<?= RES_ROOT ?>` for all asset paths (no hardcoded `/resources/`) | WARN |
+| System A | Listing page route | `public_html/page/blog.php` loads `blog-posts.json` and uses `/blog/{slug}` links | FAIL |
+| System B | `/blog/` shim | `public_html/blog/index.php` includes `../page/blog.php` | FAIL |
 | 5 | Tag anchor pattern | `href="../tags.php?filters=` (relative from /blog/) | FAIL |
 | 6 | Share buttons include | `include.*share-buttons.php` (not inline HTML) | FAIL |
 | 7 | Recommended posts | `glass-card h-100 hover-lift` in 3x `col-md-4` | WARN |
 | 8 | Post content container | `glass-card p-4 rounded-4` | WARN |
 | 9 | YAML entry exists | Slug in `src/assets/playlists/blog-posts.yaml` | FAIL |
+| 10 | Back to Blog route | `href="/blog/"` (not `../blog.php`) | WARN |
 
 **Severity Levels:**
 - **FAIL** - Post does not meet Bloggie standards, must fix
@@ -613,6 +635,8 @@ Every Tuesday, Bloggie checks all blog posts:
 
 ### Automatic Checks (via audit-blog-posts.ps1)
 - [ ] All posts have YAML entries in blog-posts.yaml
+- [ ] Blog listing page loads at `/blog/` and `/blog/{slug}` links work
+- [ ] `/blog/` shim includes `../page/blog.php`
 - [ ] All posts use correct tag href format (`../tags.php?filters=`)
 - [ ] All posts include share-buttons.php
 - [ ] All posts have RES_ROOT defined
@@ -625,7 +649,7 @@ Every Tuesday, Bloggie checks all blog posts:
 - [ ] Recommended posts section present with 3 posts
 - [ ] Light/dark mode tested - no white backgrounds
 - [ ] Featured images load correctly
-- [ ] Post appears in blog.php listing
+- [ ] Post appears in `/blog/` listing
 
 ---
 
@@ -707,6 +731,12 @@ Every Tuesday, Bloggie checks all blog posts:
 - Bloggie agent created
 - Initial blog post audit completed
 - BLOG-POST-TEMPLATE.md established
+
+### 2026-03-09
+- Updated Bloggie standards for the current blog architecture
+- Documented `public_html/page/blog.php` as the listing implementation served at `/blog/`
+- Updated `/blog/` shim expectations and clean `/blog/{slug}` routing
+- Added audit expectations for listing page integrity and legacy `../blog.php` back-links
 
 ---
 

@@ -129,7 +129,7 @@ Traditional web development requires:
 **Domains:**
 - `gamedev.php`, `gaming.php` - Gaming hub pages
 - `game/*.php` - 13 individual game pages
-- `game-page-template.php` - Template for new games
+- `game/*.php (game page pattern)` - Template for new games
 - `game-cta-helper.php` - Platform CTA buttons
 - Game-specific video sections (coordinates with Vidette)
 
@@ -155,7 +155,7 @@ Traditional web development requires:
 **Catchphrase:** *"Every pixel has purpose. Every layout tells a story."*
 
 **Domains:**
-- `blog-post-template.php`, `game-page-template.php` - Page templates
+- `blog-post-template.php`, `game/*.php (game page pattern)` - Page templates
 - `custom.css`, `media.css`, `main.css` - Layout CSS
 - `dev-only/theme-demo.php` and all `dev-only/*.php` - Dev reference pages
 - `PROTOCOL.md`, `PAGES.md`, `THEME-SYSTEM.md` - Protocol documentation
@@ -255,7 +255,7 @@ Traditional web development requires:
 | New video page | **Vidette** | GraphViz (theme compliance) | Check theme-variables.css for card colors |
 | New blog post | **Bloggie** | Vidette (video embeds), GraphViz (styling) | Use glass-card, anchor tags for topics |
 | Theme changes | **GraphViz** | Vidette (video cards), Bloggie (blog styling) | Update theme-demo.php showcase |
-| New game page | **GamerGirl** | Vidette (video sections), GraphViz (hero styling) | Follow game-page-template.php |
+| New game page | **GamerGirl** | Vidette (video sections), GraphViz (hero styling) | Follow game/*.php (game page pattern) |
 | Game hub section | **GamerGirl** | Vidette (video grids) | Use column presets |
 | Gaming blog post | **Bloggie** | GamerGirl (game cross-links) | Link to related game pages |
 | Design audit | **GraphViz** | All agents verify their domains | Run theme-demo.php visual checks |
@@ -332,7 +332,7 @@ The startup script checks the current day and suggests the appropriate agent aud
 | Vidette | `.config/mcp_video.json` | VIDEO-GRID.md, Vidette.md |
 | Bloggie | `blog-posts.json` | TAG-SYSTEM.md, Bloggie.md |
 | GraphViz | `theme-variables.css` | THEME-SYSTEM.md, GraphViz.md |
-| GamerGirl | `game-page-template.php` | PAGES.md, GamerGirl.md |
+| GamerGirl | `game/*.php (game page pattern)` | PAGES.md, GamerGirl.md |
 
 **→ Detailed schedule:** [SCHEDULE.md](SCHEDULE.md)
 
@@ -521,7 +521,7 @@ public_html/resources/images/ai/agents/
 | Vidette | VIDEO-GRID.md | mcp_video.json | [AUDIT_video-pages.md](../audits/AUDIT_video-pages.md) |
 | Bloggie | BLOG-POST-TEMPLATE.md | blog-posts.yaml | [AUDIT_blog-posts.md](../audits/AUDIT_blog-posts.md) |
 | GraphViz | THEME-SYSTEM.md | theme-variables.css | [AUDIT_theme-consistency.md](../audits/AUDIT_theme-consistency.md) |
-| GamerGirl | PAGES.md | game-page-template.php | [AUDIT_game-pages.md](../audits/AUDIT_game-pages.md) |
+| GamerGirl | PAGES.md | game/*.php (game page pattern) | [AUDIT_game-pages.md](../audits/AUDIT_game-pages.md) |
 | DivineDesign | PAGES.md, PROTOCOL.md | assets-deps.json | (manual review) |
 
 ---

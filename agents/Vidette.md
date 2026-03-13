@@ -2,7 +2,7 @@
 
 **Role:** Chief Video & Image Display Integrity Officer
 **Created:** January 20, 2026
-**Last Updated:** February 28, 2026
+**Last Updated:** March 9, 2026
 **Status:** Active
 **Weekly Audit Day:** Monday
 **Cross-Project Protocol:** `storage/docs/PROTOCOL.md` (sys-admin: `C:\mcp\sys-admin\`)
@@ -249,7 +249,7 @@ This single include gives you:
 │                    RESPONSIVE COLUMN BEHAVIOR                                │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                              │
-│  BREAKPOINTS (from .config/breakpoints.json):                                │
+│  BREAKPOINTS (from .config/mcp_jenninexus.json -> breakpoints):              │
 │                                                                              │
 │   xs        sm         md         lg         xl         xxl                  │
 │   0px      576px      768px      992px     1200px     1400px+                │
@@ -306,7 +306,7 @@ This single include gives you:
 - **When:** Every Monday
 - **Script:** `powershell -ExecutionPolicy Bypass -File scripts/audits/audit-video-pages.ps1`
 - **Audit Results:** `storage/agency/audits/AUDIT_video-pages.md`
-- **Reference Doc:** `storage/docs/VIDEO-AUDIT.md` (historical notes)
+- **Reference Doc:** `storage/docs/VIDEO-GRID.md` (system docs)
 - **Escalate:** Any duplicate loads, missing $assetSuffix, or column inconsistencies
 - **Review:** After audit runs, check today's dated audit file for per-page breakdowns
 
@@ -317,7 +317,7 @@ This single include gives you:
 | File | Purpose | Authority Level |
 |------|---------|-----------------|
 | `.config/mcp_video.json` | **Consolidated** video config (RSS, pages, agent) | **Full ownership** |
-| `.config/breakpoints.json` | Bootstrap responsive breakpoints | Shared (CSS team) |
+| `.config/mcp_jenninexus.json -> breakpoints` | Project breakpoint cache mirrored to global SSOT | Shared (CSS team) |
 | `.config/tag-deps.json` | Tag system dependencies | Shared (tag system) |
 | `.config/assets-deps.json` | Build system (youtube-grid.js section) | Shared (build team) |
 
@@ -331,7 +331,7 @@ This single include gives you:
 | Doc | Purpose | Vidette's Role |
 |-----|---------|----------------|
 | `storage/docs/VIDEO-GRID.md` | youtube-grid.js API, column presets | **SOURCE OF TRUTH - Maintain** |
-| `storage/docs/VIDEO-AUDIT.md` | Weekly audit results | **Update weekly** |
+| `storage/agency/audits/AUDIT_video-pages.md` | Weekly audit results | **Update weekly** |
 | `storage/docs/YOUTUBE.md` | RSS feeds, caching, channel info | Reference & update |
 
 ### Reference (Read/Apply)
@@ -352,7 +352,7 @@ This single include gives you:
 
 ### Template Files (Use These for New Pages)
 - `public_html/blog/blog-post-template.php` - Blog post with related videos
-- `public_html/game/game-page-template.php` - Game page with video sections
+- `public_html/game/*.php` - Game pages with video sections
 
 ---
 
@@ -405,7 +405,7 @@ public_html/resources/js/youtube-grid.min.js  → Minified
 | `renderPlaylistCard(id, playlistId, options)` | Single playlist card | Blog related videos |
 | `loadPageConfig(pageName)` | LEGACY - loads JSON | Existing pages only |
 
-**Breakpoint Sync:** The column presets in youtube-grid.js MUST match `.config/breakpoints.json`. Any changes to Bootstrap breakpoints require updating both files.
+**Breakpoint Sync:** The column presets in `youtube-grid.js` MUST match `.config/mcp_jenninexus.json -> breakpoints.video_grid_presets`. Any changes to Bootstrap breakpoint behavior require updating both the project MCP cache and the JS preset map.
 
 **Cross-Reference:** See [JAVASCRIPT.md](../docs/JAVASCRIPT.md#youtube-gridjs---video-grid-component-page-specific) for method documentation and column preset table.
 
@@ -433,7 +433,7 @@ public_html/includes/video-init.php      → Standard youtube-grid.js loader
 
 ## Bootstrap Breakpoints (Memorize These)
 
-From `.config/breakpoints.json`:
+From `.config/mcp_jenninexus.json -> breakpoints.video_grid_presets`:
 
 | Breakpoint | Min Width | Max (Exclusive) | Typical Columns |
 |------------|-----------|-----------------|-----------------|
@@ -667,9 +667,10 @@ These are intentional editorial choices that do NOT need conversion to the grid 
 4. **Custom column classes** - Use column presets (string names)
 5. **Inline column objects** - Use `columns: 'compact'` not `columns: { xs: 1 }`
 6. **Missing aspect ratios** - Always specify for non-16:9
-7. **White backgrounds** - Never. Ever.
-8. **Missing hover effects** - All cards must have lift/scale
-9. **Page-specific workarounds** - Come to Vidette first
+7. **Thumbnail cards linking to tags instead of media** - Thumbnails/buttons must open the actual video or playlist destination
+8. **White backgrounds** - Never. Ever.
+9. **Missing hover effects** - All cards must have lift/scale
+10. **Page-specific workarounds** - Come to Vidette first
 
 ---
 
@@ -722,6 +723,29 @@ Vidette operates under **GraphViz's visual authority** - all color and styling d
 | **Video embeds in blog** | @Bloggie.md | Placement, related posts section |
 | **Video section on game page** | @GamerGirl.md | Hero section context, 'compact' preset for games |
 | **Tag filtering on videos** | TAG-SYSTEM.md | Correct `data-tags` format |
+
+### Per-Page Cross-Reference System
+
+Vidette must check every video-bearing page across four layers before calling it consistent:
+
+| Layer | What Vidette Verifies | Primary Reference |
+|------|------------------------|-------------------|
+| **Render layer** | `video-init.php`, positional `YouTubeGrid.render*()` calls, valid preset names, real containers | `storage/docs/VIDEO-GRID.md`, `.config/mcp_video.json` |
+| **Tag layer** | canonical tag slugs in `data-tags`, badge/link consistency, no drift from generated content tags | `storage/docs/TAG-SYSTEM.md`, `public_html/resources/playlists/tags.json`, `public_html/resources/playlists/content_tags.json` |
+| **Theme layer** | palette tokens only, shared glass/hover classes, no hardcoded hex in page templates/scripts | `storage/docs/CSS-SCSS.md`, `storage/docs/THEME-SYSTEM.md`, `src/assets/css/theme-variables.css` |
+| **Page architecture layer** | page-specific section ownership, route expectations, editorial exceptions | `storage/docs/PAGES.md`, `storage/docs/PROTOCOL.md` |
+
+### Page Consistency Contract
+
+For every page with video content, Vidette should confirm:
+
+1. The page uses `video-init.php` as the loader path.
+2. Cards open the real media destination, not tag pages or placeholder links.
+3. Cards expose canonical `data-tags` values when filtering is expected.
+4. Card styling uses shared classes such as `glass-card`, `hover-lift`, `play-overlay`, and approved platform buttons.
+5. Theme colors come from tokens or approved brand classes, not hardcoded colors.
+6. Shorts/vertical content uses an explicit ratio/preset exception.
+7. Any page-specific exception is recorded in the tracker or changelog below.
 
 ### Agent Files to Cross-Reference
 
@@ -824,7 +848,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <div id="game-videos" class="row g-4"></div>
 
-<script src="<?= RES_ROOT ?>/js/youtube-grid<?= $assetSuffix ?? '' ?>.js"></script>
+<?php include __DIR__ . '/../includes/video-init.php'; ?>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   YouTubeGrid.renderVideos('game-videos', '<?= PLAYLIST_GAME_NAME ?>', {
@@ -842,7 +866,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <div id="related-playlists" class="row g-4"></div>
 
-<script src="<?= RES_ROOT ?>/js/youtube-grid<?= $assetSuffix ?? '' ?>.js"></script>
+<?php include __DIR__ . '/../includes/video-init.php'; ?>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   YouTubeGrid.renderPlaylists('related-playlists', [
@@ -868,23 +892,24 @@ Pages marked ✅ PASS are locked - they follow all Vidette standards and should 
 | Page | Status | Last Audit | Notes |
 |------|--------|------------|-------|
 | `index.php` | ✅ PASS | 2026-01-22 | NO video grid (youtube-grid.js removed - was unused) |
-| `patreon.php` | ✅ PASS | 2026-01-22 | Converted to video-grid-init (from direct load) |
-| `gamedev.php` | ✅ PASS | 2026-01-22 | Uses video-grid-init, preset 'default' |
-| `gaming.php` | ✅ PASS | 2026-01-22 | Uses video-grid-init, preset 'default' |
-| `diy.php` | ✅ PASS | 2026-01-22 | Uses video-grid-init, shorts section uses inline (intentional for 9:16) |
-| `ai.php` | ✅ PASS | 2026-01-22 | Uses video-grid-init, preset 'default' |
-| `music.php` | ✅ PASS | 2026-01-22 | Uses video-grid-init, preset 'default' |
-| `youtube.php` | ✅ PASS | 2026-01-22 | Uses video-grid-init |
-| `live.php` | ✅ PASS | 2026-01-22 | Uses video-grid-init |
+| `patreon.php` | ✅ PASS | 2026-01-22 | Uses video-init.php, preset 'default' |
+| `gamedev.php` | ✅ PASS | 2026-01-22 | Uses video-init.php, preset 'default' |
+| `gaming.php` | ✅ PASS | 2026-03-04 | Uses video-init.php, preset 'default'. Fixed duplicate escapeHtml. |
+| `diy.php` | ✅ PASS | 2026-03-09 | Uses video-init.php. Synced manual playlist arrays with the canonical DIY catalog; shorts section remains inline intentionally for 9:16. |
+| `ai.php` | ✅ PASS | 2026-01-22 | Uses video-init.php, preset 'default' |
+| `music.php` | ✅ PASS | 2026-01-22 | Uses video-init.php, preset 'default' |
+| `youtube.php` | ✅ PASS | 2026-03-09 | Latest RSS cards now use glass-card + hover-lift and open the actual YouTube video instead of tag pages. |
+| `live.php` | ✅ PASS | 2026-03-09 | Uses video-init.php. Fixed `renderVideos()` to the current positional API signature. |
 | `theme-demo.php` | ✅ PASS | 2026-01-22 | Reference page for theme testing |
-| `game/botborgs.php` | ✅ PASS | 2026-01-22 | Converted to video-grid-init + preset 'compact' |
-| `game/catgame.php` | ✅ PASS | 2026-01-22 | Converted to video-grid-init + preset 'compact' |
-| `game/cowdefender.php` | ✅ PASS | 2026-01-22 | Converted to video-grid-init + preset 'default' |
-| `game/gamejams.php` | ✅ PASS | 2026-01-22 | Converted inline columns to preset 'default' |
-| `game/jennistyles.php` | ✅ PASS | 2026-01-22 | Converted to video-grid-init + preset 'default' |
-| `game/martiangames.php` | ✅ PASS | 2026-01-22 | Converted to video-grid-init + preset 'compact' |
-| `game/purgatoryfell.php` | ✅ PASS | 2026-01-22 | Converted to video-grid-init + preset 'compact' |
-| `game/tankoff.php` | ✅ PASS | 2026-01-22 | Converted to video-grid-init + preset 'compact' |
+| `game/blueballs.php` | ✅ PASS | 2026-03-04 | Uses video-init.php + preset 'compact'. Removed redundant JS loads. |
+| `game/botborgs.php` | ✅ PASS | 2026-01-22 | Uses video-init.php + preset 'compact' |
+| `game/catgame.php` | ✅ PASS | 2026-01-22 | Uses video-init.php + preset 'compact' |
+| `game/cowdefender.php` | ✅ PASS | 2026-01-22 | Uses video-init.php + preset 'default' |
+| `game/gamejams.php` | ✅ PASS | 2026-03-04 | Uses video-init.php + preset 'default'. Removed orphan HTML + duplicate JS loads. |
+| `game/jennistyles.php` | ✅ PASS | 2026-01-22 | Uses video-init.php + preset 'default' |
+| `game/martiangames.php` | ✅ PASS | 2026-01-22 | Uses video-init.php + preset 'compact' |
+| `game/purgatoryfell.php` | ✅ PASS | 2026-01-22 | Uses video-init.php + preset 'compact' |
+| `game/tankoff.php` | ✅ PASS | 2026-01-22 | Uses video-init.php + preset 'compact' |
 
 ### Pages Without Videos (No youtube-grid.js needed)
 | Page | Reason |
@@ -894,7 +919,7 @@ Pages marked ✅ PASS are locked - they follow all Vidette standards and should 
 | `resume.php`, `services.php`, `links.php`, `sitemap.php` | Static/info pages |
 
 ### Pages Requiring Attention
-*None currently - all video pages pass audit.*
+*None currently - all video pages pass audit (26/26 as of March 4, 2026).*
 
 ---
 
@@ -924,7 +949,7 @@ Pages marked ✅ PASS are locked - they follow all Vidette standards and should 
 | File | Purpose |
 |------|---------|
 | `.config/mcp_video.json` | Consolidated video config (RSS, pages, agent, troubleshooting) |
-| `.config/breakpoints.json` | Bootstrap responsive breakpoints |
+| `.config/mcp_jenninexus.json -> breakpoints` | Project breakpoint cache mirrored to global SSOT |
 
 ---
 
@@ -942,6 +967,24 @@ Pages marked ✅ PASS are locked - they follow all Vidette standards and should 
 ---
 
 ## Changelog
+
+### 2026-03-04 (Full Video Audit + JS Cleanup)
+- **youtube.php:** Fixed renderPlaylists() API call — was using object-style `{ containerId, playlists, preset }` instead of correct positional args `(containerId, playlists[], options)`. Featured Playlists section was likely broken.
+- **gaming.php:** Removed duplicate `escapeHtml()` function definition (lines 513 + 636).
+- **gamejams.php:** Removed orphan HTML (5 leftover closing tags) + duplicate youtube-grid.js and tag-filter-api.js loads (already provided by video-init.php and core bundle).
+- **blueballs.php:** Removed redundant tag-filter-api.js and ui-effects.js loads (both already in core.js bundle). Added to page status tracker.
+- **game-page-template.php:** Removed redundant tag-filter-api.js load (already in core bundle via footer.php).
+- **custom.css:** Fixed 2 hardcoded `#fff` text color violations → `var(--text-on-color, #FAFAFA)` on `#scroll-to-top:hover` and `#themeToggle:hover`.
+- **_audit-common.ps1:** Fixed stale reference `video-grid-init.php` → `video-init.php`.
+- **Vidette.md:** Updated all page tracker entries from `video-grid-init` → `video-init.php`. Added blueballs.php to tracker. Updated audit dates for fixed pages.
+- **Result:** 26/26 video pages pass audit. All redundant JS loads eliminated.
+
+### 2026-03-09 (DIY Catalog + Link Protocol Cleanup)
+- **diy.php:** Restored missing valid DIY playlists by syncing the manual playlist arrays with the canonical DIY catalog in `src/assets/playlists/diy.yaml`.
+- **youtube.php:** Fixed latest RSS cards so thumbnails/buttons open the actual YouTube video, not tag pages. Updated card styling to use `glass-card hover-lift rainbow-hover-border`.
+- **live.php:** Fixed `renderVideos()` call to use the correct positional API signature instead of the deprecated object-style shape.
+- **audit-video-pages.ps1:** Added detection for invalid object-style `renderVideos()/renderPlaylists()` calls.
+- **Vidette standard:** Clarified that video thumbnail cards must link to the actual media destination.
 
 ### 2026-01-22 (Session 16b - BREAKPOINT RULE ENFORCEMENT)
 - **NEW RULE:** Minimum 2 columns on tablet (md+), never single column on desktop
@@ -978,9 +1021,9 @@ Pages marked ✅ PASS are locked - they follow all Vidette standards and should 
 
 ### 2026-01-22 (Session 14 - Full Config Consolidation)
 - **mcp_video.json v2.1.0:** Now the SINGLE SOURCE OF TRUTH for all video config
-- **Merged from:** `assets-deps.json` (youtube_grid, video_hover), `mcp_jenninexus.json` (youtube_grid_architecture), `memory.mdc` (video sections)
+- **Merged from:** `assets-deps.json` (youtube_grid, video_hover), `mcp_jenninexus.json` (youtube_grid_architecture), `storage/docs/` references (video sections)
 - **Added:** Bootstrap column classes for each preset, video-hover.js config
-- **Updated files to reference mcp_video.json:** assets-deps.json, mcp_jenninexus.json, memory.mdc
+- **Updated files to reference mcp_video.json:** assets-deps.json, mcp_jenninexus.json, storage/docs/*
 
 ### 2026-01-22 (Session 13)
 - **CONFIG CONSOLIDATION:** Merged `video-deps.json` into `mcp_video.json` (v2.0.0)
@@ -1001,7 +1044,7 @@ Pages marked ✅ PASS are locked - they follow all Vidette standards and should 
 
 ### 2026-01-20
 - Vidette agent created
-- VIDEO-AUDIT.md established
+- AUDIT_video-pages.md established
 - audit-video-pages.ps1 script added
 
 ---
@@ -1015,7 +1058,7 @@ Pages marked ✅ PASS are locked - they follow all Vidette standards and should 
 **Agent Profile:** `storage/agents/Vidette.md`
 **Cross-Project:** `storage/docs/PROTOCOL.md` (sys-admin: `C:\mcp\sys-admin\`)
 **Archived:** `storage/archive/video-deps.json` (historical reference only)
-**Files referencing mcp_video.json:** `assets-deps.json`, `mcp_jenninexus.json`, `memory.mdc`, `breakpoints.json`
+**Files referencing mcp_video.json:** `assets-deps.json`, `mcp_jenninexus.json`, `storage/docs/*`
 
 ---
 
@@ -1052,5 +1095,4 @@ The full AI image generation prompt for this character is maintained in [PROMPTS
 ---
 
 *"One JS file. One CSS file. Zero workarounds."*
-*Last Updated: January 28, 2026*
-
+*Last Updated: March 4, 2026*

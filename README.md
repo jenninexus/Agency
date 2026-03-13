@@ -1,6 +1,6 @@
 <div align="center">
 
-![AI Agent Agency](agents/images/GraphViz.jpg)
+![AI Agent Agency](resources/images/GraphViz.jpg)
 
 # AI Agent Agency
 
@@ -57,8 +57,8 @@ See individual agent files in [`agents/`](agents/) for complete profiles, valida
 ### 1. Clone & Configure
 
 ```bash
-git clone https://github.com/jenninexus/Agency.git
-cd Agency
+git clone https://github.com/jenninexus/agency.git
+cd agency
 cp .config/mcp_agents.example.json .config/mcp_agents.json
 ```
 
@@ -78,7 +78,13 @@ cp templates/AGENT-TEMPLATE.md agents/YourAgent.md
 
 ### 4. Open the Workspace
 
-Open `ai-agent-agency.code-workspace` in VS Code for the full penthouse studio experience.
+Copy the workspace template and open it in VS Code:
+
+```bash
+cp agency.example.code-workspace agency.code-workspace
+```
+
+Open `agency.code-workspace` for the full penthouse studio experience.
 
 ### 5. Enable Background Image (Optional)
 
@@ -88,12 +94,12 @@ The workspace includes settings for the `shalldie.background` extension to displ
 2. Update the image URL in the workspace file:
    ```json
    "background.customImages": [
-     "https://raw.githubusercontent.com/jenninexus/Agency/main/agents/images/GraphViz.jpg"
+     "https://raw.githubusercontent.com/jenninexus/agency/main/resources/images/GraphViz.jpg"
    ]
    ```
-   Or use a local absolute path: `file:///C:/Github/Agency/agents/images/GraphViz.jpg`
+   Or use a local path: `file:///path/to/agency/resources/images/GraphViz.jpg`
 3. Reload VS Code - you may see a "corrupted" warning (this is normal, click "Don't show again")
-4. Add more agent images to `agents/images/` for a slideshow - the extension cycles every 30 seconds
+4. Add more agent images to `resources/images/` for a slideshow - the extension cycles every 30 seconds
 
 ---
 
@@ -126,39 +132,43 @@ All agent metadata, schedules, and coordination rules live in a single source of
 ## Project Structure
 
 ```
-Agency/
+agency/
 ├── README.md                          # You are here
-├── ai-agent-agency.code-workspace     # VS Code workspace config
+├── .env.example                       # Environment variable template
+├── agency.example.code-workspace      # VS Code workspace (copy to agency.code-workspace)
 │
 ├── .config/
-│   ├── mcp_agents.json                # Your master configuration
-│   └── mcp_agents.example.json        # Generic template
+│   └── mcp_agents.example.json        # Agent config template (copy to mcp_agents.json)
 │
-├── agents/                            # Agent profiles
-│   ├── Vidette.md
-│   ├── Bloggie.md
-│   ├── GraphViz.md
-│   ├── GamerGirl.md
-│   ├── DivineDesign.md
-│   └── images/
-│       └── GraphViz.jpg               # Agent artwork
+├── agents/                            # Agent profiles (working examples included)
+│   ├── README.md                      # Team overview and relationships
+│   ├── Vidette.md                     # Video & Media specialist
+│   ├── Bloggie.md                     # Blog & Content specialist
+│   ├── GraphViz.md                    # Theme & Visual specialist
+│   ├── GamerGirl.md                   # Gaming Content specialist
+│   └── DivineDesign.md               # Layout & Architecture specialist
 │
-├── docs/                              # Extended documentation
-│   ├── AGENT-GUIDE.md                 # Character creation guide
-│   ├── SCHEDULE.md                    # Weekly audit cadence
-│   ├── PROMPTS.md                     # AI image generation prompts
-│   └── OPTIMIZATION-IDEAS.md          # IDE integration strategies
+├── resources/                         # Agent media assets
+│   ├── images/                        # Generated agent portraits
+│   │   └── GraphViz.jpg              # Example portrait
+│   └── video/                         # Agent video content
+│
+├── docs/                              # Framework documentation
+│   ├── AGENT-GUIDE.md                 # Character creation & design guide
+│   ├── SCHEDULE.md                    # Weekly audit cadence template
+│   └── OPTIMIZATION-IDEAS.md          # IDE/workflow integration strategies
 │
 ├── templates/
-│   └── AGENT-TEMPLATE.md              # Blank agent template
+│   └── AGENT-TEMPLATE.md              # Blank agent profile template
 │
 ├── examples/
-│   └── StyleGuard.md                  # Example working agent
+│   └── StyleGuard.md                  # Full working example agent
 │
-├── scripts/                           # Audit automation scripts
-│   └── .gitkeep
+├── scripts/                           # Audit automation
+│   ├── _audit-common.ps1              # Shared audit utilities
+│   └── audit-template.ps1             # Audit script template
 │
-└── audits/                            # Generated audit reports
+└── audits/                            # Generated audit reports (gitignored)
     └── .gitkeep
 ```
 
@@ -168,12 +178,15 @@ Agency/
 
 | Document | Description |
 |:---------|:------------|
-| [`docs/AGENT-GUIDE.md`](docs/AGENT-GUIDE.md) | Character creation guide with AI image prompts |
-| [`docs/SCHEDULE.md`](docs/SCHEDULE.md) | Weekly audit schedule template |
-| [`docs/PROMPTS.md`](docs/PROMPTS.md) | AI-generated character prompts for agent artwork |
-| [`docs/OPTIMIZATION-IDEAS.md`](docs/OPTIMIZATION-IDEAS.md) | VS Code & Claude integration workflows |
-| [`templates/AGENT-TEMPLATE.md`](templates/AGENT-TEMPLATE.md) | Full agent profile template |
-| [`examples/StyleGuard.md`](examples/StyleGuard.md) | Working example agent |
+| [`docs/AGENT-GUIDE.md`](docs/AGENT-GUIDE.md) | Character creation guide with visual design system |
+| [`docs/SCHEDULE.md`](docs/SCHEDULE.md) | Weekly audit schedule and cross-agent coordination |
+| [`docs/OPTIMIZATION-IDEAS.md`](docs/OPTIMIZATION-IDEAS.md) | VS Code, Claude Code & workflow integration strategies |
+| [`templates/AGENT-TEMPLATE.md`](templates/AGENT-TEMPLATE.md) | Full agent profile template (200+ lines) |
+| [`examples/StyleGuard.md`](examples/StyleGuard.md) | Working example agent with checklists and red flags |
+
+### Portrait Generation
+
+Agent portraits can be generated using AI image APIs (e.g., xAI Grok Imagine, DALL-E, Midjourney). See `resources/images/` for an example portrait. The included agent profiles contain visual descriptions suitable for image generation prompts.
 
 ---
 

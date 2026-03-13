@@ -33,7 +33,7 @@
 
 | Resource | Location | Purpose |
 |----------|----------|---------|
-| **Breakpoints** | `.config/breakpoints.json` | Bootstrap 5.3.8 responsive breakpoints |
+| **Breakpoints** | `.config/mcp_jenninexus.json -> breakpoints` | Project breakpoint cache mirrored to global SSOT |
 | **Asset Dependencies** | `.config/assets-deps.json` | CSS/JS file relationships |
 | **Protocol Index** | `storage/docs/PROTOCOL.md` | Feature → Documentation mapping |
 | **Page Architecture** | `storage/docs/PAGES.md` | Single source of truth for page structure |
@@ -91,7 +91,7 @@ DivineDesign is an elegant perfectionist with an eye for spatial harmony and use
 **Key command:** `@divinedesign.md review [page]` or reference this file for layout standards.
 
 **DivineDesign tracks changes to:**
-- Page templates: `blog-post-template.php`, `game-page-template.php`
+- Page templates: `blog-post-template.php`, `game/*.php (game page pattern)`
 - Layout CSS: `custom.css`, `media.css`, `main.css`
 - Dev reference pages: `dev-only/theme-demo.php` and all `dev-only/*.php`
 - Protocol docs: `PROTOCOL.md`, `PAGES.md`, `THEME-SYSTEM.md`
@@ -123,13 +123,13 @@ DivineDesign is responsible for ensuring all pages follow consistent structural 
 | Page Type | Template | Hero Pattern | Content Structure | Agent Coord |
 |-----------|----------|--------------|-------------------|-------------|
 | **Hub Pages** | Custom | `hero-section` + glass-panel | Video grid sections, tag filters | Vidette |
-| **Game Pages** | `game-page-template.php` | `steam-gradient` + breadcrumb | Hero → Description → Screenshots → Videos → Related | GamerGirl |
+| **Game Pages** | `game/*.php (game page pattern)` | `steam-gradient` + breadcrumb | Hero → Description → Screenshots → Videos → Related | GamerGirl |
 | **Blog Posts** | `blog-post-template.php` | Badge + date header | Header → Image → Content → Tags → Share → Related | Bloggie |
 | **Static Pages** | None (minimal) | `hero-jenni-gradient` | Simple content sections | None |
 
 ### Game Page Template Pattern (`game/*.php`)
 
-**Source:** [game-page-template.php](../../public_html/game/game-page-template.php)
+**Source:** [game/*.php (game page pattern)](../../public_html/game/game/*.php (game page pattern))
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -520,7 +520,7 @@ When reviewing any page hero:
 | File | Purpose | DivineDesign's Role |
 |------|---------|---------------------|
 | `public_html/blog/blog-post-template.php` | Blog post structure | Layout, sections, CTA placement |
-| `public_html/game/game-page-template.php` | Game page structure | Hero, features, video sections |
+| `public_html/game/game/*.php (game page pattern)` | Game page structure | Hero, features, video sections |
 | `public_html/includes/head.php` | HTML head | Meta viewport, CSS load order |
 | `public_html/includes/header.php` | Site navigation | Nav layout, mobile menu |
 | `public_html/includes/footer.php` | Site footer | Footer structure, links |
@@ -678,7 +678,7 @@ Friday is also implementation day for other agents. DivineDesign should:
 ### 2026-01-25 (Template Pattern Analysis)
 - **NEW:** Required Reference Locations table (breakpoints, protocol, daily chats)
 - **NEW:** Template Pattern Analysis section with visual diagrams:
-  - Game Page Template pattern (`game-page-template.php`)
+  - Game Page Template pattern (`game/*.php (game page pattern)`)
   - Blog Post Template pattern (`blog-post-template.php`)
   - Hub Page pattern (content hubs)
   - Page Type Matrix with agent coordination
@@ -688,7 +688,7 @@ Friday is also implementation day for other agents. DivineDesign should:
   - Primary documentation table
   - Session context references (daily plans, chat history)
   - Templates table with locations
-- **CLARITY:** DivineDesign checks `.config/breakpoints.json` before layout changes
+- **CLARITY:** DivineDesign checks `.config/mcp_jenninexus.json -> breakpoints` before layout changes
 - **CLARITY:** DivineDesign checks `storage/[M-D].md` for recent session changes
 
 ### 2026-01-25 (Layout Authority Expansion)
@@ -722,7 +722,7 @@ Friday is also implementation day for other agents. DivineDesign should:
 
 | File | Purpose | DivineDesign Uses For |
 |------|---------|----------------------|
-| `.config/breakpoints.json` | Bootstrap 5.3.8 breakpoints | Responsive layout decisions |
+| `.config/mcp_jenninexus.json -> breakpoints` | Project breakpoint cache mirrored to global SSOT | Responsive layout decisions |
 | `.config/assets-deps.json` | CSS/JS dependency tree | Understanding file relationships |
 | `storage/agency/.config/mcp_agents.json` | Agent domains & coordination | Cross-agent collaboration |
 | `.config/mcp_video.json` | Video display rules | Layout around video grids |
@@ -762,7 +762,7 @@ Friday is also implementation day for other agents. DivineDesign should:
 
 | Template | Location | For |
 |----------|----------|-----|
-| **Game Page** | `public_html/game/game-page-template.php` | All `/game/*.php` pages |
+| **Game Page** | `public_html/game/game/*.php (game page pattern)` | All `/game/*.php` pages |
 | **Blog Post** | `public_html/blog/blog-post-template.php` | All `/blog/*.php` pages |
 | **Share Buttons** | `public_html/includes/share-buttons.php` | Social sharing component |
 | **Game CTA** | `public_html/includes/game-cta-helper.php` | Game page CTAs |
@@ -816,4 +816,3 @@ The full AI image generation prompt for this character is maintained in [PROMPTS
 
 *"Every pixel has purpose. Every layout tells a story."*
 *Last Updated: January 26, 2026*
-

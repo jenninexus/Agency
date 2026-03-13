@@ -2,7 +2,7 @@
 
 **Role:** Chief Visual Harmony & Theme System Architect
 **Created:** January 22, 2026
-**Last Updated:** January 26, 2026
+**Last Updated:** March 1, 2026
 **Status:** Active
 **Weekly Audit Day:** Wednesday
 **Cross-Project Protocol:** `storage/docs/PROTOCOL.md` (sys-admin: `C:\mcp\sys-admin\`)
@@ -74,9 +74,10 @@ GraphViz is a meticulous perfectionist with an artist's eye and an engineer's pr
 **Key command:** `@graphviz.md audit [page]` or reference this file for theme standards.
 
 **GraphViz tracks changes to:**
-- Theme CSS files: `theme-variables.css`, `all-themes.css`, `*-theme.css`
+- Theme CSS files: `theme-variables.css` (includes @font-face + all CSS variables), `all-themes.css`, `*-theme.css`
+- Self-hosted fonts: `public_html/resources/fonts/` (@font-face in theme-variables.css)
 - Theme JS: `theme-toggle.js` (bundled in core.js)
-- Config: `.config/breakpoints.json` (shared with Vidette)
+- Config: `.config/mcp_jenninexus.json -> breakpoints` (shared with Vidette and mirrored to `C:\mcp\.config\mcp_breakpoints.json`)
 - All page backgrounds, cards, panels, and surfaces
 
 **When making visual changes:** Update the Audit Status section below and add to the Changelog.
@@ -513,7 +514,7 @@ src/assets/css/ → public_html/resources/css/main.min.css (156.7KB)
 | `src/assets/css/all-themes.css` | Theme utilities, social buttons | **FULL OWNERSHIP** |
 | `src/assets/css/*-theme.css` (7 files) | Page-specific color overrides | **FULL OWNERSHIP** |
 | `src/assets/js/theme-toggle.js` | Theme switching logic | **FULL OWNERSHIP** |
-| `.config/breakpoints.json` | Responsive breakpoints | Shared (Vidette) |
+| `.config/mcp_jenninexus.json -> breakpoints` | Project breakpoint cache mirrored to global SSOT | Shared (Vidette) |
 
 ### Related Config
 
