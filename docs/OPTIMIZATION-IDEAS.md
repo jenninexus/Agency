@@ -349,7 +349,7 @@ Every agent file should follow this standardized structure:
 | **Video Config** | `.config/mcp_video.json` | Video system settings |
 | **Audit Script** | `scripts/audit-video-pages.ps1` | Weekly Monday audit |
 | **Audit Report** | `storage/audits/AUDIT_video-pages.md` | Audit output |
-| **Primary Doc** | `storage/docs/VIDEO-GRID.md` | Video grid standards |
+| **Primary Doc** | `storage/docs/VIDEO-SYSTEM.md` | Video grid standards |
 
 ## 🎭 Character Profile
 

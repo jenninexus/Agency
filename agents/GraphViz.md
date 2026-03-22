@@ -22,7 +22,7 @@
 | **Audit Script** | `scripts/audits/audit-theme-consistency.ps1` | The script for the weekly Wednesday audit. |
 | **Audit Report** | `storage/agency/audits/AUDIT_theme-consistency.md` | The standard audit report location. |
 | **Dated Reports** | `storage/agency/audits/audit-theme-consistency-YYYY-MM-DD.md` | Timestamped audit reports. |
-| **Primary Doc** | `storage/docs/THEME-SYSTEM.md` | The single source of truth for theme system. |
+| **Primary Doc** | `storage/docs/DESIGN-SYSTEM.md` | The single source of truth for theme system. |
 | **Images Folder** | `public_html/resources/images/ai/agents/graphviz/` | Generated character images. |
 
 ---
@@ -531,15 +531,15 @@ src/assets/css/ → public_html/resources/css/main.min.css (156.7KB)
 
 | Doc | Purpose |
 |-----|---------|
-| [THEME-SYSTEM.md](../docs/THEME-SYSTEM.md) | **SOURCE OF TRUTH** - Full theme documentation |
-| [CSS-SCSS.md](../docs/CSS-SCSS.md) | CSS architecture, bundle order |
+| [DESIGN-SYSTEM.md](../docs/DESIGN-SYSTEM.md) | **SOURCE OF TRUTH** - Full theme documentation |
+| [DESIGN-SYSTEM.md](../docs/DESIGN-SYSTEM.md) | CSS architecture, bundle order |
 
 ### Reference (Read/Apply)
 
 | Doc | Purpose |
 |-----|---------|
-| [BOOTSTRAP-5.3.8.md](../docs/BOOTSTRAP-5.3.8.md) | Bootstrap integration |
-| [FONTAWESOME-SVGS.md](../docs/FONTAWESOME-SVGS.md) | Icon system |
+| [DESIGN-SYSTEM.md](../docs/DESIGN-SYSTEM.md) | Bootstrap integration |
+| [DESIGN-SYSTEM.md](../docs/DESIGN-SYSTEM.md) | Icon system |
 | [PROTOCOL.md](../docs/PROTOCOL.md) | Site-wide standards |
 
 ### Dev Reference Pages
@@ -962,7 +962,7 @@ Run `.\scripts\audits\audit-theme-consistency.ps1` to update these metrics.
   - `.btn-twitch-gradient` (purple gradient button)
   - `.youtube-cta` (red gradient CTA section)
   - `.text-twitch-purple`, `.text-opacity-90`, `.text-opacity-85`
-- **Updated CSS-SCSS.md** bundle list to include music-theme.css
+- **Updated DESIGN-SYSTEM.md** bundle list to include music-theme.css
 
 ### 2026-01-22 (Session 2)
 - **Added DIY animated rainbow hero system**
@@ -985,8 +985,8 @@ Run `.\scripts\audits\audit-theme-consistency.ps1` to update these metrics.
 ## Contact & Config
 
 **Primary Docs:**
-- `storage/docs/THEME-SYSTEM.md` (Source of Truth)
-- `storage/docs/CSS-SCSS.md` (Architecture)
+- `storage/docs/DESIGN-SYSTEM.md` (Source of Truth)
+- `storage/docs/DESIGN-SYSTEM.md` (Architecture)
 
 **CSS Source:** `src/assets/css/theme-variables.css`
 **JS Source:** `src/assets/js/theme-toggle.js`

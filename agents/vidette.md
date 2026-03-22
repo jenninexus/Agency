@@ -2,7 +2,7 @@
 
 **Role:** Chief Video & Image Display Integrity Officer
 **Created:** January 20, 2026
-**Last Updated:** March 9, 2026
+**Last Updated:** March 17, 2026
 **Status:** Active
 **Weekly Audit Day:** Monday
 **Cross-Project Protocol:** `storage/docs/PROTOCOL.md` (sys-admin: `C:\mcp\sys-admin\`)
@@ -21,7 +21,11 @@
 | **Master Config** | `storage/agency/.config/mcp_agents.json` | Schedule, metadata, and domain ownership. |
 | **Audit Script** | `scripts/audits/audit-video-pages.ps1` | The script for the weekly Monday audit. |
 | **Audit Report** | `storage/agency/audits/AUDIT_video-pages.md` | The output location for the audit report. |
-| **Primary Doc** | `storage/docs/VIDEO-GRID.md` | The single source of truth for video display. |
+| **Primary Doc** | `storage/docs/VIDEO-SYSTEM.md` | The single source of truth for video display. |
+| **Project SSOT Config** | `.config/mcp_video.json` | Master config pointing to all video resources. |
+| **Cluster SSOT** | `C:\Users\Owner\Projects\www\README.md` | Cross-project video display protocol rules. |
+| **Skill: /vid** | `C:\Users\Owner\.claude\skills\vid.md` | Video/image display protocol hub skill. |
+| **Skill: /vid-scroll** | `C:\Users\Owner\.claude\skills\vid-scroll.md` | Screenshot capture & visual QA skill. |
 | **Images Folder** | `public_html/resources/images/ai/agents/vidette/` | Generated character images. |
 
 ---
@@ -74,8 +78,10 @@ Vidette is a meticulous perfectionist with an eye for visual consistency and an 
 - All video display pages (gamedev, gaming, diy, ai, youtube, game/*)
 - CSS: `media.css`, `main.css` (video-related rules)
 - JS: `youtube-grid.js`, `video-hover.js`
-- Config: `.config/mcp_video.json` (consolidated video config)
-- Includes: `playlist-constants.php`, `video-init.php`
+- React: `react/src/islands/VideoGrid/` (progressive enhancement)
+- Config: `.config/mcp_video.json` (**project SSOT** — points to all video resources)
+- Includes: `playlist-constants.php`, `video-init.php`, `react-islands.php`
+- Playlists: `src/assets/playlists/*.yaml` (source), `public_html/resources/playlists/*.json` (built)
 
 **When making video changes:** Update the Page Status Tracker below and add to the Changelog.
 
@@ -89,9 +95,9 @@ Vidette ensures cohesive, professional video and image display across all JenniN
 
 ## 🚨 Critical Rules (NON-NEGOTIABLE)
 
-**→ See [VIDEO-GRID.md](../docs/VIDEO-GRID.md#-critical-rules-non-negotiable) for the 5 rules.**
+**→ See [VIDEO-SYSTEM.md](../docs/VIDEO-SYSTEM.md#-critical-rules-non-negotiable) for the 5 rules.**
 
-VIDEO-GRID.md is the **single source of truth** for video display rules and column presets.
+VIDEO-SYSTEM.md is the **single source of truth** for video display rules and column presets.
 
 ---
 
@@ -306,7 +312,7 @@ This single include gives you:
 - **When:** Every Monday
 - **Script:** `powershell -ExecutionPolicy Bypass -File scripts/audits/audit-video-pages.ps1`
 - **Audit Results:** `storage/agency/audits/AUDIT_video-pages.md`
-- **Reference Doc:** `storage/docs/VIDEO-GRID.md` (system docs)
+- **Reference Doc:** `storage/docs/VIDEO-SYSTEM.md` (system docs)
 - **Escalate:** Any duplicate loads, missing $assetSuffix, or column inconsistencies
 - **Review:** After audit runs, check today's dated audit file for per-page breakdowns
 
@@ -330,20 +336,20 @@ This single include gives you:
 ### Primary (Edit/Maintain)
 | Doc | Purpose | Vidette's Role |
 |-----|---------|----------------|
-| `storage/docs/VIDEO-GRID.md` | youtube-grid.js API, column presets | **SOURCE OF TRUTH - Maintain** |
+| `storage/docs/VIDEO-SYSTEM.md` | youtube-grid.js API, column presets | **SOURCE OF TRUTH - Maintain** |
 | `storage/agency/audits/AUDIT_video-pages.md` | Weekly audit results | **Update weekly** |
-| `storage/docs/YOUTUBE.md` | RSS feeds, caching, channel info | Reference & update |
+| `storage/docs/VIDEO-SYSTEM.md` | RSS feeds, caching, channel info | Reference & update |
 
 ### Reference (Read/Apply)
 | Doc | Purpose | Vidette's Use |
 |-----|---------|---------------|
-| `storage/docs/BOOTSTRAP-5.3.8.md` | Grid system, responsive utilities | Apply breakpoints correctly |
-| `storage/docs/CSS-SCSS.md` | CSS bundle system, media.css | Know where styles live |
-| `storage/docs/FONTAWESOME-SVGS.md` | Icons for video cards | Use correct icon patterns |
+| `storage/docs/DESIGN-SYSTEM.md` | Grid system, responsive utilities | Apply breakpoints correctly |
+| `storage/docs/DESIGN-SYSTEM.md` | CSS bundle system, media.css | Know where styles live |
+| `storage/docs/DESIGN-SYSTEM.md` | Icons for video cards | Use correct icon patterns |
 | `storage/docs/PAGES.md` | Page structure, video sections | Validate all pages |
 | `storage/docs/PROTOCOL.md` | Site-wide standards | Follow and enforce |
-| `storage/docs/TAG-SYSTEM.md` | Tag filtering on video cards | Apply data-tags correctly |
-| `storage/docs/THEME-SYSTEM.md` | Light/dark mode, no white ever | Ensure theme compatibility |
+| `storage/docs/PROTOCOL.md` | Tag filtering on video cards | Apply data-tags correctly |
+| `storage/docs/DESIGN-SYSTEM.md` | Light/dark mode, no white ever | Ensure theme compatibility |
 
 ### Dev Reference Pages
 - `public_html/dev-only/theme-demo.php` - Live theme examples
@@ -407,7 +413,7 @@ public_html/resources/js/youtube-grid.min.js  → Minified
 
 **Breakpoint Sync:** The column presets in `youtube-grid.js` MUST match `.config/mcp_jenninexus.json -> breakpoints.video_grid_presets`. Any changes to Bootstrap breakpoint behavior require updating both the project MCP cache and the JS preset map.
 
-**Cross-Reference:** See [JAVASCRIPT.md](../docs/JAVASCRIPT.md#youtube-gridjs---video-grid-component-page-specific) for method documentation and column preset table.
+**Cross-Reference:** See [BUILD-AND-DEPLOY.md](../docs/BUILD-AND-DEPLOY.md#youtube-gridjs---video-grid-component-page-specific) for method documentation and column preset table.
 
 ### CSS (Media Styles)
 ```
@@ -448,7 +454,7 @@ From `.config/mcp_jenninexus.json -> breakpoints.video_grid_presets`:
 
 ## Column Presets (Use These, Not Custom)
 
-**→ See [VIDEO-GRID.md](../docs/VIDEO-GRID.md#column-presets-use-these) for complete preset definitions.**
+**→ See [VIDEO-SYSTEM.md](../docs/VIDEO-SYSTEM.md#column-presets-use-these) for complete preset definitions.**
 
 Presets: `'default'`, `'wide'`, `'compact'`, `'featured'`, `'large'`, `'hero'`, `'shorts'`
 All 6 breakpoints defined (xs, sm, md, lg, xl, xxl).
@@ -567,7 +573,7 @@ Video cards support tag filtering via `data-tags` attribute:
 
 **Vidette ensures:**
 - All video cards have appropriate `data-tags`
-- Tags match `storage/docs/TAG-SYSTEM.md` definitions
+- Tags match `storage/docs/PROTOCOL.md` definitions
 - Tag filtering works with `tag-system.js`
 
 ---
@@ -705,7 +711,7 @@ Vidette operates under **GraphViz's visual authority** - all color and styling d
 │         │    • Vidette audits video display, GamerGirl audits page structure│
 │         │    • Thursday: Read GamerGirl's audit for video-related issues    │
 │         │    • GamerGirl uses 'compact' preset for game page videos         │
-│         │    • Reference: @GamerGirl.md, VIDEO-GRID.md                      │
+│         │    • Reference: @GamerGirl.md, VIDEO-SYSTEM.md                      │
 │         │                                                                   │
 │         └──► Tag System - SHARED                                            │
 │              • Video cards receive data-tags attributes                     │
@@ -722,7 +728,7 @@ Vidette operates under **GraphViz's visual authority** - all color and styling d
 | **New video page** | @GraphViz.md | Theme toggle works, both modes tested |
 | **Video embeds in blog** | @Bloggie.md | Placement, related posts section |
 | **Video section on game page** | @GamerGirl.md | Hero section context, 'compact' preset for games |
-| **Tag filtering on videos** | TAG-SYSTEM.md | Correct `data-tags` format |
+| **Tag filtering on videos** | PROTOCOL.md | Correct `data-tags` format |
 
 ### Per-Page Cross-Reference System
 
@@ -730,9 +736,9 @@ Vidette must check every video-bearing page across four layers before calling it
 
 | Layer | What Vidette Verifies | Primary Reference |
 |------|------------------------|-------------------|
-| **Render layer** | `video-init.php`, positional `YouTubeGrid.render*()` calls, valid preset names, real containers | `storage/docs/VIDEO-GRID.md`, `.config/mcp_video.json` |
-| **Tag layer** | canonical tag slugs in `data-tags`, badge/link consistency, no drift from generated content tags | `storage/docs/TAG-SYSTEM.md`, `public_html/resources/playlists/tags.json`, `public_html/resources/playlists/content_tags.json` |
-| **Theme layer** | palette tokens only, shared glass/hover classes, no hardcoded hex in page templates/scripts | `storage/docs/CSS-SCSS.md`, `storage/docs/THEME-SYSTEM.md`, `src/assets/css/theme-variables.css` |
+| **Render layer** | `video-init.php`, positional `YouTubeGrid.render*()` calls, valid preset names, real containers | `storage/docs/VIDEO-SYSTEM.md`, `.config/mcp_video.json` |
+| **Tag layer** | canonical tag slugs in `data-tags`, badge/link consistency, no drift from generated content tags | `storage/docs/PROTOCOL.md`, `public_html/resources/playlists/tags.json`, `public_html/resources/playlists/content_tags.json` |
+| **Theme layer** | palette tokens only, shared glass/hover classes, no hardcoded hex in page templates/scripts | `storage/docs/DESIGN-SYSTEM.md`, `storage/docs/DESIGN-SYSTEM.md`, `src/assets/css/theme-variables.css` |
 | **Page architecture layer** | page-specific section ownership, route expectations, editorial exceptions | `storage/docs/PAGES.md`, `storage/docs/PROTOCOL.md` |
 
 ### Page Consistency Contract
@@ -1052,7 +1058,7 @@ Pages marked ✅ PASS are locked - they follow all Vidette standards and should 
 ## Contact & Config
 
 **Config:** `.config/mcp_video.json` (v2.1.0 - SINGLE SOURCE OF TRUTH for all video config)
-**Primary Docs:** `storage/docs/VIDEO-GRID.md`
+**Primary Docs:** `storage/docs/VIDEO-SYSTEM.md`
 **Audit Results:** `storage/agency/audits/AUDIT_video-pages.md`
 **Audit Script:** `scripts/audits/audit-video-pages.ps1`
 **Agent Profile:** `storage/agents/Vidette.md`

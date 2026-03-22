@@ -2,7 +2,7 @@
 
 **Role:** Chief Blog Page Design & Consistency Officer
 **Created:** January 21, 2026
-**Last Updated:** March 9, 2026
+**Last Updated:** March 20, 2026
 **Status:** Active
 **Weekly Audit Day:** Tuesday
 
@@ -20,7 +20,9 @@
 | **Master Config** | `storage/agency/.config/mcp_agents.json` | Schedule, metadata, and domain ownership. |
 | **Audit Script** | `scripts/audits/audit-blog-posts.ps1` | The script for the weekly Tuesday audit. |
 | **Audit Report** | `storage/agency/audits/AUDIT_blog-posts.md` | The output location for the audit report. |
-| **Primary Doc** | `storage/docs/BLOG-POST-TEMPLATE.md` | The single source of truth for blog posts. |
+| **Primary Doc** | `storage/docs/PAGES.md` | The single source of truth for blog posts. |
+| **Cluster SSOT** | `C:\Users\Owner\Projects\www\README.md` | Cross-project blog protocol rules. |
+| **Blog Include** | `public_html/includes/blog-posts.php` | `jn_render_recommended_posts()` + `jn_render_blog_cards()` helpers. |
 | **Images Folder** | `public_html/resources/images/ai/agents/bloggie/` | Generated character images. |
 
 ---
@@ -124,7 +126,7 @@ if (!defined('RES_ROOT')) {
 <img src="/resources/images/blog/image.jpg">
 ```
 
-### 4. Tag Anchor Pattern (See `storage/docs/TAG-SYSTEM.md`)
+### 4. Tag Anchor Pattern (See `storage/docs/PROTOCOL.md`)
 ```html
 <p class="text-muted mb-2"><strong>Topics:</strong></p>
 <div class="d-flex flex-wrap gap-2">
@@ -135,7 +137,7 @@ if (!defined('RES_ROOT')) {
 - Use `../tags.php?filters=slug` (relative from /blog/)
 - Include "Topics:" header before tags
 - Use `d-flex flex-wrap gap-2` container (NOT individual margins)
-- Reference: `storage/docs/TAG-SYSTEM.md` → "Blog System Integration" section
+- Reference: `storage/docs/PROTOCOL.md` → "Blog System Integration" section
 
 ### 4b. Back to Blog Uses Clean Route
 ```html
@@ -153,22 +155,21 @@ if (!defined('RES_ROOT')) {
 - Must have `$pageUrl` and `$pageTitle` set before include
 - Renders X (Twitter), Facebook, LinkedIn buttons with brand colors
 
-### 6. Three Recommended Posts (glass-card styling)
+### 6. Three Recommended Posts (full container width)
+Use the `jn_render_recommended_posts()` helper from `blog-posts.php`:
+```php
+<?php jn_render_recommended_posts(['slug-1', 'slug-2', 'slug-3']); ?>
+```
+**CRITICAL:** This call MUST be placed **outside** the `col-lg-8 mx-auto` column, at full container width. Placing it inside the narrow column squishes the 3 cards to ~22% viewport width each.
+
 ```html
-<div class="mt-5 pt-4 border-top">
-  <h3 class="h5 mb-4">You Might Also Like</h3>
-  <div class="row g-3">
-    <div class="col-md-4">
-      <a href="related-post.php" class="text-decoration-none">
-        <div class="glass-card h-100 hover-lift">
-          <img src="<?= RES_ROOT ?>/images/blog/..." style="height: 150px; object-fit: cover;">
-          <!-- card content -->
-        </div>
-      </a>
-    </div>
-    <!-- 2 more col-md-4 cards -->
-  </div>
-</div>
+            </div><!-- /.col-lg-8 -->
+        </div><!-- /.row -->
+
+        <!-- Recommended Posts — Full container width (outside col-lg-8) -->
+        <?php jn_render_recommended_posts(['related-1', 'related-2', 'related-3']); ?>
+
+    </div><!-- /.container -->
 ```
 
 ### 7. Post Content Container
@@ -218,7 +219,7 @@ Bloggie ensures cohesive, professional blog page design across all JenniNexus bl
 - **When:** Every Tuesday
 - **Script:** `powershell -ExecutionPolicy Bypass -File scripts/audits/audit-blog-posts.ps1`
 - **Audit Results:** `storage/agency/audits/AUDIT_blog-posts.md` (auto-generated)
-- **Reference Doc:** `storage/docs/BLOG-POST-TEMPLATE.md`
+- **Reference Doc:** `storage/docs/PAGES.md`
 - **Escalate:** Any missing tags, broken share buttons, or inconsistent layouts
 - **Review:** After audit runs, check AUDIT_blog-posts.md for per-post status
 
@@ -232,7 +233,7 @@ Bloggie ensures cohesive, professional blog page design across all JenniNexus bl
 | `public_html/resources/playlists/blog-posts.json` | Auto-generated (DO NOT EDIT) | Read-only |
 | `public_html/blog/blog-post-template.php` | Template for all blog posts | **Full ownership** |
 | `public_html/includes/share-buttons.php` | Social share button component | Shared (design team) |
-| `storage/docs/BLOG-POST-TEMPLATE.md` | Blog post documentation | **Full ownership** |
+| `storage/docs/PAGES.md` | Blog post documentation | **Full ownership** |
 
 ---
 
@@ -241,16 +242,16 @@ Bloggie ensures cohesive, professional blog page design across all JenniNexus bl
 ### Primary (Edit/Maintain)
 | Doc | Purpose | Bloggie's Role |
 |-----|---------|----------------|
-| `storage/docs/BLOG-POST-TEMPLATE.md` | Blog post structure, tags, shares | **SOURCE OF TRUTH - Maintain** |
+| `storage/docs/PAGES.md` | Blog post structure, tags, shares | **SOURCE OF TRUTH - Maintain** |
 | `storage/docs/PAGES.md` | Page architecture & templates | Reference & update blog sections |
 
 ### Reference (Read/Apply)
 | Doc | Purpose | Bloggie's Use |
 |-----|---------|---------------|
 | `storage/docs/PROTOCOL.md` | Site-wide standards, tag patterns | Follow and enforce |
-| `storage/docs/ASSETS.md` | Asset loading, RES_ROOT usage | Know how assets load |
-| `storage/docs/TAG-SYSTEM.md` | Tag filtering, anchor patterns | Apply correct tag links |
-| `storage/docs/THEME-SYSTEM.md` | Light/dark mode, no white ever | Ensure theme compatibility |
+| `storage/docs/BUILD-AND-DEPLOY.md` | Asset loading, RES_ROOT usage | Know how assets load |
+| `storage/docs/PROTOCOL.md` | Tag filtering, anchor patterns | Apply correct tag links |
+| `storage/docs/DESIGN-SYSTEM.md` | Light/dark mode, no white ever | Ensure theme compatibility |
 
 ### Dev Reference Pages
 - `public_html/blog/blog-post-template.php` - **THE** template for all blog posts
@@ -314,8 +315,29 @@ if (!defined('RES_ROOT')) {
 5. **Tags Section** - "Topics:" header + anchor tag badges
 6. **Share & Navigation** - Back to Blog (`/blog/`) + share buttons
 
+### Blog Title (CRITICAL — March 20, 2026)
+```html
+<h1 class="blog-title mb-4">Your Post Title</h1>
+```
+- **ALWAYS** use `.blog-title` — NEVER `display-4` or other display classes
+- `.blog-title` = 2.25rem (36px) desktop, 1.75rem tablet, 1.5rem mobile
+- `font-weight: 600` (semi-bold, not full bold 700)
+- `letter-spacing: -0.02em` for tighter editorial feel
+- **Why:** `display-4` (56px) made titles overflow the first screen on desktop
+
+### Typography Standard (March 20, 2026)
+- **Body text:** `.post-content` uses `font-weight: 300` (light) for editorial readability
+- **Dark mode body text:** `<p>` and `<li>` inside `.post-content` use `var(--bs-secondary-color)` (`#B8A8D1`) instead of `var(--bs-body-color)` (`#E0D5EB`) — softer lavender reduces visual weight
+- **Font smoothing:** `.post-content` uses `-webkit-font-smoothing: antialiased` for cleaner rendering on Windows
+- **Headings stay bright:** h2/h3 keep full `var(--bs-body-color)` for hierarchy contrast
+- **Bold/strong inside posts:** Renders at `font-weight: 500` (medium), not 700
+- **Post h2:** `font-weight: 600`, `font-size: 1.5rem`
+- **Post h3:** `font-weight: 500`, `font-size: 1.25rem`
+- **Line height:** 1.7 (reduced from 1.75 for tighter feel)
+- **Why:** System font stack at weight 300 still renders visually thick on Windows due to high-contrast dark mode text color + subpixel rendering
+
 ### Glass Styling Standard
-- **Post content:** Use `.glass-card p-4 rounded-4` (as per `blog-post-template.php` line 84)
+- **Post content:** Use `.glass-card p-4 rounded-4` (as per `blog-post-template.php`)
 - **Recommended posts:** Use `.glass-card h-100 hover-lift`
 - **Alternative:** `.glass-panel` is acceptable but `.glass-card` is preferred for consistency
 - **NEVER:** White backgrounds - always use glass effects
@@ -400,8 +422,9 @@ $pageTitle = 'Your Post Title';                       // Optional, used as share
 ```
 
 ### Key Rules
-- Always 3 related posts
-- Use `glass-card h-100 hover-lift` for cards
+- Always 3 related posts via `jn_render_recommended_posts()` helper
+- Helper renders `col-md-6 col-lg-4` cards with `glass-card h-100 hover-lift`
+- **Must be outside `col-lg-8`** — place at full container width after the row closes
 - Image height: 150px with `object-fit: cover`
 - Tags inside cards use `gap-1` (smaller than main tags)
 
@@ -436,18 +459,31 @@ Posts marked ✅ PASS follow all Bloggie standards. Update this table when modif
 |------|--------|------------|-------|
 | `blog-post-template.php` | 📋 Template | - | Reference for all posts |
 | `index.php` | ➡️ Shim | 2026-03-09 | Includes `../page/blog.php` for `/blog/` |
-| `ai-agent-studio-sim.php` | ✅ PASS | 2026-01-25 | **NEW** - Bloggie's first assignment! |
-| `ai-sora-2025.php` | ✅ PASS | 2026-01-25 | Renamed from sora-ai-2025.php for alphabetical grouping |
-| `ai-tools-for-technical-artists.php` | ✅ PASS | 2026-01-25 | Updated recommended post links |
-| `ai-tools-using-ai.php` | ✅ PASS | 2026-01-25 | Updated recommended post links |
-| `game-dev-in-2025.php` | ✅ PASS | 2026-01-22 | Uses glass-card - matches template |
-| `site-auditor-pro-launch.php` | ✅ PASS | 2026-01-22 | Exemplary - includes Product Hunt button |
-| `build-and-deploy-2024.php` | ✅ PASS | 2026-01-22 | Standard template |
-| `diy-beauty-trends-2025.php` | ✅ PASS | 2026-01-22 | Standard template |
-| `pax-west-2022.php` | ✅ PASS | 2026-01-22 | Standard template |
-| `pax-west-gaming-con.php` | ✅ PASS | 2026-01-22 | Standard template |
-| `summercon-2024.php` | ✅ PASS | 2026-01-22 | Standard template |
-| `voice-acting-in-games.php` | ✅ PASS | 2026-01-22 | Standard template |
+| `ai-agent-studio-sim.php` | ✅ PASS | 2026-03-14 | Bloggie's first assignment |
+| `ai-sora-2025.php` | ✅ PASS | 2026-03-14 | Renamed from sora-ai-2025.php |
+| `ai-tools-for-technical-artists.php` | ✅ PASS | 2026-03-14 | Standard template |
+| `ai-tools-using-ai.php` | ✅ PASS | 2026-03-14 | Standard template |
+| `game-dev-in-2025.php` | ✅ PASS | 2026-03-14 | Uses glass-card - matches template |
+| `site-auditor-pro-launch.php` | ✅ PASS | 2026-03-14 | Exemplary - includes Product Hunt button |
+| `build-and-deploy-2024.php` | ✅ PASS | 2026-03-14 | Standard template |
+| `diy-beauty-trends-2025.php` | ✅ PASS | 2026-03-14 | Standard template |
+| `pax-west-2022.php` | ✅ PASS | 2026-03-14 | Standard template |
+| `pax-west-gaming-con.php` | ✅ PASS | 2026-03-14 | Standard template |
+| `summercon-2024.php` | ✅ PASS | 2026-03-14 | Standard template |
+| `voice-acting-in-games.php` | ✅ PASS | 2026-03-17 | Standard template |
+| `fin-sig.php` | ✅ PASS | 2026-03-17 | Fintech feature post, embedded widget |
+
+### Audit Summary (March 17, 2026)
+- **Overall Compliance:** 100%
+- **Critical Issues:** 0
+- **Posts Audited:** 13
+- **All posts:** Proper tag anchor patterns, share buttons, recommended posts (full-width via `jn_render_recommended_posts()`), glass styling, YAML entries
+
+### Audit Summary (March 14, 2026)
+- **Overall Compliance:** 100%
+- **Critical Issues:** 0
+- **Posts Audited:** 12
+- **All posts:** Proper tag anchor patterns, share buttons, recommended posts, glass styling, YAML entries
 
 ### Audit Summary (January 25, 2026)
 - **Overall Compliance:** 100%
@@ -594,6 +630,8 @@ Per blog post file in `public_html/blog/*.php`:
 | 8 | Post content container | `glass-card p-4 rounded-4` | WARN |
 | 9 | YAML entry exists | Slug in `src/assets/playlists/blog-posts.yaml` | FAIL |
 | 10 | Back to Blog route | `href="/blog/"` (not `../blog.php`) | WARN |
+| 11 | Blog title class | `class="blog-title"` (not `display-*`) | WARN |
+| 12 | Post content wrapper | `class="post-content"` on body div (dark mode text softening) | WARN |
 
 **Severity Levels:**
 - **FAIL** - Post does not meet Bloggie standards, must fix
@@ -664,6 +702,7 @@ Every Tuesday, Bloggie checks all blog posts:
 ### CSS Files (Blog Styling)
 | File | Source | Bundled Into | Purpose |
 |------|--------|--------------|---------|
+| `blog-theme.css` | `src/assets/css/` | `main.min.css` | **Blog SSOT** — .blog-title, .post-content, typography, dark mode text |
 | `custom.css` | `src/assets/css/` | `main.min.css` | Glass effects, cards, badges |
 | `main.css` | `src/assets/css/` | `main.min.css` | Core layout, typography |
 | `link-cards.css` | `src/assets/css/` | `main.min.css` | Share button styles |
@@ -693,6 +732,32 @@ Every Tuesday, Bloggie checks all blog posts:
 
 ## Changelog
 
+### 2026-03-20 (Dark mode text softening)
+- **Dark mode body text color:** `<p>` and `<li>` inside `.post-content` now use `var(--bs-secondary-color)` (`#B8A8D1`) in dark mode — softer than full `var(--bs-body-color)` (`#E0D5EB`)
+- **Font smoothing added:** `-webkit-font-smoothing: antialiased` + `-moz-osx-font-smoothing: grayscale` on `.post-content`
+- **Headings unchanged:** h2/h3 keep full brightness `var(--bs-body-color)` for visual hierarchy
+- **Why:** Even at weight 300, dark mode text appeared visually thick due to bright lavender on charcoal + Windows subpixel rendering
+- **CSS SSOT:** `src/assets/css/blog-theme.css` lines 49-58
+- **Bloggie docs updated:** Typography Standard section expanded with dark mode color rule
+
+### 2026-03-20 (Typography overhaul)
+- **Typography overhaul:** Replaced `display-4` (56px) with `.blog-title` (2.25rem/36px) across all 13 blog posts + template
+- **Body text weight:** Changed `.post-content` from implicit 400 to explicit `font-weight: 300` for lighter editorial feel
+- **Heading weights reduced:** h2 from 700→600, h3 from 600→500 — matches editorial site conventions
+- **Strong/bold capped:** `.post-content strong` now renders at weight 500 (not full 700)
+- **Line height tightened:** 1.75 → 1.7 for slightly more compact reading
+- **New CSS class:** `.blog-title` with responsive scaling (2.25rem → 1.75rem → 1.5rem)
+- **Bloggie docs updated:** Added "Blog Title" and "Typography Standard" sections to rules
+- **Why:** Titles overflowed first screen on desktop; body text rendered too thick with system fonts
+
+### 2026-03-17
+- **Layout fix:** Recommended posts moved outside `col-lg-8` to full container width across all 14 blog files
+- **Helper function:** All posts now use `jn_render_recommended_posts()` from `blog-posts.php`
+- **Rule 6 updated:** Documented that recommended posts MUST be outside narrow column
+- **fin-sig.php added:** New fintech blog post with embedded widget, added to Page Status Tracker
+- **Audit script updated:** Check 7 now recognizes `jn_render_recommended_posts()` helper
+- **Progressive enhancement:** Content visible by default (reveal-on-scroll fix in ui-effects.js + custom.css)
+
 ### 2026-01-25 (First Assignment!)
 - **Bloggie's First Post:** Guided creation of `ai-agent-studio-sim.php`
   - Converted markdown content to proper PHP template format
@@ -715,8 +780,8 @@ Every Tuesday, Bloggie checks all blog posts:
 ### 2026-01-22 (Session 2)
 - **Bloggie.md:** Added "Blog Post Rules (NON-NEGOTIABLE)" section at top
 - **Rules include:** PHP headers, includes, RES_ROOT, tag patterns, share buttons, recommended posts, glass styling, YAML entries
-- **TAG-SYSTEM.md:** Added "Blog System Integration (Bloggie's Domain)" section
-- **Cross-reference:** Bloggie.md now points to TAG-SYSTEM.md for tag pattern details
+- **PROTOCOL.md:** Added "Blog System Integration (Bloggie's Domain)" section
+- **Cross-reference:** Bloggie.md now points to PROTOCOL.md for tag pattern details
 - **Template verified:** `blog-post-template.php` is in sync with all 8 rules
 
 ### 2026-01-22 (Session 1)
@@ -730,7 +795,7 @@ Every Tuesday, Bloggie checks all blog posts:
 ### 2026-01-21
 - Bloggie agent created
 - Initial blog post audit completed
-- BLOG-POST-TEMPLATE.md established
+- PAGES.md established
 
 ### 2026-03-09
 - Updated Bloggie standards for the current blog architecture
@@ -742,7 +807,7 @@ Every Tuesday, Bloggie checks all blog posts:
 
 ## Contact & Config
 
-**Primary Docs:** `storage/docs/BLOG-POST-TEMPLATE.md`, `storage/docs/PAGES.md`
+**Primary Docs:** `storage/docs/PAGES.md`, `storage/docs/PAGES.md`
 **Template:** `public_html/blog/blog-post-template.php`
 **YAML Source:** `src/assets/playlists/blog-posts.yaml`
 **Audit Results:** `storage/agency/audits/AUDIT_blog-posts.md` (auto-generated)
@@ -785,5 +850,5 @@ The full AI image generation prompt for this character is maintained in [PROMPTS
 ---
 
 *"Magazine-quality consistency on every post."*
-*Last Updated: January 26, 2026*
+*Last Updated: March 20, 2026*
 

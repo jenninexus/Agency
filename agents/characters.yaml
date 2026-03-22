@@ -1,0 +1,207 @@
+# JenniNexus AI Agent Characters
+# ================================
+# Single source of truth for AI image generation prompts.
+# Used by: scripts/generate-agent-portrait.ps1
+# Pattern: Adapted from neophi/src/assets/data/characters.yaml
+#
+# Each agent has two prompt variants:
+#   landscape — 16:9 environment shot (team page, blog headers)
+#   square    — 1:1 portrait (avatars, social cards, agents.php)
+#
+# Environment: All agents share the same cyberpunk penthouse studio
+# in futuristic Seattle — floor-to-ceiling windows, neon cityscape,
+# holographic screens, hot tub lounge, rain-streaked glass.
+# Each agent has their own corner/workstation within the shared space.
+
+# --- Shared Style ---
+# Appended to every prompt automatically by the generator script.
+# Edit here to change the global aesthetic for all agents.
+shared_style: >-
+  Cinematic digital illustration, semi-realistic with anime influence in eyes and proportions.
+  Cyberpunk penthouse studio aesthetic: luxury high-rise interior with floor-to-ceiling rain-streaked windows
+  overlooking a futuristic neon-lit Seattle skyline at night. Moody ambient lighting with colored neon accents.
+  Interior details: polished concrete floors, exposed industrial beams, floating holographic display panels,
+  a glass-walled hot tub with purple-cyan steam visible in the living area behind the character.
+  Multiple transparent screens and holographic UI elements float in the air around the workspace.
+  Rain streaks on window glass catch neon reflections from the city below.
+  High detail, clean rendering, professional character art. No text or watermarks.
+
+# --- Agents ---
+vidette:
+  name: Vidette Streamwell
+  title: Chief Video & Image Display Integrity Officer
+  color: cyan, electric blue
+  icon: video camera, play button
+  personality: Confident media expert, precise and analytical. Streetwear tech aesthetic.
+  visual:
+    hair: Platinum blonde with vibrant neon rainbow highlights (hot pink, electric purple, cyan blue), side-shaved undercut
+    style: "Streetwear: slouchy knit beanie, black crop top with holographic 'RSS > API' text, cargo pants with glow trim, LED platform sneakers"
+    workstation: Triple ultrawide curved monitors showing video timelines, RGB LED strips, mechanical keyboard with rainbow keycaps
+    accessories: Multiple ear piercings with play button studs, thin silver nose ring, racing-style gaming chair
+    time_of_day: Night, neon rain
+  generator:
+    prompts:
+      landscape: >-
+        Vidette Streamwell, confident young media tech specialist in a cyberpunk penthouse studio.
+        Platinum blonde hair with neon rainbow highlights (hot pink, electric purple, cyan blue), side-shaved undercut.
+        Slouchy knit beanie, black crop top with holographic text that glows under neon light, cargo pants with glow trim.
+        Multiple ear piercings with play button studs, thin silver nose ring catching cyan reflections.
+        Leaning back confidently in a racing chair at her triple ultrawide monitor array,
+        holographic video grid panels floating around her workspace showing 16:9 and 9:16 aspect ratio previews.
+        Rain streaking the floor-to-ceiling windows behind her, futuristic Seattle neon skyline visible outside.
+        Cyan and electric blue light from her monitors mixing with purple city glow on the wet glass.
+        Hot tub steam rising in the penthouse lounge area behind her workspace.
+        16:9 composition, full environment shot.
+      square: >-
+        Vidette Streamwell, confident young media tech specialist in a high-rise penthouse.
+        Platinum blonde hair with neon rainbow highlights (hot pink, electric purple, cyan blue), side-shaved undercut.
+        Slouchy knit beanie, black crop top with holographic text glowing.
+        Multiple ear piercings with play button studs, thin silver nose ring.
+        Slight 3/4 angle, reaching toward a floating holographic video panel.
+        Cyan and electric blue neon reflections on rain-streaked windows behind her.
+        Futuristic Seattle skyline blurred through wet glass, purple-teal ambient glow.
+        1:1 square composition, head and shoulders portrait.
+
+bloggie:
+  name: Brianna "Bloggie" Wordsworth
+  title: Chief Blog Page Design & Consistency Officer
+  color: gold, warm amber
+  icon: pen, writing
+  personality: Creative writer, warm and articulate. Cozy academic aesthetic with cyberpunk edge.
+  visual:
+    hair: Auburn with warm caramel and honey blonde balayage, styled in a messy half-up bun with loose face-framing pieces
+    style: "Cozy academic: chunky cable-knit cream cardigan over black tank top, vintage-wash mom jeans, barefoot"
+    workstation: Warm wooden mid-century modern desk positioned near penthouse windows, 32-inch 4K monitor, leather-bound notebook, fountain pen
+    accessories: Tortoiseshell reading glasses, gold pen charm necklace, ceramic mug warmer with Earl Grey tea
+    time_of_day: Night, warm interior glow
+  generator:
+    prompts:
+      landscape: >-
+        Brianna "Bloggie" Wordsworth, warm creative editorial specialist in a cyberpunk penthouse studio.
+        Auburn hair with caramel and honey blonde balayage, messy half-up bun with loose face-framing pieces.
+        Chunky cable-knit cream cardigan over black tank top, barefoot with feet tucked under her on chair.
+        Tortoiseshell reading glasses, gold pen charm necklace catching warm light.
+        Seated at a warm wooden mid-century desk positioned next to floor-to-ceiling rain-streaked windows,
+        leather-bound notebook open beside her, fountain pen in hand.
+        Holographic blog layout panels floating above her desk, showing magazine-style typography.
+        Ceramic mug warmer with tea steaming nearby. Warm amber desk lamp contrasting with neon city glow outside.
+        Futuristic Seattle skyline through the rain-streaked glass behind her, gold and purple neon reflections.
+        Hot tub lounge area with purple-cyan steam visible across the penthouse.
+        16:9 composition, cozy corner of the cyberpunk penthouse.
+      square: >-
+        Brianna "Bloggie" Wordsworth, warm creative editorial specialist in a penthouse studio.
+        Auburn hair with caramel and honey blonde balayage, messy half-up bun with loose face-framing pieces.
+        Chunky cable-knit cream cardigan over black tank top.
+        Tortoiseshell reading glasses pushed up on head, gold pen charm necklace.
+        Holding a fountain pen thoughtfully, warm smile.
+        Warm amber glow from desk lamp mixing with neon city light through rain-streaked windows behind her.
+        Floating holographic text panels softly glowing nearby.
+        1:1 square composition, head and shoulders portrait.
+
+graphviz:
+  name: ThemaGraphViz
+  title: Chief Visual Harmony & Theme System Architect
+  color: purple, violet, lavender
+  icon: palette, color wheel
+  personality: Elegant perfectionist, meticulous about color and harmony. Minimalist dark aesthetic.
+  visual:
+    hair: Silver with lavender and soft pink ombre gradient, long and straight flowing to waist
+    style: "Minimalist: black geometric crop top, high-waisted wide-leg trousers, silver jewelry, bare feet with silver toe rings"
+    workstation: Standing desk area near penthouse windows, dual color-calibrated monitors, Pantone swatch books, holographic color wheels
+    accessories: Multiple thin silver bangles, geometric color wheel tattoo on forearm, delicate silver chain anklet
+    time_of_day: Night, violet neon
+  generator:
+    prompts:
+      landscape: >-
+        ThemaGraphViz, elegant visual design architect in a cyberpunk penthouse studio.
+        Silver hair with lavender and soft pink ombre gradient, long and straight flowing past shoulders.
+        Black geometric crop top, high-waisted wide-leg trousers, bare feet with silver toe rings on polished concrete.
+        Multiple thin silver bangles, geometric color wheel tattoo visible on forearm.
+        Standing near floor-to-ceiling rain-streaked windows overlooking futuristic Seattle neon skyline,
+        reaching toward floating holographic color wheel and CSS palette panels suspended in mid-air.
+        Dual color-calibrated monitors nearby showing light and dark mode themes side by side.
+        Purple and violet neon from the city casting through rain-streaked glass onto her silver hair.
+        Hot tub with purple-cyan steam glowing in the lounge area behind her.
+        A rainbow of holographic UI elements and floating glass panels surround her workspace.
+        16:9 composition, full standing pose with penthouse environment.
+      square: >-
+        ThemaGraphViz, elegant visual design architect in a penthouse studio.
+        Silver hair with lavender and soft pink ombre gradient, long and straight.
+        Black geometric crop top, multiple thin silver bangles.
+        Geometric color wheel tattoo visible on forearm.
+        Touching a floating holographic color wheel with light and dark mode palettes.
+        Purple and violet neon city glow through rain-streaked floor-to-ceiling windows behind her.
+        Holographic glass panels with gradient swatches floating around her.
+        1:1 square composition, head and shoulders portrait with slight 3/4 angle.
+
+gamergirl:
+  name: Gamera "GamerGirl" Playworth
+  title: Chief Gaming Content & Game Page Integrity Officer
+  color: hot pink, magenta, electric blue
+  icon: gamepad, controller
+  personality: Energetic gamer, bold and enthusiastic. Esports cyberpunk aesthetic.
+  visual:
+    hair: Electric blue with hot pink tips, styled in high bouncy ponytail with face-framing strands
+    style: 'Esports: black team jersey with "NEXUS" logo in blue/pink, joggers with glowing stripes, LED gaming sneakers'
+    workstation: Gaming corner of penthouse with triple 27-inch monitors, custom mechanical keyboard, RGB LED strips
+    accessories: Gaming headset around neck, controller charm earrings, smart fitness tracker, silicon wristbands
+    time_of_day: Night with neon aurora
+  generator:
+    prompts:
+      landscape: >-
+        Gamera "GamerGirl" Playworth, energetic esports gaming specialist in a cyberpunk penthouse studio.
+        Electric blue hair with hot pink tips, high bouncy ponytail with face-framing strands.
+        Black esports team jersey with "NEXUS" logo in blue and pink gradient,
+        joggers with glowing neon stripes, LED gaming sneakers propped on desk edge.
+        Gaming headset around neck, controller charm earrings catching pink neon light.
+        Sitting cross-legged in a racing gaming chair, holding a glowing controller.
+        Triple 27-inch gaming monitors behind her showing game pages and Steam store layouts.
+        RGB LED strips casting hot pink and magenta light across her gaming corner of the penthouse.
+        Floor-to-ceiling windows showing futuristic Seattle neon skyline and aurora-like sky.
+        Rain on glass catching pink and blue reflections, hot tub steam glowing in the background.
+        16:9 composition, full gaming setup in penthouse environment.
+      square: >-
+        Gamera "GamerGirl" Playworth, energetic esports gaming specialist in a penthouse studio.
+        Electric blue hair with hot pink tips, high bouncy ponytail with face-framing strands.
+        Black esports team jersey with "NEXUS" logo in blue and pink gradient.
+        Gaming headset around neck, controller charm earrings.
+        Holding a glowing game controller with a confident grin, leaning forward.
+        Hot pink and magenta neon glow mixing with city lights through rain-streaked windows.
+        Futuristic Seattle skyline visible, gaming monitor glow in background.
+        1:1 square composition, head and shoulders portrait.
+
+divinedesign:
+  name: Davina "DivineDesign" Artwright
+  title: Chief Site-Wide Design & Page Architecture Officer
+  color: teal, emerald, rose gold
+  icon: compass, drafting tools
+  personality: Visionary architect, calm and purposeful. High-fashion minimalist design aesthetic.
+  visual:
+    hair: Deep burgundy red with rose gold highlights, styled in elegant French twist with romantic loose tendrils
+    style: "High fashion: heather gray structured blazer over ivory silk blouse, charcoal tailored wide-leg trousers, nude pointed heels"
+    workstation: Walnut drafting table near penthouse windows, holographic wireframe blueprints, design books
+    accessories: Delicate gold chain bracelet, minimalist gold stud earrings, brass stylus pen
+    time_of_day: Night, teal neon dawn
+  generator:
+    prompts:
+      landscape: >-
+        Davina "DivineDesign" Artwright, poised UX design architect in a cyberpunk penthouse studio.
+        Deep burgundy red hair with rose gold highlights, elegant French twist with romantic loose tendrils.
+        Heather gray structured blazer over ivory silk blouse, charcoal tailored wide-leg trousers.
+        Delicate gold chain bracelet, minimalist gold stud earrings, brass stylus pen in hand.
+        Standing at a walnut drafting table near floor-to-ceiling rain-streaked windows,
+        holographic wireframe blueprints and golden ratio spirals floating in mid-air above her workspace.
+        Apple Studio Display showing a website layout with a 12-column grid overlay.
+        Futuristic Seattle skyline through the glass, teal and emerald neon from the city mixing with rose gold desk lamp.
+        Design books by Norman and Rams stacked neatly on a floating shelf.
+        Hot tub lounge with cyan steam visible across the open-plan penthouse.
+        16:9 composition, elegant penthouse studio environment.
+      square: >-
+        Davina "DivineDesign" Artwright, poised UX design architect in a penthouse studio.
+        Deep burgundy red hair with rose gold highlights, elegant French twist with romantic loose tendrils.
+        Heather gray structured blazer over ivory silk blouse.
+        Delicate gold chain bracelet, minimalist gold stud earrings.
+        Holding a brass stylus pen, gesturing toward floating holographic wireframe blueprints.
+        Teal and emerald neon city glow through rain-streaked floor-to-ceiling windows behind her.
+        Rose gold accent lighting mixing with cyberpunk city neon.
+        1:1 square composition, head and shoulders portrait with slight 3/4 angle.

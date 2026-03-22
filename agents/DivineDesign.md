@@ -2,11 +2,12 @@
 
 **Role:** Chief Site-Wide Design & Page Architecture Officer
 **Created:** January 25, 2026
-**Last Updated:** January 26, 2026
+**Last Updated:** March 19, 2026
 **Status:** Active
 **Weekly Audit Day:** Friday
 **Cross-Project Protocol:** `storage/docs/PROTOCOL.md` (sys-admin: `C:\mcp\sys-admin\`)
 **Layout Files:** custom.css, mixins.css, all-themes.css, media.css, ui-effects.js
+**Frontend Design Authority:** DivineDesign owns `/frontend-design` aesthetics for the www cluster — all layout, visual hierarchy, and UX decisions route through this agent
 
 ---
 
@@ -94,7 +95,7 @@ DivineDesign is an elegant perfectionist with an eye for spatial harmony and use
 - Page templates: `blog-post-template.php`, `game/*.php (game page pattern)`
 - Layout CSS: `custom.css`, `media.css`, `main.css`
 - Dev reference pages: `dev-only/theme-demo.php` and all `dev-only/*.php`
-- Protocol docs: `PROTOCOL.md`, `PAGES.md`, `THEME-SYSTEM.md`
+- Protocol docs: `PROTOCOL.md`, `PAGES.md`, `DESIGN-SYSTEM.md`
 
 **When making layout changes:** Update the Changelog section below.
 
@@ -545,11 +546,11 @@ DivineDesign should be familiar with and reference:
 |-----|---------|--------------|
 | [PROTOCOL.md](../docs/PROTOCOL.md) | Site-wide standards | PHP structure, naming conventions |
 | [PAGES.md](../docs/PAGES.md) | Page architecture | Page types, video grid, required elements |
-| [THEME-SYSTEM.md](../docs/THEME-SYSTEM.md) | Theme implementation | Button hierarchy, CSS architecture (with GraphViz) |
-| [CSS-SCSS.md](../docs/CSS-SCSS.md) | CSS bundle system | Layout files (custom.css, media.css) |
-| [BOOTSTRAP-5.3.8.md](../docs/BOOTSTRAP-5.3.8.md) | Bootstrap utilities | Grid system, spacing classes |
-| [BLOG-POST-TEMPLATE.md](../docs/BLOG-POST-TEMPLATE.md) | Blog post structure | Hero, content, CTA sections |
-| [JAVASCRIPT.md](../docs/JAVASCRIPT.md) | JS architecture | ui-effects.js, youtube-grid.js |
+| [DESIGN-SYSTEM.md](../docs/DESIGN-SYSTEM.md) | Theme implementation | Button hierarchy, CSS architecture (with GraphViz) |
+| [DESIGN-SYSTEM.md](../docs/DESIGN-SYSTEM.md) | CSS bundle system | Layout files (custom.css, media.css) |
+| [DESIGN-SYSTEM.md](../docs/DESIGN-SYSTEM.md) | Bootstrap utilities | Grid system, spacing classes |
+| [PAGES.md](../docs/PAGES.md) | Blog post structure | Hero, content, CTA sections |
+| [BUILD-AND-DEPLOY.md](../docs/BUILD-AND-DEPLOY.md) | JS architecture | ui-effects.js, youtube-grid.js |
 
 ---
 
@@ -703,7 +704,7 @@ Friday is also implementation day for other agents. DivineDesign should:
 - **NEW:** UI Effects JavaScript ownership
   - parallax, card tilt, scroll progress, scroll reveal, stat counters
   - Parallax speed guide for hero elements
-- Updated Protocol Documentation with BLOG-POST-TEMPLATE.md, JAVASCRIPT.md
+- Updated Protocol Documentation with PAGES.md, BUILD-AND-DEPLOY.md
 - Expanded Contact & Config with all layout CSS files
 
 ### 2026-01-25 (Initial Creation)
@@ -733,11 +734,11 @@ Friday is also implementation day for other agents. DivineDesign should:
 |-----|----------|---------|
 | **PAGES.md** | `storage/docs/PAGES.md` | **SINGLE SOURCE** - Page structure, templates, patterns |
 | **PROTOCOL.md** | `storage/docs/PROTOCOL.md` | Feature → Documentation index |
-| **THEME-SYSTEM.md** | `storage/docs/THEME-SYSTEM.md` | Visual system (shared with GraphViz) |
-| **BLOG-POST-TEMPLATE.md** | `storage/docs/BLOG-POST-TEMPLATE.md` | Blog post requirements |
-| **VIDEO-GRID.md** | `storage/docs/VIDEO-GRID.md` | Video grid rules (Vidette's domain) |
-| **CSS-SCSS.md** | `storage/docs/CSS-SCSS.md` | CSS architecture |
-| **JAVASCRIPT.md** | `storage/docs/JAVASCRIPT.md` | JS architecture |
+| **DESIGN-SYSTEM.md** | `storage/docs/DESIGN-SYSTEM.md` | Visual system (shared with GraphViz) |
+| **PAGES.md** | `storage/docs/PAGES.md` | Blog post requirements |
+| **VIDEO-SYSTEM.md** | `storage/docs/VIDEO-SYSTEM.md` | Video grid rules (Vidette's domain) |
+| **DESIGN-SYSTEM.md** | `storage/docs/DESIGN-SYSTEM.md` | CSS architecture |
+| **BUILD-AND-DEPLOY.md** | `storage/docs/BUILD-AND-DEPLOY.md` | JS architecture |
 
 ### Session Context
 

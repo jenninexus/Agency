@@ -2,7 +2,7 @@
 
 **Version:** 2.0
 **Created:** January 22, 2026
-**Last Updated:** January 26, 2026
+**Last Updated:** March 19, 2026
 **Status:** Active
 
 > **DOCUMENT ROLES:**
@@ -35,29 +35,47 @@ GitHub template repository available at:
 
 ## Image Prompt System
 
-> **IMPORTANT:** Full copy-paste-ready prompts are in [PROMPTS.md](PROMPTS.md). This section provides a quick reference only.
+### Generation Pipeline
 
-### Time of Day by Agent
+Agent portraits are generated via the Grok Imagine API. The single source of truth for all prompts is `characters.yaml`.
 
-| Agent | Time of Day | Sky Description | Mood |
-|-------|-------------|-----------------|------|
-| **Vidette** | Golden Hour Sunset | Rainbow-tinted clouds, warm orange glow | Energetic, creative |
-| **Bloggie** | Warm Afternoon | Soft golden light, scattered clouds | Cozy, contemplative |
-| **GraphViz** | Blue Hour Twilight | Purple/pink gradient, first stars appearing | Artistic, precise |
-| **GamerGirl** | Night | Galaxy sky, aurora borealis, neon city | Competitive, electric |
-| **DivineDesign** | Dawn | Soft pink/orange sunrise, morning mist | Elegant, fresh |
+| Resource | Location | Purpose |
+|----------|----------|---------|
+| **Character SSOT** | `storage/agency/agents/characters.yaml` | Shared style + per-agent prompts |
+| **Generator script** | `scripts/generate-agent-portrait.ps1` | Calls Grok API, saves images |
+| **Generations (transient)** | `storage/agency/generations/images/` | Gitignored output, review here |
+| **Production images** | `public_html/resources/images/ai/agents/` | Deployed via rsync |
+| **Legacy prompts** | [PROMPTS.md](PROMPTS.md) | Original standalone prompts (pre-YAML) |
+
+```
+characters.yaml → generate-agent-portrait.ps1 → generations/ → (review) → resources/images/ → deploy
+```
+
+**Usage:**
+```powershell
+pwsh scripts/generate-agent-portrait.ps1 -Agent all              # All agents, both ratios
+pwsh scripts/generate-agent-portrait.ps1 -Agent GamerGirl -AspectRatio 1:1  # Single agent
+pwsh scripts/generate-agent-portrait.ps1 -Agent all -DryRun      # Preview prompts
+```
+
+### Shared Aesthetic: Cyberpunk Penthouse Studio
+
+All agents share the same environment — a luxury high-rise penthouse in futuristic Seattle:
+- Floor-to-ceiling rain-streaked windows overlooking neon cityscape
+- Holographic floating display panels and UI elements
+- Hot tub lounge with purple-cyan steam in the living area
+- Polished concrete floors, industrial beams, colored neon accents
+- Each agent has their own corner/workstation within the shared space
 
 ### Agent Visual Distinctiveness
 
-| Agent | Hair | Style | Workstation |
-|-------|------|-------|-------------|
-| **Vidette** | Platinum blonde + neon rainbow highlights, undercut | Streetwear: beanie, crop top, cargo pants | RGB gaming setup, triple ultrawides |
-| **Bloggie** | Auburn + caramel balayage, messy bun | Cozy academic: oversized cardigan, mom jeans | Warm wooden desk, brass accents, books |
-| **GraphViz** | Silver + lavender/pink ombre, straight | Minimalist: black geometric, silver jewelry | White standing desk, color calibration |
-| **GamerGirl** | Electric blue + hot pink tips, high ponytail | Esports: NEXUS jersey, LED sneakers | Triple monitors, RGB, notifications |
-| **DivineDesign** | Burgundy red + rose gold, French twist | High fashion: blazer, silk blouse, tailored | Drafting table + digital wireframes |
-
-**For full prompts:** See [PROMPTS.md](PROMPTS.md)
+| Agent | Hair | Style | Corner |
+|-------|------|-------|--------|
+| **Vidette** | Platinum blonde + neon rainbow highlights, undercut | Streetwear: beanie, crop top, cargo pants | Triple ultrawides, RGB strips, racing chair |
+| **Bloggie** | Auburn + caramel balayage, messy bun | Cozy academic: oversized cardigan, mom jeans | Mid-century desk by the windows, warm lamp |
+| **GraphViz** | Silver + lavender/pink ombre, straight | Minimalist: black geometric, silver jewelry | Standing desk, holographic color wheels |
+| **GamerGirl** | Electric blue + hot pink tips, high ponytail | Esports: NEXUS jersey, LED sneakers | Gaming corner, triple monitors, RGB |
+| **DivineDesign** | Burgundy red + rose gold, French twist | High fashion: blazer, silk blouse, tailored | Walnut drafting table, floating wireframes |
 
 ---
 
@@ -291,7 +309,7 @@ Elegant perfectionist with an eye for spatial harmony and user flow. DivineDesig
 - Page templates: blog-post-template.php, game-page-template.php
 - Layout CSS: custom.css, media.css, main.css
 - Dev reference pages: dev-only/theme-demo.php, all dev-only/*.php
-- Protocol documentation: PROTOCOL.md, PAGES.md, THEME-SYSTEM.md
+- Protocol documentation: PROTOCOL.md, PAGES.md, DESIGN-SYSTEM.md
 
 ### Character Image Prompt
 

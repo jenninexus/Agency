@@ -1,7 +1,7 @@
 # JenniNexus AI Agent Team
 
 **Version:** 1.3
-**Last Updated:** February 10, 2026
+**Last Updated:** March 19, 2026
 **Status:** Active - Virtual Game Studio Operations
 **Location:** `storage/agency/agents/`
 
@@ -158,7 +158,7 @@ Traditional web development requires:
 - `blog-post-template.php`, `game/*.php (game page pattern)` - Page templates
 - `custom.css`, `media.css`, `main.css` - Layout CSS
 - `dev-only/theme-demo.php` and all `dev-only/*.php` - Dev reference pages
-- `PROTOCOL.md`, `PAGES.md`, `THEME-SYSTEM.md` - Protocol documentation
+- `PROTOCOL.md`, `PAGES.md`, `DESIGN-SYSTEM.md` - Protocol documentation
 
 **Red Flags She'll Reject:**
 - Inconsistent spacing between sections
@@ -170,6 +170,8 @@ Traditional web development requires:
 - Missing responsive considerations
 
 **Relationship with GraphViz:** GraphViz owns colors/themes; DivineDesign owns layout/structure. They work as close partners on page design.
+
+**`/frontend-design` Authority:** DivineDesign is the designated owner of `/frontend-design` aesthetics across the www cluster — all layout decisions, visual hierarchy, and UX patterns route through this agent.
 
 ---
 
@@ -329,9 +331,9 @@ The startup script checks the current day and suggests the appropriate agent aud
 
 | Agent | Primary Config | Points To |
 |-------|----------------|-----------|
-| Vidette | `.config/mcp_video.json` | VIDEO-GRID.md, Vidette.md |
-| Bloggie | `blog-posts.json` | TAG-SYSTEM.md, Bloggie.md |
-| GraphViz | `theme-variables.css` | THEME-SYSTEM.md, GraphViz.md |
+| Vidette | `.config/mcp_video.json` | VIDEO-SYSTEM.md, Vidette.md |
+| Bloggie | `blog-posts.json` | PROTOCOL.md, Bloggie.md |
+| GraphViz | `theme-variables.css` | DESIGN-SYSTEM.md, GraphViz.md |
 | GamerGirl | `game/*.php (game page pattern)` | PAGES.md, GamerGirl.md |
 
 **→ Detailed schedule:** [SCHEDULE.md](SCHEDULE.md)
@@ -518,9 +520,9 @@ public_html/resources/images/ai/agents/
 
 | Agent | Primary Docs | Config Files | Latest Audit |
 |-------|--------------|--------------|--------------|
-| Vidette | VIDEO-GRID.md | mcp_video.json | [AUDIT_video-pages.md](../audits/AUDIT_video-pages.md) |
-| Bloggie | BLOG-POST-TEMPLATE.md | blog-posts.yaml | [AUDIT_blog-posts.md](../audits/AUDIT_blog-posts.md) |
-| GraphViz | THEME-SYSTEM.md | theme-variables.css | [AUDIT_theme-consistency.md](../audits/AUDIT_theme-consistency.md) |
+| Vidette | VIDEO-SYSTEM.md | mcp_video.json | [AUDIT_video-pages.md](../audits/AUDIT_video-pages.md) |
+| Bloggie | PAGES.md | blog-posts.yaml | [AUDIT_blog-posts.md](../audits/AUDIT_blog-posts.md) |
+| GraphViz | DESIGN-SYSTEM.md | theme-variables.css | [AUDIT_theme-consistency.md](../audits/AUDIT_theme-consistency.md) |
 | GamerGirl | PAGES.md | game/*.php (game page pattern) | [AUDIT_game-pages.md](../audits/AUDIT_game-pages.md) |
 | DivineDesign | PAGES.md, PROTOCOL.md | assets-deps.json | (manual review) |
 

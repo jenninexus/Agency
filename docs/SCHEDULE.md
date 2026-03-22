@@ -1,7 +1,7 @@
 # JenniNexus Agent Weekly Schedule
 
 **Version:** 1.0
-**Last Updated:** January 22, 2026
+**Last Updated:** March 19, 2026
 **Status:** Active
 
 > **SINGLE SOURCE OF TRUTH:** `storage/agency/.config/mcp_agents.json`
@@ -13,12 +13,11 @@
 
 | Day | Agent | Audit Script | Output | Focus Areas |
 |-----|-------|--------------|--------|-------------|
-| **Monday** | Vidette | `audit-video-pages.ps1` | `storage/agency/audits/AUDIT_video-pages.md` | Video grids, playlists, aspect ratios, youtube-grid.js loads |
-| **Tuesday** | Bloggie | `audit-blog-posts.ps1` | `storage/agency/audits/AUDIT_blog-posts.md` | PHP headers, tags, share buttons, YAML entries |
-| **Wednesday** | GraphViz | (manual review) | (visual inspection) | Theme consistency, no white backgrounds, glass effects |
-| **Thursday** | GamerGirl | `audit-game-pages.ps1` | `storage/agency/audits/AUDIT_game-pages.md` | Game pages, hub pages (gamedev/gaming), CTAs, hero sections |
-| **Thursday** | All | Review audit results | - | Cross-check findings after GamerGirl audit |
-| **Friday** | All | Implementation | - | Fix audit failures before weekend |
+| **Monday** | Vidette | `audit-video-pages.ps1` | `AUDIT_video-pages.md` | Video grids, playlists, aspect ratios, youtube-grid.js loads |
+| **Tuesday** | Bloggie | `audit-blog-posts.ps1` | `AUDIT_blog-posts.md` | PHP headers, tags, share buttons, YAML entries |
+| **Wednesday** | GraphViz | `audit-theme-consistency.ps1` | `AUDIT_theme.md` | Theme vars, no white backgrounds, glass effects, WCAG |
+| **Thursday** | GamerGirl | `audit-game-pages.ps1` | `AUDIT_game-pages.md` | Game pages, hub pages (gamedev/gaming), CTAs, hero sections |
+| **Friday** | DivineDesign | `audit-layout-consistency.ps1` | `AUDIT_layout-consistency.md` | Hero structure, section spacing, responsive grids, glass panels |
 
 ---
 
@@ -138,20 +137,34 @@ powershell -ExecutionPolicy Bypass -File scripts/audits/audit-game-pages.ps1
 
 ---
 
-### Friday - Implementation Day
+### Friday - DivineDesign (Layout Consistency) + Implementation
 
-**Protocol:**
-1. Fix CRITICAL and HIGH issues first
-2. Run affected audit scripts after fixes
-3. Update agent changelogs
-4. Update day file with completed tasks
-5. Prepare for weekend (no deployments)
+**Script:**
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/audits/audit-layout-consistency.ps1
+```
 
-**Pre-Weekend Checklist:**
-- [ ] All CRITICAL issues resolved
-- [ ] Audit scripts pass
-- [ ] Build completes without errors
-- [ ] Dev server tested locally
+**Checks:**
+- [ ] Required includes (head.php, header.php, footer.php)
+- [ ] Hero section structure (named class + H1)
+- [ ] hero-title class only on headings (not `<p>`, `<div>`, `<nav>` — parallax `data-parallax-speed` exempted)
+- [ ] Section spacing (py-4/py-5 on all `<section>` tags)
+- [ ] Responsive grid (min 2 columns on tablet md+)
+- [ ] Glass panel usage (glass-card/glass-holo on content panels)
+- [ ] Inline style threshold (<30 lines OK, 30-80 warn, 80+ excessive)
+- [ ] No white backgrounds (same as GraphViz rule)
+- [ ] Container hierarchy (rows inside containers)
+- [ ] CSS source: cross-file duplicate class definitions
+
+**Files Audited:** All pages across page/, blog/, game/, ai/, vip/ directories + index.php
+
+**Adding New Rules:** When new layout conventions are established via /frontend-design or team decisions, add checks to `audit-layout-consistency.ps1`. The script auto-discovers all content pages.
+
+**Post-Audit Protocol:**
+1. Fix CRITICAL and HIGH issues from all 5 agents' audits
+2. Re-run affected audit scripts after fixes
+3. Update day file with completed tasks
+4. Prepare for weekend (no deployments)
 
 ---
 
@@ -192,8 +205,9 @@ switch ($dayOfWeek) {
 |-------|-------------|--------|
 | Vidette | `storage/agency/audits/AUDIT_video-pages.md` | Markdown with per-page breakdown |
 | Bloggie | `storage/agency/audits/AUDIT_blog-posts.md` | Markdown with pass/warn/fail status |
-| GraphViz | (manual notes) | Add to day file or AUDIT_theme.md |
+| GraphViz | `storage/agency/audits/AUDIT_theme.md` | Markdown with color/theme analysis |
 | GamerGirl | `storage/agency/audits/AUDIT_game-pages.md` | Markdown with game page checklist |
+| DivineDesign | `storage/agency/audits/AUDIT_layout-consistency.md` | Markdown with layout/structure analysis |
 
 ---
 
@@ -232,8 +246,11 @@ This section defines how agents read, share, and act on each other's audit resul
 │         └─ Includes "Cross-Agent Findings" section                           │
 │   └─ ALL agents review and discuss findings                                  │
 │                                                                              │
-│   FRIDAY (Implementation)                                                    │
-│   └─ READS: ALL audit outputs                                                │
+│   FRIDAY (DivineDesign + Implementation)                                     │
+│   └─ READS: ALL previous audit outputs                                       │
+│   └─ Runs audit-layout-consistency.ps1                                       │
+│      └─ Writes: storage/agency/audits/AUDIT_layout-consistency.md            │
+│         └─ Hero structure, spacing, responsive grids, glass panels           │
 │   └─ Fix issues by priority (CRITICAL → HIGH → MEDIUM)                       │
 │   └─ Re-run affected audits after fixes                                      │
 │                                                                              │
@@ -267,10 +284,11 @@ Every audit report MUST include a "Cross-Agent Findings" section at the end:
 
 | Agent | Must Read Before Audit | Look For |
 |-------|------------------------|----------|
-| **Vidette** (Mon) | Previous week's AUDIT_game-pages.md | Game page video issues |
+| **Vidette** (Mon) | Previous week's AUDIT_game-pages.md + AUDIT_layout-consistency.md | Game page video issues, layout findings |
 | **Bloggie** (Tue) | AUDIT_video-pages.md | Blog posts with video issues |
 | **GraphViz** (Wed) | Both Monday & Tuesday audits | Styling inconsistencies |
 | **GamerGirl** (Thu) | All three prior audits | Game page issues from all domains |
+| **DivineDesign** (Fri) | ALL four prior audits | Layout, spacing, hero, grid issues across all pages |
 
 ### Shared Pages (Multiple Agents Care)
 
@@ -347,7 +365,7 @@ When working on tasks that cross agent boundaries, follow this protocol:
 │   Change color palette          GraphViz         Vidette + Bloggie          │
 │   Add new glass effect          GraphViz         Update theme-demo.php      │
 │   Add hover animation           GraphViz         Vidette (video cards)      │
-│   Tag system changes            TAG-SYSTEM.md    Bloggie + Vidette          │
+│   Tag system changes            PROTOCOL.md    Bloggie + Vidette          │
 │   Add game page                 GamerGirl        Vidette + GraphViz         │
 │   Add game hub section          GamerGirl        Vidette (video grids)      │
 │   Gaming blog post              Bloggie          GamerGirl (cross-link)     │
@@ -372,7 +390,7 @@ When working on tasks that cross agent boundaries, follow this protocol:
 | Blog with video embed | Bloggie | Vidette | Column preset used |
 | Gaming blog post | Bloggie | GamerGirl | Cross-links to game pages |
 | Theme color update | GraphViz | All | Full site visual audit |
-| New tag category | TAG-SYSTEM.md | Bloggie, Vidette, GamerGirl | Filtering works |
+| New tag category | PROTOCOL.md | Bloggie, Vidette, GamerGirl | Filtering works |
 
 ### Weekly Cross-Check (Thursday)
 
@@ -390,11 +408,12 @@ On Thursday review day, verify cross-agent consistency:
 
 **Schedule maintained by:** JenniNexus AI Agent Team
 **Questions?** Check individual agent files:
-- [Vidette.md](Vidette.md) - Video system
-- [Bloggie.md](Bloggie.md) - Blog system
-- [GraphViz.md](GraphViz.md) - Theme system
-- [GamerGirl.md](GamerGirl.md) - Game pages & hubs
-- [README.md](README.md) - Full relationship graph
+- [Vidette.md](../agents/Vidette.md) - Video system
+- [Bloggie.md](../agents/Bloggie.md) - Blog system
+- [GraphViz.md](../agents/GraphViz.md) - Theme system
+- [GamerGirl.md](../agents/GamerGirl.md) - Game pages & hubs
+- [DivineDesign.md](../agents/DivineDesign.md) - Layout & UX
+- [README.md](../README.md) - Full relationship graph
 
 ---
 

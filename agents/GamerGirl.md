@@ -416,7 +416,7 @@ GamerGirl coordinates closely with **Vidette** and **GraphViz** since game pages
 |         |    * Playlist constants for game playlists                         |
 |         |    * Column presets ('compact' for game pages)                     |
 |         |    * media.css for video card styling                              |
-|         |    * Reference: @Vidette.md, VIDEO-GRID.md                         |
+|         |    * Reference: @Vidette.md, VIDEO-SYSTEM.md                         |
 |         |                                                                    |
 |         +---> GraphViz (Theme Authority) - MUST CONSULT                      |
 |         |    * gamedev-theme.css colors and gradients                        |
@@ -505,8 +505,8 @@ Before modifying video sections on game pages, GamerGirl MUST read:
 | Document | What to Look For |
 |----------|------------------|
 | [@Vidette.md](Vidette.md) | One-Include Rule, column presets, API methods |
-| [VIDEO-GRID.md](../docs/VIDEO-GRID.md) | Critical rules, preset table, breakpoints |
-| [YOUTUBE.md](../docs/YOUTUBE.md) | RSS system, caching, channel IDs |
+| [VIDEO-SYSTEM.md](../docs/VIDEO-SYSTEM.md) | Critical rules, preset table, breakpoints |
+| [VIDEO-SYSTEM.md](../docs/VIDEO-SYSTEM.md) | RSS system, caching, channel IDs |
 
 ### Video Section Template (Use This)
 
@@ -589,10 +589,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 | Doc | Purpose | GamerGirl's Use |
 |-----|---------|-----------------|
-| `storage/docs/VIDEO-GRID.md` | Video display rules | Follow column presets |
+| `storage/docs/VIDEO-SYSTEM.md` | Video display rules | Follow column presets |
 | `storage/docs/PROTOCOL.md` | Site-wide standards | Apply to game pages |
-| `storage/docs/TAG-SYSTEM.md` | Tag anchor patterns | Apply to game tags |
-| `storage/docs/THEME-SYSTEM.md` | Theme rules | Verify compliance |
+| `storage/docs/PROTOCOL.md` | Tag anchor patterns | Apply to game tags |
+| `storage/docs/DESIGN-SYSTEM.md` | Theme rules | Verify compliance |
 | `storage/agents/Vidette.md` | Video agent profile | Coordinate on video sections |
 | `storage/agents/GraphViz.md` | Theme agent profile | Coordinate on styling |
 
