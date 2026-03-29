@@ -26,6 +26,16 @@ shared_style: >-
   Rain streaks on window glass catch neon reflections from the city below.
   High detail, clean rendering, professional character art. No text or watermarks.
 
+# --- Shared Face Style ---
+# Appended to portrait_3x4 prompts for consistent face rendering across all agents.
+# Based on the Vidette square and DivineDesign portrait reference art styles.
+shared_face_style: >-
+  Semi-realistic face with near-photorealistic skin rendering, natural skin texture and pores visible,
+  defined bone structure and jawline, realistic detailed eyes with visible iris texture and catchlights,
+  natural subtle makeup with soft contouring, real eyelashes, defined eyebrows with individual hairs,
+  soft volumetric lighting on face, gentle subsurface scattering on skin, natural lip color and texture.
+  Face should look like a high-end digital portrait — more photorealistic than anime, with warmth and personality.
+
 # --- Agents ---
 vidette:
   name: Vidette Streamwell
@@ -61,6 +71,18 @@ vidette:
         Cyan and electric blue neon reflections on rain-streaked windows behind her.
         Futuristic Seattle skyline blurred through wet glass, purple-teal ambient glow.
         1:1 square composition, head and shoulders portrait.
+      portrait_3x4: >-
+        Vidette Streamwell, confident young media tech specialist, close-up portrait in cyberpunk penthouse.
+        Platinum blonde hair with vibrant neon rainbow highlights (hot pink, electric purple, cyan blue),
+        side-shaved undercut visible, slouchy knit beanie tilted back.
+        Semi-realistic photorealistic face: natural skin texture with soft pores, defined cheekbones and jawline,
+        bright blue-green eyes with realistic iris detail and neon catchlights, natural subtle eye makeup,
+        thin silver nose ring catching cyan light, multiple play button ear stud piercings.
+        Confident slight smirk, warm expression. Black crop top with holographic text visible at neckline.
+        Background: floor-to-ceiling rain-streaked windows with futuristic Seattle neon skyline,
+        cyan and electric blue monitor glow mixing with purple city reflections on wet glass,
+        hot tub steam softly glowing purple-cyan in the far background.
+        Soft volumetric lighting from screens illuminating face. 3:4 portrait composition (1080x1350).
 
 bloggie:
   name: Brianna "Bloggie" Wordsworth
@@ -97,6 +119,17 @@ bloggie:
         Warm amber glow from desk lamp mixing with neon city light through rain-streaked windows behind her.
         Floating holographic text panels softly glowing nearby.
         1:1 square composition, head and shoulders portrait.
+      portrait_3x4: >-
+        Brianna "Bloggie" Wordsworth, warm creative editorial specialist, close-up portrait in cyberpunk penthouse.
+        Auburn hair with caramel and honey blonde balayage, messy half-up bun with loose face-framing pieces.
+        Semi-realistic photorealistic face: warm natural skin with soft freckles, gentle genuine smile showing warmth,
+        hazel-brown eyes with realistic detail and warm amber catchlights, natural subtle makeup,
+        tortoiseshell reading glasses pushed up on head, gold pen charm necklace catching warm light.
+        Chunky cable-knit cream cardigan over black tank top. Holding fountain pen thoughtfully.
+        Background: floor-to-ceiling rain-streaked windows with futuristic Seattle skyline,
+        warm amber desk lamp glow contrasting with neon city purple-gold reflections on wet glass,
+        holographic blog layout panels floating softly nearby, hot tub steam visible in far background.
+        Warm volumetric lighting from desk lamp illuminating face. 3:4 portrait composition (1080x1350).
 
 graphviz:
   name: ThemaGraphViz
@@ -133,6 +166,17 @@ graphviz:
         Purple and violet neon city glow through rain-streaked floor-to-ceiling windows behind her.
         Holographic glass panels with gradient swatches floating around her.
         1:1 square composition, head and shoulders portrait with slight 3/4 angle.
+      portrait_3x4: >-
+        ThemaGraphViz, elegant visual design architect, close-up portrait in cyberpunk penthouse.
+        Silver hair with lavender and soft pink ombre gradient, long and straight, catching violet neon light.
+        Semi-realistic photorealistic face: flawless pale skin with natural texture, striking violet-blue eyes
+        with realistic iris detail and purple neon catchlights, subtle elegant makeup with lavender eyeshadow,
+        high cheekbones with soft contouring, serene composed expression.
+        Black geometric crop top, multiple thin silver bangles visible at wrist, geometric color wheel tattoo on forearm.
+        Background: floor-to-ceiling rain-streaked windows with futuristic Seattle neon skyline,
+        purple and violet neon from city casting through rain-streaked glass onto her silver hair,
+        floating holographic color wheels and CSS palette panels nearby, hot tub with purple-cyan steam in far background.
+        Soft violet volumetric lighting from holographic panels. 3:4 portrait composition (1080x1350).
 
 gamergirl:
   name: Gamera "GamerGirl" Playworth
@@ -169,6 +213,17 @@ gamergirl:
         Hot pink and magenta neon glow mixing with city lights through rain-streaked windows.
         Futuristic Seattle skyline visible, gaming monitor glow in background.
         1:1 square composition, head and shoulders portrait.
+      portrait_3x4: >-
+        Gamera "GamerGirl" Playworth, energetic esports gaming specialist, close-up portrait in cyberpunk penthouse.
+        Electric blue hair with hot pink tips, high bouncy ponytail with face-framing strands catching neon light.
+        Semi-realistic photorealistic face: youthful natural skin with realistic texture, bright teal-blue eyes
+        with realistic iris detail and pink-blue neon catchlights, playful confident grin showing personality,
+        natural subtle makeup with pink-tinted lip gloss, controller charm earrings catching pink light.
+        Black esports team jersey with "NEXUS" logo, gaming headset around neck.
+        Background: floor-to-ceiling rain-streaked windows with futuristic Seattle neon skyline and aurora-like sky,
+        RGB LED strips casting hot pink and magenta light, triple gaming monitors glowing behind her,
+        hot tub steam glowing pink-cyan in the far background.
+        Pink and blue volumetric lighting from gaming setup illuminating face. 3:4 portrait composition (1080x1350).
 
 divinedesign:
   name: Davina "DivineDesign" Artwright
@@ -205,3 +260,17 @@ divinedesign:
         Teal and emerald neon city glow through rain-streaked floor-to-ceiling windows behind her.
         Rose gold accent lighting mixing with cyberpunk city neon.
         1:1 square composition, head and shoulders portrait with slight 3/4 angle.
+      portrait_3x4: >-
+        Davina "DivineDesign" Artwright, poised UX design architect, close-up portrait in cyberpunk penthouse.
+        Deep burgundy red hair with rose gold highlights, elegant French twist with romantic loose tendrils framing face.
+        Semi-realistic photorealistic face: warm olive-toned skin with natural texture and subtle glow,
+        defined cheekbones with elegant contouring, striking hazel-green eyes with realistic iris detail
+        and warm gold-green catchlights, refined natural makeup with subtle rosy lip color,
+        minimalist gold stud earrings, delicate gold chain bracelet visible.
+        Heather gray structured blazer over ivory silk blouse, brass stylus pen in hand.
+        Background: floor-to-ceiling rain-streaked windows with futuristic Seattle neon skyline at night,
+        teal and emerald neon signs from the city below casting through wet glass,
+        holographic wireframe blueprints and golden ratio spirals floating in mid-air,
+        walnut bookshelves with design books visible nearby, hot tub with cyan steam in far background,
+        exposed industrial beams above, rain streaks catching green-gold neon reflections.
+        Warm rose gold accent lighting mixing with cool teal city neon on face. 3:4 portrait composition (1080x1350).
