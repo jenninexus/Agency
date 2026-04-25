@@ -2,7 +2,7 @@
 
 **Role:** Chief Site-Wide Design & Page Architecture Officer
 **Created:** January 25, 2026
-**Last Updated:** March 19, 2026
+**Last Updated:** April 25, 2026
 **Status:** Active
 **Weekly Audit Day:** Friday
 **Cross-Project Protocol:** `storage/docs/PROTOCOL.md` (sys-admin: `C:\mcp\sys-admin\`)
@@ -21,9 +21,8 @@
 | **Image Prompts** | `agents/PROMPTS.md#divinedesign---site-wide-design-manager` | AI image generation prompts for this character. |
 | **Character Guide** | `agents/AGENT-GUIDE.md#divinedesign---site-wide-design-manager` | Visual style, personality, and full character details. |
 | **Master Config** | `storage/agency/.config/mcp_agents.json` | Schedule, metadata, and domain ownership. |
-| **Audit Script** | `scripts/validate-pages.ps1` | The script for the weekly Friday audit. |
-| **Audit Report** | `storage/audits/AUDIT_pages.md` | The output location for the audit report. |
-| **Primary Doc** | `storage/docs/PAGES.md` | The single source of truth for page structure. |
+| **Audit Script** | `scripts/audits/audit-layout-consistency.ps1` | The script for the weekly Friday audit. |
+| **Primary Docs** | `storage/docs/DESIGN-SYSTEM.md` + `storage/docs/PAGES.md` | Visual system first, then page architecture. |
 | **Images Folder** | `public_html/resources/images/ai/agents/divinedesign/` | Generated character images. |
 
 ---
@@ -35,12 +34,14 @@
 | Resource | Location | Purpose |
 |----------|----------|---------|
 | **Breakpoints** | `.config/mcp_jenninexus.json -> breakpoints` | Project breakpoint cache mirrored to global SSOT |
-| **Asset Dependencies** | `.config/assets-deps.json` | CSS/JS file relationships |
+| **Asset Dependencies** | `.config/assets-deps.json` | CSS/JS reference map for file relationships |
 | **Protocol Index** | `storage/docs/PROTOCOL.md` | Feature → Documentation mapping |
-| **Page Architecture** | `storage/docs/PAGES.md` | Single source of truth for page structure |
-| **Daily Chat Logs** | `storage/[M-D].md` | Recent changes and session context |
+| **Design System** | `storage/docs/DESIGN-SYSTEM.md` | Visual SSOT for layout, spacing, and component hierarchy |
+| **Page Architecture** | `storage/docs/PAGES.md` | Structural SSOT for routes, templates, and page types |
+| **Project Activity Log** | `storage/logs/JENNINEXUS.yaml` | Recent completed work and validated changes |
+| **Cluster Action Plan** | `C:\Users\Owner\Projects\www\ACTION_PLAN.md` | Current priorities and cross-site handoff context |
 | **Agent Config** | `storage/agency/.config/mcp_agents.json` | Agent domains and coordination |
-| **Video Config** | `.config/mcp_video.json` | Video display rules (Vidette's domain) |
+| **Video Reference Map** | `.config/mcp_video.json` | Vidette coordination map; VIDEO-SYSTEM.md owns the rules |
 
 ---
 
@@ -92,7 +93,7 @@ DivineDesign is an elegant perfectionist with an eye for spatial harmony and use
 **Key command:** `@divinedesign.md review [page]` or reference this file for layout standards.
 
 **DivineDesign tracks changes to:**
-- Page templates: `blog-post-template.php`, `game/*.php (game page pattern)`
+- Page templates: `blog/_template.php`, `game/_template.php`
 - Layout CSS: `custom.css`, `media.css`, `main.css`
 - Dev reference pages: `dev-only/theme-demo.php` and all `dev-only/*.php`
 - Protocol docs: `PROTOCOL.md`, `PAGES.md`, `DESIGN-SYSTEM.md`
@@ -125,7 +126,7 @@ DivineDesign is responsible for ensuring all pages follow consistent structural 
 |-----------|----------|--------------|-------------------|-------------|
 | **Hub Pages** | Custom | `hero-section` + glass-panel | Video grid sections, tag filters | Vidette |
 | **Game Pages** | `game/*.php (game page pattern)` | `steam-gradient` + breadcrumb | Hero → Description → Screenshots → Videos → Related | GamerGirl |
-| **Blog Posts** | `blog-post-template.php` | Badge + date header | Header → Image → Content → Tags → Share → Related | Bloggie |
+| **Blog Posts** | `blog/_template.php` | Badge + date header | Header → Image → Content → Tags → Share → Related | Bloggie |
 | **Static Pages** | None (minimal) | `hero-jenni-gradient` | Simple content sections | None |
 
 ### Game Page Template Pattern (`game/*.php`)
@@ -173,7 +174,7 @@ DivineDesign is responsible for ensuring all pages follow consistent structural 
 
 ### Blog Post Template Pattern (`blog/*.php`)
 
-**Source:** [blog-post-template.php](../../public_html/blog/blog-post-template.php)
+**Source:** [_template.php](../../public_html/blog/_template.php)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -247,7 +248,7 @@ When reviewing ANY page, verify:
 - [ ] **Visual Hierarchy**: h1 → h2 → h3 progression, no skipped levels
 - [ ] **Section Spacing**: `py-5` between major sections
 - [ ] **Container Usage**: `container` or `container-fluid px-0` consistent
-- [ ] **Card Patterns**: `glass-card` with `hover-lift` where clickable
+- [ ] **Card Patterns**: `glass-card` with `hover-lift` **only on clickable containers** (links/buttons). Static info panels, stat boxes, and placeholder content must NOT have `hover-lift` — it signals interactivity to users.
 - [ ] **Tag Pattern**: Anchor tags to `/tags.php?filters=` (not button onclick)
 - [ ] **CTA Placement**: Clear primary action in hero, secondary mid-page
 - [ ] **Related Content**: Shown before footer on content pages
@@ -520,8 +521,8 @@ When reviewing any page hero:
 
 | File | Purpose | DivineDesign's Role |
 |------|---------|---------------------|
-| `public_html/blog/blog-post-template.php` | Blog post structure | Layout, sections, CTA placement |
-| `public_html/game/game/*.php (game page pattern)` | Game page structure | Hero, features, video sections |
+| `public_html/blog/_template.php` | Blog post structure | Layout, sections, CTA placement |
+| `public_html/game/_template.php` | Game page structure | Hero, features, video sections |
 | `public_html/includes/head.php` | HTML head | Meta viewport, CSS load order |
 | `public_html/includes/header.php` | Site navigation | Nav layout, mobile menu |
 | `public_html/includes/footer.php` | Site footer | Footer structure, links |
@@ -660,27 +661,48 @@ Friday is also implementation day for other agents. DivineDesign should:
 
 ---
 
-## Current Audit Status (January 25, 2026)
+## Current Audit Status (April 11, 2026)
 
 | Metric | Value | Status |
 |--------|-------|--------|
-| Template Consistency | Pending initial audit | - |
-| Hero Section Standards | Pending initial audit | - |
-| Spacing Compliance | Pending initial audit | - |
-| Mobile Responsiveness | Pending initial audit | - |
-| CTA Visibility | Pending initial audit | - |
+| Pages Audited | 57 total | - |
+| Template Compliance | 33/57 PASS, 0 FAIL | 100% compliance |
+| Hero Section Standards | Blog posts use article-header (by design) | Acknowledged |
+| Spacing Compliance | Hub pages: live.php (5/5), gaming.php (6/9), gamedev.php (3/6) missing py-* | Warn |
+| Glass Panels | 6 game pages missing glass-card (older pages, pre-glass standard) | Warn |
+| Asset Loading | 8 pages missing asset-env.php (pre-existing, non-critical) | Warn |
+| Inline Styles | diy.php (83), blog.php (51), martiangames.php (145) exceed 30-line target | Warn |
+| CSS Duplicates | 321 cross-file duplicates | Informational |
 
-**Note:** DivineDesign was just created. Initial audit pending.
+**Acknowledged Patterns (not bugs):**
+- Blog posts (`blog/*.php`) use article-header layout — hero section class not applicable, audit script updated to skip
+- `privacy.php` and `tos.php` have minimal content, hero section not required by design
+- `youtube.php` col-12 elements are intentional full-width sections
 
 ---
 
 ## Changelog
 
+### 2026-04-25
+- **glass-pill** — documented `.glass-pill` as the canonical compact glass container; DivineDesign enforces correct scale: pill for badges, card for panels
+- **hover-lift restriction** — static decorative elements must NOT have `.hover-lift`; DivineDesign audit checks for lift on non-interactive elements
+- **Agents page** — `/agents` page needs responsive audit at 390px floor; agent portrait images need to exist at `resources/images/ai/agents/*/square.jpg`
+- **foam.php** — consider renaming display to "Atlas"; DivineDesign owns the rename decision
+- **Gitignore cleanup** — `storage/docs/` no longer tracked; this file is local-only reference
+- **Metrica activated** — SEO/analytics tasks delegated to Metrica; DivineDesign coordinates on page UX decisions that affect SEO (heading hierarchy, CTA placement)
+
+### 2026-04-11 (Audit Script Fix + Status Update)
+- **FIXED:** `audit-layout-consistency.ps1` — blog posts (`blog/*.php`) now correctly skip hero section check (article-header pattern is by design per blog template)
+- **UPDATED:** Current Audit Status section — April 11, 2026 run results (57 pages, 33 PASS, 0 FAIL)
+- **ACKNOWLEDGED:** Blog post hero-section warnings were false positives — audit script now detects `$isBlogPost` and skips Check 2
+- **NOTED:** 6 older game pages pre-date glass standard (cleanupinisle3, cowdefender, gamejams, graveyardsmashers, martiangames, momshouse)
+- **NOTED:** Responsive breakpoints confirmed matching global SSOT (`bootstrap_5_3_8_extended_390_4k`)
+
 ### 2026-01-25 (Template Pattern Analysis)
 - **NEW:** Required Reference Locations table (breakpoints, protocol, daily chats)
 - **NEW:** Template Pattern Analysis section with visual diagrams:
   - Game Page Template pattern (`game/*.php (game page pattern)`)
-  - Blog Post Template pattern (`blog-post-template.php`)
+  - Blog Post Template pattern (`blog/_template.php`)
   - Hub Page pattern (content hubs)
   - Page Type Matrix with agent coordination
 - **NEW:** Consistent Pattern Checklist for page review
@@ -763,8 +785,8 @@ Friday is also implementation day for other agents. DivineDesign should:
 
 | Template | Location | For |
 |----------|----------|-----|
-| **Game Page** | `public_html/game/game/*.php (game page pattern)` | All `/game/*.php` pages |
-| **Blog Post** | `public_html/blog/blog-post-template.php` | All `/blog/*.php` pages |
+| **Game Page** | `public_html/game/_template.php` | All `/game/*.php` pages |
+| **Blog Post** | `public_html/blog/_template.php` | All `/blog/*.php` pages |
 | **Share Buttons** | `public_html/includes/share-buttons.php` | Social sharing component |
 | **Game CTA** | `public_html/includes/game-cta-helper.php` | Game page CTAs |
 

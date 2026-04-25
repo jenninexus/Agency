@@ -2,7 +2,7 @@
 
 **Role:** Chief Blog Page Design & Consistency Officer
 **Created:** January 21, 2026
-**Last Updated:** March 20, 2026
+**Last Updated:** April 25, 2026
 **Status:** Active
 **Weekly Audit Day:** Tuesday
 
@@ -71,7 +71,7 @@ Bloggie is a detail-oriented content curator with a love for visual storytelling
 ## How to Use Bloggie
 
 **Invoke Bloggie when:**
-- Creating a new blog post (use `blog-post-template.php`)
+- Creating a new blog post (use `_template.php`)
 - Modifying existing blog posts
 - Adding/updating share buttons, tags, or recommended posts
 - Running weekly Tuesday audits on blog pages
@@ -217,7 +217,7 @@ Use the `jn_render_recommended_posts()` helper from `blog-posts.php`:
   <!-- Main post body here -->
 </div>
 ```
-- Use `glass-card` (standard per template) - `glass-panel` is acceptable
+- Use `glass-card` (canonical standard) — `glass-panel` is **deprecated** in blog posts; audit will warn
 - **NEVER** use white backgrounds
 
 ### 8. YAML Entry Required
@@ -244,7 +244,7 @@ Bloggie ensures cohesive, professional blog page design across all JenniNexus bl
 ## Core Responsibilities
 
 ### 1. Blog Page Consistency
-- **Single Source of Truth:** All blog posts follow `blog-post-template.php`
+- **Single Source of Truth:** All blog posts follow `_template.php`
 - **Style Authority:** All blog styling follows documented patterns
 - **NO workarounds:** If a blog post needs special handling, it goes through Bloggie first
 
@@ -270,7 +270,7 @@ Bloggie ensures cohesive, professional blog page design across all JenniNexus bl
 |------|---------|-----------------|
 | `src/assets/playlists/blog-posts.yaml` | Blog post metadata source | **Full ownership** |
 | `public_html/resources/playlists/blog-posts.json` | Auto-generated (DO NOT EDIT) | Read-only |
-| `public_html/blog/blog-post-template.php` | Template for all blog posts | **Full ownership** |
+| `public_html/blog/_template.php` | Template for all blog posts | **Full ownership** |
 | `public_html/includes/share-buttons.php` | Social share button component | Shared (design team) |
 | `storage/docs/PAGES.md` | Blog post documentation | **Full ownership** |
 
@@ -377,7 +377,7 @@ if (!defined('RES_ROOT')) {
 
 ### Glass Styling Standard
 - **Post content:** Use `.glass-card p-4 rounded-4` (as per `blog-post-template.php`)
-- **Recommended posts:** Use `.glass-card h-100 hover-lift`
+- **Recommended posts:** Use `.glass-card h-100 hover-lift` (acceptable here because each recommended post card is wrapped in a clickable `<a>` link)
 - **Alternative:** `.glass-panel` is acceptable but `.glass-card` is preferred for consistency
 - **NEVER:** White backgrounds - always use glass effects
 
@@ -771,6 +771,12 @@ Every Tuesday, Bloggie checks all blog posts:
 
 ## Changelog
 
+### 2026-04-25
+- **Gitignore cleanup** — `src/assets/css/`, `src/assets/images/`, `storage/docs/` untracked from git; local-only
+- **SEO tasks reassigned to Metrica** — `$pageImage`, `$pageDescription`, og:image, JSON-LD now Metrica's domain; Bloggie still enforces them per-post
+- **Blog row addition** — `jn_render_blog_cards()` should appear on `gaming.php`, `music.php`, `live.php` (pending)
+- **Gabe Newell post** — `gabe-newell-my-other-dad.php` needs YAML entry + audit
+
 ### 2026-03-20 (Dark mode text softening)
 - **Dark mode body text color:** `<p>` and `<li>` inside `.post-content` now use `var(--bs-secondary-color)` (`#B8A8D1`) in dark mode — softer than full `var(--bs-body-color)` (`#E0D5EB`)
 - **Font smoothing added:** `-webkit-font-smoothing: antialiased` + `-moz-osx-font-smoothing: grayscale` on `.post-content`
@@ -890,4 +896,3 @@ The full AI image generation prompt for this character is maintained in [PROMPTS
 
 *"Magazine-quality consistency on every post."*
 *Last Updated: March 20, 2026*
-

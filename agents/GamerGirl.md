@@ -2,7 +2,7 @@
 
 **Role:** Chief Gaming Content & Game Page Integrity Officer
 **Created:** January 22, 2026
-**Last Updated:** March 10, 2026
+**Last Updated:** April 25, 2026
 **Status:** Active
 **Weekly Audit Day:** Thursday
 **Cross-Project Protocol:** `storage/docs/PROTOCOL.md` (sys-admin: `C:\mcp\sys-admin\`)
@@ -734,6 +734,12 @@ Status legend: **PASS** (compliant), **WARN** (minor issues), **NEEDS WORK** (ma
 
 ## Changelog
 
+### 2026-04-25
+- **Steam Coming Soon push** — Jerry VR (app 4373930) target Jun 1 launch; BoW + Tank Off 2 need capsule art
+- **Gitignore cleanup** — `src/assets/images/gamedev/` and `storage/docs/` untracked; local-only
+- **glass-pill rule** — use `.glass-pill` for compact inline elements (game platform badges, status chips), not `glass-card`
+- **hover-lift restriction** — `.hover-lift` on game cards ONLY if the card is wrapped in `<a>` or `<button>`; static sections removed
+
 ### 2026-01-22 (Martian Games Redirect)
 - **IMPORTANT:** `game/martiangames.php` is now DEV-ONLY
 - All Martian Games links must point to **https://martiangames.com**
@@ -893,7 +899,7 @@ The `core.js` bundle contains these utilities GamerGirl can leverage:
 
 | Feature | How to Use | Example |
 |---------|------------|---------|
-| **Card Tilt** | Add `.hover-lift` or `data-tilt` to any card | `<div class="hover-lift game-card">` |
+| **Card Tilt** | Add `.hover-lift` or `data-tilt` to **clickable** cards only | `<a class="hover-lift game-card" href="...">` — never on static info panels |
 | **Parallax** | Add `data-parallax-speed="0.12"` to hero elements | Hero titles get subtle depth |
 | **Scroll Reveal** | Add `.reveal-on-scroll`, `.reveal-up`, `.reveal-left` | Elements fade in as scrolled |
 | **Toast Notifications** | Call `window.showToast('Message', 'success')` | Download confirmations |

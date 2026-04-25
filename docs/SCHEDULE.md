@@ -1,7 +1,7 @@
 # JenniNexus Agent Weekly Schedule
 
-**Version:** 1.0
-**Last Updated:** March 19, 2026
+**Version:** 1.1
+**Last Updated:** April 11, 2026
 **Status:** Active
 
 > **SINGLE SOURCE OF TRUTH:** `storage/agency/.config/mcp_agents.json`
@@ -15,7 +15,7 @@
 |-----|-------|--------------|--------|-------------|
 | **Monday** | Vidette | `audit-video-pages.ps1` | `AUDIT_video-pages.md` | Video grids, playlists, aspect ratios, youtube-grid.js loads |
 | **Tuesday** | Bloggie | `audit-blog-posts.ps1` | `AUDIT_blog-posts.md` | PHP headers, tags, share buttons, YAML entries |
-| **Wednesday** | GraphViz | `audit-theme-consistency.ps1` | `AUDIT_theme.md` | Theme vars, no white backgrounds, glass effects, WCAG |
+| **Wednesday** | GraphViz | `audit-theme-consistency.ps1` | `AUDIT_theme-consistency.md` | Theme vars, no white backgrounds, glass effects, WCAG |
 | **Thursday** | GamerGirl | `audit-game-pages.ps1` | `AUDIT_game-pages.md` | Game pages, hub pages (gamedev/gaming), CTAs, hero sections |
 | **Friday** | DivineDesign | `audit-layout-consistency.ps1` | `AUDIT_layout-consistency.md` | Hero structure, section spacing, responsive grids, glass panels |
 
@@ -27,7 +27,7 @@
 
 **Script:**
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts/audits/audit-video-pages.ps1
+pwsh -ExecutionPolicy Bypass -File scripts/audits/audit-video-pages.ps1
 ```
 
 **Checks:**
@@ -50,7 +50,7 @@ powershell -ExecutionPolicy Bypass -File scripts/audits/audit-video-pages.ps1
 
 **Script:**
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts/audits/audit-blog-posts.ps1
+pwsh -ExecutionPolicy Bypass -File scripts/audits/audit-blog-posts.ps1
 ```
 
 **Checks:**
@@ -102,7 +102,7 @@ Select-String -Path "src/assets/css/*.css" -Pattern "#[Ff]{6}|background:\s*whit
 
 **Script:**
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts/audits/audit-game-pages.ps1
+pwsh -ExecutionPolicy Bypass -File scripts/audits/audit-game-pages.ps1
 ```
 
 **Checks:**
@@ -141,7 +141,7 @@ powershell -ExecutionPolicy Bypass -File scripts/audits/audit-game-pages.ps1
 
 **Script:**
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts/audits/audit-layout-consistency.ps1
+pwsh -ExecutionPolicy Bypass -File scripts/audits/audit-layout-consistency.ps1
 ```
 
 **Checks:**
@@ -179,22 +179,31 @@ $dayOfWeek = (Get-Date).DayOfWeek
 switch ($dayOfWeek) {
     'Monday' {
         Write-Host "  [VIDETTE] Monday video audit day"
-        Write-Host "  Run: .\scripts\audits\audit-video-pages.ps1"
+        Write-Host "  Run: pwsh -File scripts/audits/audit-video-pages.ps1"
     }
     'Tuesday' {
         Write-Host "  [BLOGGIE] Tuesday blog audit day"
-        Write-Host "  Run: .\scripts\audits\audit-blog-posts.ps1"
+        Write-Host "  Run: pwsh -File scripts/audits/audit-blog-posts.ps1"
     }
     'Wednesday' {
         Write-Host "  [GRAPHVIZ] Wednesday theme audit day"
-        Write-Host "  Manual review of theme consistency"
+        Write-Host "  Run: pwsh -File scripts/audits/audit-theme-consistency.ps1"
     }
     'Thursday' {
         Write-Host "  [GAMERGIRL] Thursday game pages audit day"
-        Write-Host "  Run: .\scripts\audits\audit-game-pages.ps1"
+        Write-Host "  Run: pwsh -File scripts/audits/audit-game-pages.ps1"
         Write-Host "  [ALL] Cross-team review after audit"
     }
+    'Friday' {
+        Write-Host "  [DIVINEDESIGN] Friday layout audit day"
+        Write-Host "  Run: pwsh -File scripts/audits/audit-layout-consistency.ps1"
+    }
 }
+```
+
+Or run all audits in one sweep (e.g., pre-deploy):
+```powershell
+pwsh -File scripts/run-scheduled-audit.ps1 -All
 ```
 
 ---
@@ -205,7 +214,7 @@ switch ($dayOfWeek) {
 |-------|-------------|--------|
 | Vidette | `storage/agency/audits/AUDIT_video-pages.md` | Markdown with per-page breakdown |
 | Bloggie | `storage/agency/audits/AUDIT_blog-posts.md` | Markdown with pass/warn/fail status |
-| GraphViz | `storage/agency/audits/AUDIT_theme.md` | Markdown with color/theme analysis |
+| GraphViz | `storage/agency/audits/AUDIT_theme-consistency.md` | Markdown with color/theme analysis |
 | GamerGirl | `storage/agency/audits/AUDIT_game-pages.md` | Markdown with game page checklist |
 | DivineDesign | `storage/agency/audits/AUDIT_layout-consistency.md` | Markdown with layout/structure analysis |
 
@@ -236,7 +245,7 @@ This section defines how agents read, share, and act on each other's audit resul
 │   WEDNESDAY (GraphViz)                                                       │
 │   └─ READS: AUDIT_video-pages.md + AUDIT_blog-posts.md                       │
 │   └─ Manual theme review                                                     │
-│      └─ Writes: Day file notes or AUDIT_theme.md                             │
+│      └─ Writes: storage/agency/audits/AUDIT_theme-consistency.md             │
 │         └─ Tags styling issues for relevant agents                           │
 │                                                                              │
 │   THURSDAY (GamerGirl + ALL)                                                 │

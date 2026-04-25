@@ -2,7 +2,7 @@
 
 **Role:** Chief Video & Image Display Integrity Officer
 **Created:** January 20, 2026
-**Last Updated:** March 17, 2026
+**Last Updated:** April 25, 2026
 **Status:** Active
 **Weekly Audit Day:** Monday
 **Cross-Project Protocol:** `storage/docs/PROTOCOL.md` (sys-admin: `C:\mcp\sys-admin\`)
@@ -22,7 +22,7 @@
 | **Audit Script** | `scripts/audits/audit-video-pages.ps1` | The script for the weekly Monday audit. |
 | **Audit Report** | `storage/agency/audits/AUDIT_video-pages.md` | The output location for the audit report. |
 | **Primary Doc** | `storage/docs/VIDEO-SYSTEM.md` | The single source of truth for video display. |
-| **Project SSOT Config** | `.config/mcp_video.json` | Master config pointing to all video resources. |
+| **Project Reference Map** | `.config/mcp_video.json` | Coordination map for pages, audits, RSS notes, and troubleshooting. |
 | **Cluster SSOT** | `C:\Users\Owner\Projects\www\README.md` | Cross-project video display protocol rules. |
 | **Skill: /vid** | `C:\Users\Owner\.claude\skills\vid.md` | Video/image display protocol hub skill. |
 | **Skill: /vid-scroll** | `C:\Users\Owner\.claude\skills\vid-scroll.md` | Screenshot capture & visual QA skill. |
@@ -79,7 +79,7 @@ Vidette is a meticulous perfectionist with an eye for visual consistency and an 
 - CSS: `media.css`, `main.css` (video-related rules)
 - JS: `youtube-grid.js`, `video-hover.js`
 - React: `react/src/islands/VideoGrid/` (progressive enhancement)
-- Config: `.config/mcp_video.json` (**project SSOT** — points to all video resources)
+- Config: `.config/mcp_video.json` (reference map; `VIDEO-SYSTEM.md` owns the rules)
 - Includes: `playlist-constants.php`, `video-init.php`, `react-islands.php`
 - Playlists: `src/assets/playlists/*.yaml` (source), `public_html/resources/playlists/*.json` (built)
 
@@ -357,8 +357,8 @@ This single include gives you:
 - `public_html/video-grid.php` - Debug/demo page
 
 ### Template Files (Use These for New Pages)
-- `public_html/blog/blog-post-template.php` - Blog post with related videos
-- `public_html/game/*.php` - Game pages with video sections
+- `public_html/blog/_template.php` - Blog post with related videos
+- `public_html/game/_template.php` - Game pages with video sections
 
 ---
 
@@ -591,6 +591,7 @@ Every Monday, Vidette runs the audit and checks:
 
 ### Manual Verification
 - [ ] Hover effects working on all cards
+- [ ] **`hover-lift` only on clickable elements** — `<a>` wrappers, play buttons, CTA links. Never on static `<div>`/`<article>` containers (signals false interactivity to users)
 - [ ] Light/dark mode tested
 - [ ] New pages follow standard template
 - [ ] No white backgrounds anywhere
@@ -748,7 +749,7 @@ For every page with video content, Vidette should confirm:
 1. The page uses `video-init.php` as the loader path.
 2. Cards open the real media destination, not tag pages or placeholder links.
 3. Cards expose canonical `data-tags` values when filtering is expected.
-4. Card styling uses shared classes such as `glass-card`, `hover-lift`, `play-overlay`, and approved platform buttons.
+4. Card styling uses shared classes such as `glass-card`, `play-overlay`, and approved platform buttons. `hover-lift` is used **only on clickable wrappers** (e.g., `<a>` card links, play buttons) — never on static `<div>` or `<article>` containers.
 5. Theme colors come from tokens or approved brand classes, not hardcoded colors.
 6. Shorts/vertical content uses an explicit ratio/preset exception.
 7. Any page-specific exception is recorded in the tracker or changelog below.
@@ -973,6 +974,17 @@ Pages marked ✅ PASS are locked - they follow all Vidette standards and should 
 ---
 
 ## Changelog
+
+### 2026-04-25
+- **React islands** — `VideoGrid` + `ImageGallery` islands available in `react/src/islands/`; Vite build output in `public_html/resources/react/`; vanilla JS fallback via `data-react-mounted` gate
+- **Gitignore cleanup** — `storage/docs/` untracked; VIDEO-SYSTEM.md still lives there but is local-only
+- **blog rows** — `jn_render_blog_cards()` should be added to `gaming.php`, `music.php`, `live.php` (pending; Bloggie/Vidette joint task — video pages that embed blog rows)
+- **glass-pill for video badges** — use `.glass-pill` for compact overlay text/duration chips; not `glass-card`
+
+### 2026-03-29 (Play Overlay Centering Fix)
+- **media.css:** Fixed `.play-overlay` icon appearing in bottom-right instead of centered. Root cause: two `transform` declarations on same element — `translate(-50%, -50%)` for centering then `translateZ(0)` for GPU compositing. CSS doesn't merge transforms; second overwrites first. Fix: replaced `top: 50%; left: 50%; transform: translate(-50%, -50%)` with `inset: 0` + flexbox centering (`display: flex; align-items: center; justify-content: center`). This approach is immune to future `transform` additions.
+- **VIDEO-SYSTEM.md:** Added "Play Overlay Centering (CRITICAL)" section documenting the correct pattern and why `translate(-50%, -50%)` must never be used for play overlays.
+- **Affects:** All video cards across all pages (gamedev, gaming, diy, youtube, game/*, blog).
 
 ### 2026-03-04 (Full Video Audit + JS Cleanup)
 - **youtube.php:** Fixed renderPlaylists() API call — was using object-style `{ containerId, playlists, preset }` instead of correct positional args `(containerId, playlists[], options)`. Featured Playlists section was likely broken.

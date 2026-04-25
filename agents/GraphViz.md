@@ -2,7 +2,7 @@
 
 **Role:** Chief Visual Harmony & Theme System Architect
 **Created:** January 22, 2026
-**Last Updated:** March 1, 2026
+**Last Updated:** April 25, 2026
 **Status:** Active
 **Weekly Audit Day:** Wednesday
 **Cross-Project Protocol:** `storage/docs/PROTOCOL.md` (sys-admin: `C:\mcp\sys-admin\`)
@@ -232,6 +232,41 @@ Standardized shadow variables for consistent depth:
 .modal { box-shadow: var(--shadow-lg); }
 .featured { box-shadow: var(--shadow-glow); }
 ```
+
+---
+
+## Logo & Brand Glow System
+
+GraphViz owns the logo glow system. The logo uses a **single-pass glow** strategy — one subtle effect per element, never stacked.
+
+### Architecture (SSOT in `jenni-fonts.css`)
+
+The logo is a reusable PHP component (`includes/logo.php`) with two variants: **default** (JenniNEXUS) and **diy** (DIY w/ Jenni). All glow styling lives exclusively in `.logo-*` classes in `jenni-fonts.css`.
+
+**Logo glow layers (max 1 per element):**
+
+| Element | Light Mode | Dark Mode | Hover |
+|---------|-----------|-----------|-------|
+| `.logo-wordmark::before` | Subtle rainbow gradient, blur(14px), opacity 0.55 | opacity 0.70, blur(16px) | opacity 0.75 |
+| `.logo-jenni` | `text-shadow: 0 0 8px` pink @ 0.3 | `text-shadow: 0 0 10px` pink @ 0.45 | (inherits dark/light) |
+| `.logo-nexus` / `.logo-diy` | `drop-shadow(0 0 6px)` purple @ 0.22 | `drop-shadow(0 0 8px)` purple @ 0.32 | `drop-shadow(0 0 8px)` @ 0.30 |
+
+### Critical Rules
+
+1. **No `.glow` class on logo elements** — Logo markup uses `.logo-jenni`, `.logo-nexus`, `.logo-diy` only. The generic `.glow` class is for non-logo text (hero titles, standalone brand text).
+2. **Single glow pass per element** — Never stack `text-shadow` + `filter` + `::before` on the same element. Each logo element gets exactly ONE glow effect.
+3. **No `.navbar-brand:hover` filter/brightness** — Hover glow is owned by `.logo-brand:hover` only.
+4. **Hero sections** — `.hero-section .logo-brand` gets a subtle `drop-shadow` for legibility, not a glow explosion.
+5. **Dark mode amplifies, doesn't multiply** — Dark mode increases opacity/radius of the SAME single glow, never adds new layers.
+
+### When to Use `.glow` vs `.logo-*`
+
+| Context | Use | Why |
+|---------|-----|-----|
+| Logo component (header/footer) | `.logo-jenni`, `.logo-nexus` | SSOT glow built in |
+| Hero title text | `.hero-title.glow` | Generic glow for display text |
+| Standalone brand mention | `.jenni-text.glow` | Generic glow for inline brand text |
+| DIY gradient heading | `.diy-text-gradient.glow` | Generic glow for page headings |
 
 ---
 
@@ -613,6 +648,9 @@ Pages like `sitemap.php`, `links.php`, and `media.php` should leverage platform 
 - `.btn-steam`, `.btn-spotify`, `.btn-instagram`, `.btn-tiktok`
 - `.btn-github`, `.btn-x`, `.btn-facebook`, `.btn-linkedin`
 - `.btn-producthunt`, `.btn-itch`, `.btn-gamejolt`, `.btn-crazygames`
+- `.btn-paypal` (PayPal light blue `#009CDE` with dark blue hover), `.btn-amazon` (Amazon dark navy with orange border/text)
+
+**Platform Color Rule:** Social/platform links must use their authentic brand colors. Never use generic `btn-outline-primary` or `btn-outline-secondary` for PayPal, YouTube, Discord, etc. Use `btn-paypal`, `btn-patreon`, `btn-youtube`, etc.
 
 ### Glow Effects on Hover
 
@@ -662,7 +700,24 @@ Platform cards should use the `--glow-*` variables for hover states:
 
 ## Hover Effects Standards
 
-All interactive elements must have theme-aware hover states:
+All interactive elements must have theme-aware hover states.
+
+### hover-lift Rule (Enforced April 2026)
+
+> **`.hover-lift` is only permitted on clickable/interactive elements.**
+>
+> - ✅ `<a class="hover-lift">`, `<button class="hover-lift">`, cards wrapped in a link
+> - ❌ Static info panels, stat boxes, decorative sections, placeholder content
+>
+> Lift effects communicate interactivity to users. A panel that lifts but does nothing is a broken promise. Audit scripts check for this violation.
+
+### glass-pill Class (Added April 2026)
+
+> **`.glass-pill`** is the canonical class for compact inline containers: tag chips, status indicators, small badges with glass treatment.
+>
+> - Use for: small rounded pill containers with glass background (breadcrumbs, inline tags, status chips)
+> - Do NOT use `glass-card` for pill-sized elements — `glass-pill` is correct scale
+> - Defined in `custom.css`; uses `--glass-bg`, `--glass-border`, `border-radius: 100px`
 
 ### Cards
 ```css
@@ -925,6 +980,12 @@ Run `.\scripts\audits\audit-theme-consistency.ps1` to update these metrics.
 
 ## Changelog
 
+### 2026-04-25
+- **Added `glass-pill` class** — compact glass container for tag chips, status badges, inline indicators
+- **`hover-lift` restriction documented** — clickable elements only; audit script enforces
+- **`Metrica` agent activated** — SEO, analytics, PR, Search Console ownership moved to Metrica
+- **Storage untracked** — `storage/docs/` is now gitignored; local-only reference docs
+
 ### 2026-01-25 (Session 2 - Platform Color Authority)
 - **Added Platform Color Authority section** - Comprehensive platform color documentation
   - Full palettes for 18+ platforms (primary, dark, light, glow variables)
@@ -1031,5 +1092,4 @@ The full AI image generation prompt for this character is maintained in [PROMPTS
 ---
 
 *"Your theme system is your brand DNA."*
-*Last Updated: January 26, 2026*
-
+*Last Updated: April 25, 2026*

@@ -250,7 +250,7 @@ Competitive perfectionist who treats every game page like it's a Steam store lis
 
 | Domain | Config | Audit Day |
 |--------|--------|-----------|
-| Game Pages & Hubs | `game-page-template.php` | Thursday |
+| Game Pages & Hubs | `_template.php` | Thursday |
 
 **→ Full Details:** [GamerGirl.md](GamerGirl.md)
 
@@ -426,4 +426,3 @@ All agents enforce these universal rules:
 *The JenniNexus AI Agent Team - Building investor-ready products on a $0 budget.*
 
 *"We don't cut corners. We optimize them."*
-

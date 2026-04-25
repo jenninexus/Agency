@@ -46,6 +46,12 @@ agency.code-workspace
 # Agent portrait images (generated per project, keep example only)
 agents/images/
 
+# Generated images and videos — local output from generate-agent-portrait.ps1
+# These are large binary files, stored locally only. Use the generation script to recreate.
+generations/images/
+generations/video/
+generations/
+
 # -------------------------------------------
 # TRACKED FILES (pushed to GitHub)
 # -------------------------------------------
