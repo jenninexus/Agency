@@ -9,6 +9,33 @@
 
 ---
 
+## SSoT — Where Metrica Lives
+
+When you invoke `/seo`, `/seo-audit`, or ask about SEO/analytics for JenniNexus, start here:
+
+| What | Path | Notes |
+|:-----|:-----|:------|
+| **Agent profile (this file)** | `storage/agency/agents/Metrica.md` | Rules, red flags, page compliance tracker |
+| **SEO strategy doc** | `storage/seo/SEO-AND-MARKETING.md` | Narrative plan, traffic data, priority actions |
+| **Analytics dashboard** | `storage/seo/analytics-dashboard.html` | GA4 + PageSpeed snapshot (open in browser) |
+| **Weekly audit script** | `scripts/audits/audit-seo-analytics.ps1` | Run every Saturday |
+| **Audit output** | `storage/agency/audits/AUDIT_seo-analytics.md` | Last audit results |
+| **GA4 query** | `C:\mcp\sys-admin\scripts\google\ga4-report.mjs` | `node ga4-report.mjs summary` |
+| **PageSpeed monitor** | `C:\mcp\sys-admin\scripts\google\pagespeed-monitor.mjs` | `node pagespeed-monitor.mjs --all` |
+| **Indexing API** | `C:\mcp\sys-admin\scripts\google\indexing-api.mjs` | `node indexing-api.mjs submit-sitemap` |
+| **head.php** | `public_html/includes/head.php` | OG tags, Twitter Card, canonical, JSON-LD |
+| **Sitemap** | `public_html/sitemap.xml` | Update lastmod on deploy |
+| **GCP project** | jenninexus-cloud (#960846322441) | SA: jenninexus-analytics@jenni-yt.iam.gserviceaccount.com |
+
+**Invoke Metrica (`/seo` or `/seo-audit`)** when:
+- Reviewing or editing `head.php` meta tags
+- Adding/auditing `$pageTitle`, `$pageDescription`, `$pageImage`, `$pageUrl` on any page
+- Running Google Search Console, GA4, PageSpeed, or Indexing API operations
+- Writing blog posts that need keyword targeting or JSON-LD
+- Adding new pages (every page must pass the compliance checklist below)
+
+---
+
 ## Resources & Quick Links
 
 > **Navigation:** Use this section to quickly access all resources related to this agent.
@@ -22,7 +49,7 @@
 | **Audit Report** | `storage/agency/audits/AUDIT_seo-analytics.md` | Standard audit output. |
 | **SEO Doc** | `storage/seo/SEO-AND-MARKETING.md` | Narrative SEO plan and status (local-only). |
 | **Analytics Dashboard** | `storage/seo/analytics-dashboard.html` | GA4 + Search Console snapshot (local-only). |
-| **GCP Scripts** | `scripts/ga4-report.mjs`, `scripts/pagespeed-monitor.mjs`, `scripts/indexing-api.mjs` | Node.js analytics helpers. |
+| **GCP Scripts** | `C:\mcp\sys-admin\scripts\google\ga4-report.mjs`, `pagespeed-monitor.mjs`, `indexing-api.mjs` | Node.js analytics helpers (canonical location). |
 | **Images Folder** | `public_html/resources/images/ai/agents/metrica/` | Generated character images. |
 
 ---
