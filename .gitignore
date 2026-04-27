@@ -66,3 +66,7 @@ generations/
 # - examples/ (working example agents)
 # - scripts/ (audit utilities and templates)
 # - resources/images/ (example agent artwork — tracked)
+
+# Local-only showcase and Foam config
+agents.html
+.foam/
