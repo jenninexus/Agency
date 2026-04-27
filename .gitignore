@@ -11,8 +11,9 @@ audits/*.log
 # Claude Code context (user-specific session data)
 .claude/
 
-# VSCode user settings
-.vscode/
+# VSCode user-specific overrides (track .vscode/mcp.json + settings.json as framework defaults)
+.vscode/*.code-snippets
+.vscode/launch.json
 
 # Operating system files
 .DS_Store

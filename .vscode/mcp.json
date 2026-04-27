@@ -1,0 +1,16 @@
+{
+  "servers": {
+    "agency": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${workspaceFolder}/.config/mcp-server.js"],
+      "_note": "Uncomment and implement mcp-server.js to expose agent data as MCP tools. See .config/mcp_agents.example.json for the data schema.",
+      "_tools_proposed": [
+        "agency/list_agents         — list all agents with roles + audit days",
+        "agency/get_agent           — get full agent profile by id",
+        "agency/get_schedule        — weekly audit schedule",
+        "agency/get_rules           — universal rules (no white BG, CSS vars, etc.)"
+      ]
+    }
+  }
+}
