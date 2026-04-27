@@ -2,10 +2,75 @@
 
 **Role:** Chief SEO, Analytics & Public Relations Officer
 **Created:** April 25, 2026
-**Last Updated:** April 25, 2026
+**Last Updated:** April 27, 2026
 **Status:** Active
 **Weekly Audit Day:** Saturday
 **Cross-Project Protocol:** `storage/docs/PROTOCOL.md` (sys-admin: `C:\mcp\sys-admin\`)
+
+---
+
+## How Metrica Refreshes the Analytics Dashboard
+
+The dashboard at `storage/seo/analytics-dashboard.html` is **static HTML** — scripts pull live data, then the operator manually updates the file. This is intentional: the file doubles as a working document, not a live app.
+
+### Step 1: Pull GA4 data
+
+```bash
+cd C:\mcp\sys-admin\scripts\google
+node ga4-report.mjs --property 280909516 --days 30
+```
+
+This outputs: total users, sessions, page views, bounce rate, avg session duration, new vs. returning, top pages, traffic sources.
+
+### Step 2: Pull PageSpeed data
+
+```bash
+node pagespeed-monitor.mjs --url=https://jenninexus.com
+# Desktop (known arg-parse bug — always use --url= equals form):
+node pagespeed-monitor.mjs --url=https://jenninexus.com --desktop
+```
+
+> **Bug:** If `--desktop` is passed as the first arg without `--url=`, the script reads `args[args.indexOf('--url') + 1]` → returns `'--desktop'` as the URL, causing API error "Request contains an invalid argument." Always use `--url=https://...` with the equals sign.
+
+### Step 3: Update the HTML dashboard
+
+Edit `storage/seo/analytics-dashboard.html` and update:
+- `.stat-card` values (users, sessions, PVs, bounce, avg session)
+- `doughnut` chart `data.datasets[0].data` array (traffic sources order: Direct, Google organic, YouTube, ChatGPT, Other)
+- Top pages table rows
+- PageSpeed gauge `.score` values and CWV fields (FCP, LCP, TBT, CLS)
+- Key Insights section (`#key-insights`)
+- Action plan buckets (done / high / medium / low)
+- Stale-data banner → green "Updated [date]" banner
+- Footer "Updated" date
+
+### Current State (Apr 27, 2026)
+
+| Metric | Value |
+|:-------|:------|
+| Users (30d) | 189 |
+| Sessions | 238 |
+| Page Views | 370 |
+| Bounce Rate | 75.2% |
+| Avg Session | 1m 50s |
+| New Users | 98% |
+| Mobile Perf | 59 |
+| Mobile LCP | 9.7s |
+| Mobile CLS | 0 (fixed ✅) |
+
+**Traffic sources (Apr 27):** Direct 176 · Tag Assistant 22 · YouTube 9 · ChatGPT 9 (new channel) · Google organic 8
+
+### Priority Next Steps for Improvement
+
+1. **LCP regression** — mobile LCP at 9.7s (target <2.5s); audit hero image preload and render-blocking resources
+2. **Mobile Performance 59** — investigate CWV contributors: FCP 4.7s, TBT 110ms — defer/inline critical JS/CSS
+3. **98% new users** — no return hooks; implement newsletter signup or push notifications
+4. **og:image missing on 5 core pages** — priority: index.php, services.php, gamedev.php (affects social sharing)
+5. **Google organic only 8 sessions** — submit sitemap via `node indexing-api.mjs submit-sitemap`, fix 89 crawled-not-indexed pages
+6. **ChatGPT now a traffic source** — ensure all pages have clean semantic HTML + JSON-LD for AI crawler discovery
+
+**GCP property ID:** `280909516` (JenniNexus GA4)
+**SA:** `jenninexus-analytics@jenni-yt.iam.gserviceaccount.com` · JSON: `C:\Users\Owner\.user\google-analytics-sa.json`
 
 ---
 
@@ -414,17 +479,21 @@ Metrica is the **visibility authority** — she reports to no one on SEO, but co
 # Weekly SEO audit
 .\scripts\audits\audit-seo-analytics.ps1
 
-# Run GA4 summary report
-node scripts/ga4-report.mjs summary
+# Run GA4 summary report (property 280909516 = JenniNexus)
+cd C:\mcp\sys-admin\scripts\google
+node ga4-report.mjs --property 280909516 --days 30
 
-# Check all www PageSpeed scores
-node scripts/pagespeed-monitor.mjs all
+# PageSpeed — mobile (default)
+node pagespeed-monitor.mjs --url=https://jenninexus.com
+
+# PageSpeed — desktop (always use --url= equals form to avoid arg-parse bug)
+node pagespeed-monitor.mjs --url=https://jenninexus.com --desktop
 
 # Submit sitemap to Google
-node scripts/indexing-api.mjs submit-sitemap
+node indexing-api.mjs submit-sitemap
 
 # Submit specific URL
-node scripts/indexing-api.mjs submit https://jenninexus.com/blog/new-post
+node indexing-api.mjs submit https://jenninexus.com/blog/new-post
 ```
 
 ---

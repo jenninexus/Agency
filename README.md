@@ -1,6 +1,6 @@
 <div align="center">
 
-![AI Agent Agency](resources/images/GraphViz.jpg)
+![AI Agent Agency](resources/images/banner.jpg)
 
 # AI Agent Agency
 
@@ -8,7 +8,7 @@
 
 [![Framework](https://img.shields.io/badge/Framework-AI%20Agent%20Agency-9D4EDD?style=for-the-badge)](.)
 [![License](https://img.shields.io/badge/License-MIT-00D4FF?style=for-the-badge)](LICENSE)
-[![Agents](https://img.shields.io/badge/Agents-5%20Active-FF6B6B?style=for-the-badge)](.config/mcp_agents.json)
+[![Agents](https://img.shields.io/badge/Agents-6%20Active-FF6B6B?style=for-the-badge)](.config/mcp_agents.json)
 
 **Enterprise-quality consistency. Zero labor cost. No white backgrounds.**
 
@@ -45,6 +45,7 @@ Think of it as staffing a virtual game studio where every agent has a desk in yo
 | **GraphViz** | Chief Visual Harmony & Theme System Architect | Wednesday | Color palettes, themes, glass effects, WCAG |
 | **GamerGirl** | Chief Gaming Content & Game Page Integrity Officer | Thursday | Game pages, platform CTAs, hero sections |
 | **DivineDesign** | Chief Site-Wide Design & Page Architecture Officer | Friday | Layout, UX/UI, visual hierarchy, spacing |
+| **Metrica** | Chief SEO, Analytics & PR Officer | Saturday | GA4, PageSpeed, GSC, JSON-LD, og:image, sitemap |
 
 > **Friday PM:** Implementation day—all agents collaborate to fix flagged issues.
 
@@ -94,10 +95,10 @@ The workspace includes settings for the `shalldie.background` extension to displ
 2. Update the image URL in the workspace file:
    ```json
    "background.customImages": [
-     "https://raw.githubusercontent.com/jenninexus/agency/main/resources/images/GraphViz.jpg"
+     "https://raw.githubusercontent.com/jenninexus/agency/main/resources/images/banner.jpg"
    ]
    ```
-   Or use a local path: `file:///path/to/agency/resources/images/GraphViz.jpg`
+   Or use a local path: `file:///path/to/agency/resources/images/banner.jpg`
 3. Reload VS Code - you may see a "corrupted" warning (this is normal, click "Don't show again")
 4. Add more agent images to `resources/images/` for a slideshow - the extension cycles every 30 seconds
 
@@ -150,7 +151,7 @@ agency/
 │
 ├── resources/                         # Agent media assets
 │   ├── images/                        # Generated agent portraits
-│   │   └── GraphViz.jpg              # Example portrait
+│   │   └── banner.jpg                 # README banner (GamerGirl — Apr 27)
 │   └── video/                         # Agent video content
 │       └── .gitkeep
 │
@@ -283,9 +284,9 @@ The audit scripts use these paths automatically via `_audit-common.ps1`.
 
 | Agent | Role | Status |
 |:------|:-----|:-------|
+| **Metrica** | Analytics, SEO & PR | ✅ Active |
 | **Codex** | Build System & DevOps | Planned |
 | **Tagster** | Tag System Specialist | Planned |
-| **Metrica** | Analytics & SEO | Planned |
 | **Linklord** | External Links & APIs | Planned |
 | **Docster** | Documentation Manager | Planned |
 | **Testrix** | Testing & QA | Planned |
