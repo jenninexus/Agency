@@ -1,4 +1,4 @@
-# Agency Repo — Edit & Sync Workflow
+# Agency Repo — Edit, MCP & Sync Workflow
 
 ## Structure
 
@@ -90,6 +90,54 @@ git push
 cd C:/Users/Owner/Projects/www/jenninexus/storage/agency && git pull origin main
 cd C:/Users/Owner/Projects/www/jenninexus && git add storage/agency
 git commit -m "chore: bump agency submodule" && git push
+```
+
+---
+
+## MCP Server — AI Tool Integration
+
+`scripts/mcp-server.js` exposes agent data as MCP tools. Zero npm dependencies — pure Node stdlib.
+
+### Setup
+
+```bash
+cp .config/mcp_agents.example.json .config/mcp_agents.json
+# edit mcp_agents.json with your project's agents
+```
+
+### Start
+
+```bash
+node scripts/mcp-server.js   # or: npm run mcp
+```
+
+### Tools exposed
+
+| Tool | What it returns |
+|------|----------------|
+| `agency_list_agents` | All agents with roles + audit days |
+| `agency_get_agent` | Full profile for one agent |
+| `agency_get_schedule` | Weekly audit schedule |
+| `agency_get_rules` | Universal rules + commit format |
+| `agency_get_agent_for_file` | Owner + red flags for a given file path |
+
+### IDE config
+
+**Claude Code / Cursor / Zed / Cline** — `.vscode/mcp.json` is already configured. The server starts automatically when you open the workspace.
+
+**GitHub Copilot** — `.github/copilot-instructions.md` is auto-loaded by Copilot. No server needed — agent context is injected as markdown.
+
+**Other MCP hosts** — add to your client's MCP config:
+```json
+{
+  "servers": {
+    "agency": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["/path/to/agency/scripts/mcp-server.js"]
+    }
+  }
+}
 ```
 
 ---
