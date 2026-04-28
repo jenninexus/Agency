@@ -41,9 +41,10 @@ agents.html
 # Claude Code session data
 .claude/
 
-# VS Code per-user overrides (framework .vscode/mcp.json + settings.json ARE tracked)
+# VS Code per-user overrides (copy settings.example.json → settings.json and customize)
 .vscode/*.code-snippets
 .vscode/launch.json
+.vscode/settings.json
 
 # ── Generated media (large binaries, local only) ─────────────────────────────
 
@@ -65,7 +66,7 @@ desktop.ini
 # .env.example, .gitattributes
 # .config/mcp_agents.example.json
 # .github/copilot-instructions.md
-# .vscode/mcp.json, .vscode/settings.json
+# .vscode/mcp.json, .vscode/settings.example.json
 # agency.example.code-workspace
 # agents/*.md, agents/characters.yaml
 # docs/, templates/, examples/, scripts/

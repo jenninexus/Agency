@@ -1,8 +1,6 @@
 {
   "editor.formatOnSave": false,
 
-  "_comment_mcp": "mcp.json defines a proposed agency MCP server. Not yet active — implement .config/mcp-server.js to enable.",
-
   "claude.contextFiles": [
     ".config/mcp_agents.example.json",
     "agents/",

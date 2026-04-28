@@ -147,7 +147,7 @@ agency/
 │
 ├── .vscode/
 │   ├── mcp.json                       # MCP server config for Claude Code / Cursor / Zed
-│   └── settings.json                  # Workspace defaults + claude.contextFiles
+│   └── settings.example.json          # Workspace defaults template (copy to settings.json)
 │
 ├── agents/                            # Agent profiles (working examples included)
 │   ├── README.md                      # Team overview and agent structure
