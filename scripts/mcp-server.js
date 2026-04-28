@@ -2,163 +2,233 @@
 /**
  * AI Agent Agency — MCP Server
  *
- * Exposes agent data from .config/mcp_agents.json as MCP tools.
- * Compatible with any MCP host: Claude Code, GitHub Copilot (MCP ext),
- * Cursor, Zed, Cline, or any IDE supporting the Model Context Protocol.
+ * Exposes agent data as MCP tools + resources.
+ * Compatible with: Claude Code, Cursor, Zed, Cline, GitHub Copilot (MCP ext),
+ * or any IDE supporting the Model Context Protocol.
  *
- * Usage:
- *   node scripts/mcp-server.js
+ * Tools:    agency_list_agents, agency_get_agent, agency_get_agent_for_file,
+ *           agency_get_schedule, agency_get_rules
+ * Resources: agency://agents/<id>  — full agent .md profile content
+ *            agency://config       — active mcp_agents.json
  *
- * Config: copy .config/mcp_agents.example.json → .config/mcp_agents.json
- * then populate with your project's agents.
+ * Setup:
+ *   cp .config/mcp_agents.example.json .config/mcp_agents.json
+ *   node scripts/mcp-server.js   # or: npm run mcp
  *
- * MCP spec: https://modelcontextprotocol.io
+ * Spec: https://modelcontextprotocol.io
  */
 
-const fs   = require('fs');
-const path = require('path');
+'use strict';
+
+const fs       = require('fs');
+const path     = require('path');
 const readline = require('readline');
 
-// ── Config loader ─────────────────────────────────────────────────────────────
-const ROOT       = path.join(__dirname, '..');
-const CONFIG_PATH = path.join(ROOT, '.config', 'mcp_agents.json');
+// ── Paths ─────────────────────────────────────────────────────────────────────
+const ROOT         = path.join(__dirname, '..');
+const CONFIG_PATH  = path.join(ROOT, '.config', 'mcp_agents.json');
 const EXAMPLE_PATH = path.join(ROOT, '.config', 'mcp_agents.example.json');
+const AGENTS_DIR   = path.join(ROOT, 'agents');
 
 function loadConfig() {
   const p = fs.existsSync(CONFIG_PATH) ? CONFIG_PATH : EXAMPLE_PATH;
   return JSON.parse(fs.readFileSync(p, 'utf8'));
 }
 
-// ── Tool definitions ──────────────────────────────────────────────────────────
+// ── Tools ─────────────────────────────────────────────────────────────────────
 const TOOLS = [
   {
     name: 'agency_list_agents',
-    description: 'List all AI agents in the team with their roles, audit days, and specialties.',
-    inputSchema: {
-      type: 'object',
-      properties: {},
-      required: []
-    }
+    description: 'List all AI agents: roles, audit days, specialties, taglines.',
+    inputSchema: { type: 'object', properties: {}, required: [] }
   },
   {
     name: 'agency_get_agent',
-    description: 'Get the full profile for a specific agent including red flags, domains, and coordination rules.',
+    description: 'Full profile for one agent: red flags, domains, coordination rules. Use agency_list_agents to find IDs.',
     inputSchema: {
       type: 'object',
       properties: {
-        agent_id: {
-          type: 'string',
-          description: 'Agent ID (e.g. "styleguard", "layoutarchitect"). Use agency_list_agents to see all IDs.'
-        }
+        agent_id: { type: 'string', description: 'Agent ID (lowercase). e.g. "graphviz", "vidette"' }
       },
       required: ['agent_id']
     }
   },
   {
-    name: 'agency_get_schedule',
-    description: 'Get the weekly audit schedule — which agent runs on which day and what they focus on.',
-    inputSchema: {
-      type: 'object',
-      properties: {},
-      required: []
-    }
-  },
-  {
-    name: 'agency_get_rules',
-    description: 'Get universal rules that all agents enforce — coding standards, naming conventions, red flags.',
-    inputSchema: {
-      type: 'object',
-      properties: {},
-      required: []
-    }
-  },
-  {
     name: 'agency_get_agent_for_file',
-    description: 'Given a file path, return which agent owns that file and any relevant red flags to check.',
+    description: 'Given a file path, return which agent(s) own it and their red flags to check before editing.',
     inputSchema: {
       type: 'object',
       properties: {
-        file_path: {
-          type: 'string',
-          description: 'Relative file path to look up (e.g. "src/styles/theme.css", "assets/hero.png")'
-        }
+        file_path: { type: 'string', description: 'Relative or absolute file path. e.g. "src/css/theme.css"' }
       },
       required: ['file_path']
     }
+  },
+  {
+    name: 'agency_get_schedule',
+    description: 'Weekly audit schedule: which agent runs on which day and their focus area.',
+    inputSchema: { type: 'object', properties: {}, required: [] }
+  },
+  {
+    name: 'agency_get_rules',
+    description: 'Universal rules all agents enforce: coding standards, color rules, commit format, conflict resolution.',
+    inputSchema: { type: 'object', properties: {}, required: [] }
   }
 ];
 
 // ── Tool handlers ─────────────────────────────────────────────────────────────
 function handleTool(name, args) {
-  const cfg = loadConfig();
+  const cfg    = loadConfig();
   const agents = cfg.agents || {};
 
-  if (name === 'agency_list_agents') {
-    const rows = Object.entries(agents).map(([id, a]) => ({
-      id,
-      name: a.name,
-      title: a.title,
-      emoji: a.emoji || '',
-      audit_day: a.audit_day,
-      specialty: a.specialty || [],
-      tagline: a.tagline || ''
-    }));
-    return { agents: rows, studio: cfg.studio || {}, total: rows.length };
-  }
-
-  if (name === 'agency_get_agent') {
-    const id = (args.agent_id || '').toLowerCase();
-    const agent = agents[id];
-    if (!agent) {
-      return { error: `Agent "${id}" not found. Available: ${Object.keys(agents).join(', ')}` };
+  switch (name) {
+    case 'agency_list_agents': {
+      const list = Object.entries(agents).map(([id, a]) => ({
+        id,
+        name:      a.name,
+        title:     a.title,
+        emoji:     a.emoji || '',
+        audit_day: a.audit_day,
+        specialty: a.specialty || [],
+        tagline:   a.tagline || '',
+        profile:   `agency://agents/${id}`
+      }));
+      return { studio: cfg.studio || {}, agents: list, total: list.length };
     }
-    return { id, ...agent };
-  }
 
-  if (name === 'agency_get_schedule') {
-    const sched = (cfg.schedule || {}).weekly || {};
-    const rows = Object.entries(sched).map(([day, info]) => ({ day, ...info }));
-    return { schedule: rows };
-  }
+    case 'agency_get_agent': {
+      const id    = (args.agent_id || '').toLowerCase().trim();
+      const agent = agents[id];
+      if (!agent) {
+        const available = Object.keys(agents).join(', ');
+        return { error: `Agent "${id}" not found.`, available };
+      }
+      return { id, ...agent, resource: `agency://agents/${id}` };
+    }
 
-  if (name === 'agency_get_rules') {
-    return {
-      universal_rules: cfg.universal_rules || [],
-      conflict_resolution: (cfg.synchronization || {}).conflict_resolution || {},
-      commit_format: ((cfg.synchronization || {}).cross_references || {}).markers || {}
-    };
-  }
+    case 'agency_get_agent_for_file': {
+      const filePath = (args.file_path || '').toLowerCase();
+      const fileName = path.basename(filePath);
+      const owners   = [];
 
-  if (name === 'agency_get_agent_for_file') {
-    const filePath = (args.file_path || '').toLowerCase();
-    const matches = [];
-
-    for (const [id, agent] of Object.entries(agents)) {
-      const domains = agent.domains || {};
-      const allPatterns = Object.values(domains).flat();
-      for (const pattern of allPatterns) {
-        const p = pattern.toLowerCase().replace(/\*/g, '');
-        if (filePath.includes(p) || p.includes(filePath.split('/').pop())) {
-          matches.push({
-            agent_id: id,
-            agent_name: agent.name,
-            title: agent.title,
-            matched_domain: pattern,
-            red_flags: agent.red_flags || [],
-            profile: agent.profile
-          });
-          break;
+      for (const [id, agent] of Object.entries(agents)) {
+        const patterns = Object.values(agent.domains || {}).flat();
+        for (const pattern of patterns) {
+          const p = pattern.toLowerCase().replace(/\*/g, '');
+          if (filePath.includes(p) || fileName === p || (p.length > 2 && fileName.includes(p))) {
+            owners.push({
+              agent_id:      id,
+              agent_name:    agent.name,
+              title:         agent.title,
+              matched:       pattern,
+              red_flags:     agent.red_flags || [],
+              coordinates:   agent.coordinates_with || [],
+              profile:       `agency://agents/${id}`
+            });
+            break;
+          }
         }
       }
+
+      return owners.length
+        ? { file_path: filePath, owners }
+        : { file_path: filePath, owners: [], note: 'No agent owns this file type. Apply universal_rules.' };
     }
 
-    if (!matches.length) {
-      return { file_path: filePath, owners: [], note: 'No agent owns this file type. Consult universal rules.' };
+    case 'agency_get_schedule': {
+      const weekly = (cfg.schedule || {}).weekly || {};
+      return {
+        schedule: Object.entries(weekly).map(([day, info]) => ({ day, ...info }))
+      };
     }
-    return { file_path: filePath, owners: matches };
+
+    case 'agency_get_rules': {
+      const sync = cfg.synchronization || {};
+      return {
+        universal_rules:    cfg.universal_rules || [],
+        color_rules:        cfg.color_rules || {},
+        commit_format:      (sync.cross_references || {}).markers || {},
+        conflict_resolution: sync.conflict_resolution || {}
+      };
+    }
+
+    default:
+      return { error: `Unknown tool: ${name}` };
+  }
+}
+
+// ── Resource handlers ─────────────────────────────────────────────────────────
+function listResources() {
+  const cfg     = loadConfig();
+  const agents  = cfg.agents || {};
+  const resources = [];
+
+  // One resource per agent — the .md profile
+  for (const [id, agent] of Object.entries(agents)) {
+    resources.push({
+      uri:      `agency://agents/${id}`,
+      name:     `${agent.emoji || ''} ${agent.name} — Agent Profile`.trim(),
+      mimeType: 'text/markdown',
+      description: agent.title
+    });
   }
 
-  return { error: `Unknown tool: ${name}` };
+  // The active config itself
+  resources.push({
+    uri:      'agency://config',
+    name:     'Active Agent Config (mcp_agents.json)',
+    mimeType: 'application/json',
+    description: 'Full agent configuration — schedules, rules, domains, red flags.'
+  });
+
+  return resources;
+}
+
+function readResource(uri) {
+  // agency://agents/<id>
+  const agentMatch = uri.match(/^agency:\/\/agents\/(.+)$/);
+  if (agentMatch) {
+    const id    = agentMatch[1].toLowerCase();
+    const cfg   = loadConfig();
+    const agent = (cfg.agents || {})[id];
+    if (!agent) throw new Error(`No agent "${id}" in config.`);
+
+    // Try to read the .md profile file
+    const profilePath = agent.profile
+      ? path.join(ROOT, agent.profile)
+      : path.join(AGENTS_DIR, `${agent.name}.md`);
+
+    if (fs.existsSync(profilePath)) {
+      return { mimeType: 'text/markdown', text: fs.readFileSync(profilePath, 'utf8') };
+    }
+
+    // Fallback: synthesize a profile from config data
+    const lines = [
+      `# ${agent.name} — ${agent.title}`,
+      '',
+      `**Audit Day:** ${agent.audit_day || 'N/A'}`,
+      `**Philosophy:** ${agent.philosophy || ''}`,
+      `**Tagline:** ${agent.tagline || ''}`,
+      '',
+      '## Specialty',
+      ...(agent.specialty || []).map(s => `- ${s}`),
+      '',
+      '## Red Flags',
+      ...(agent.red_flags || []).map(r => `- ${r}`),
+      '',
+      '## Coordinates With',
+      ...(agent.coordinates_with || []).map(c => `- ${c}`),
+    ];
+    return { mimeType: 'text/markdown', text: lines.join('\n') };
+  }
+
+  // agency://config
+  if (uri === 'agency://config') {
+    const p = fs.existsSync(CONFIG_PATH) ? CONFIG_PATH : EXAMPLE_PATH;
+    return { mimeType: 'application/json', text: fs.readFileSync(p, 'utf8') };
+  }
+
+  throw new Error(`Unknown resource URI: ${uri}`);
 }
 
 // ── MCP JSON-RPC stdio transport ──────────────────────────────────────────────
@@ -169,44 +239,64 @@ function send(obj) {
 }
 
 rl.on('line', (line) => {
+  line = line.trim();
+  if (!line) return;
+
   let msg;
   try { msg = JSON.parse(line); } catch { return; }
 
   const { id, method, params } = msg;
 
-  // MCP initialize handshake
-  if (method === 'initialize') {
-    return send({
-      jsonrpc: '2.0', id,
-      result: {
-        protocolVersion: '2024-11-05',
-        capabilities: { tools: {} },
-        serverInfo: { name: 'agency', version: '1.0.0' }
+  switch (method) {
+    case 'initialize':
+      return send({
+        jsonrpc: '2.0', id,
+        result: {
+          protocolVersion: '2024-11-05',
+          capabilities: {
+            tools:     {},
+            resources: { subscribe: false, listChanged: false }
+          },
+          serverInfo: { name: 'agency', version: '1.1.0' }
+        }
+      });
+
+    case 'notifications/initialized':
+      return; // no response
+
+    case 'tools/list':
+      return send({ jsonrpc: '2.0', id, result: { tools: TOOLS } });
+
+    case 'tools/call': {
+      const { name, arguments: args = {} } = params || {};
+      try {
+        const result = handleTool(name, args);
+        send({ jsonrpc: '2.0', id, result: { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] } });
+      } catch (e) {
+        send({ jsonrpc: '2.0', id, result: { content: [{ type: 'text', text: JSON.stringify({ error: e.message }) }], isError: true } });
       }
-    });
-  }
-
-  if (method === 'notifications/initialized') return; // no response needed
-
-  if (method === 'tools/list') {
-    return send({ jsonrpc: '2.0', id, result: { tools: TOOLS } });
-  }
-
-  if (method === 'tools/call') {
-    const { name, arguments: args = {} } = params || {};
-    let content;
-    try {
-      const result = handleTool(name, args);
-      content = [{ type: 'text', text: JSON.stringify(result, null, 2) }];
-    } catch (e) {
-      content = [{ type: 'text', text: JSON.stringify({ error: e.message }) }];
+      return;
     }
-    return send({ jsonrpc: '2.0', id, result: { content } });
-  }
 
-  // Unknown method — return standard error
-  send({ jsonrpc: '2.0', id, error: { code: -32601, message: 'Method not found' } });
+    case 'resources/list':
+      return send({ jsonrpc: '2.0', id, result: { resources: listResources() } });
+
+    case 'resources/read': {
+      const uri = (params || {}).uri || '';
+      try {
+        const { mimeType, text } = readResource(uri);
+        send({ jsonrpc: '2.0', id, result: { contents: [{ uri, mimeType, text }] } });
+      } catch (e) {
+        send({ jsonrpc: '2.0', id, error: { code: -32602, message: e.message } });
+      }
+      return;
+    }
+
+    default:
+      send({ jsonrpc: '2.0', id, error: { code: -32601, message: `Method not found: ${method}` } });
+  }
 });
 
 rl.on('close', () => process.exit(0));
-process.stderr.write('[agency-mcp] Server started. Reading from .config/mcp_agents.json\n');
+
+process.stderr.write('[agency-mcp] v1.1.0 started — tools: 5, resources: dynamic\n');
