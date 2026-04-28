@@ -2,66 +2,107 @@
 
 ## Structure
 
-This repo (`jenninexus/agency`) is used in two ways:
+This repo (`agency`) can be used in two ways:
 
-| Location | Purpose |
-|----------|---------|
-| `C:\Github\agency` | **Canonical clone** — make all edits here |
-| `C:\Users\Owner\Projects\www\jenninexus\storage\agency` | Git submodule inside the jenninexus.com repo |
+| Mode | Description |
+|------|-------------|
+| **Standalone** | Clone directly and use as-is — edit agent files, run audits, use MCP tools |
+| **Submodule** | Embed inside a parent project repo; parent pins a specific commit |
 
-The jenninexus.com repo pins a specific commit of this repo as a submodule. After pushing changes here, the submodule pointer in jenninexus.com must be updated separately.
+If used as a submodule, always edit in the **canonical agency clone**, then bump the pointer in the parent repo. Never edit inside the submodule path directly.
 
 ---
 
-## Edit Workflow
+## Standalone Usage
 
-### 1. Edit in the canonical clone
+Clone and configure:
 
 ```bash
-cd C:/Github/agency
+git clone https://github.com/jenninexus/agency.git
+cd agency
+cp .config/mcp_agents.example.json .config/mcp_agents.json
+# edit mcp_agents.json with your project's agents
+```
+
+Edit agent files, run audits, update scripts — commit and push normally.
+
+---
+
+## Submodule Workflow
+
+If your project embeds this repo as a submodule (e.g. at `storage/agency`), follow this 3-step cycle after any edit.
+
+### 1. Edit in your canonical agency clone
+
+```bash
+cd /path/to/agency
 # edit agent files, README, scripts, etc.
 git add <files>
 git commit -m "feat: ..."
 git push
 ```
 
-### 2. Pull into the submodule
+### 2. Pull the new commit into the submodule
 
 ```bash
-cd C:/Users/Owner/Projects/www/jenninexus/storage/agency
+cd /path/to/your-project/storage/agency
 git pull origin main
 ```
 
-### 3. Bump the submodule pointer in jenninexus.com
+### 3. Bump the submodule pointer in the parent repo
 
 ```bash
-cd C:/Users/Owner/Projects/www/jenninexus
+cd /path/to/your-project
 git add storage/agency
-git commit -m "chore: bump agency submodule to <short-sha> (<description>)"
+git commit -m "chore: bump agency submodule to <short-sha>"
 git push
 ```
 
-That's it. Three commands after an edit.
+That's it — three commands after any edit.
+
+> **Rule:** Never push changes from inside the submodule path. Always push from the canonical clone, then bump the pointer in the parent.
+
+---
+
+## Adding Agency as a Submodule
+
+To embed agency into an existing project repo:
+
+```bash
+cd /path/to/your-project
+git submodule add https://github.com/jenninexus/agency.git storage/agency
+git commit -m "chore: add agency submodule"
+git push
+```
+
+On a fresh clone of the parent project, initialize the submodule:
+
+```bash
+git clone --recurse-submodules https://github.com/your-org/your-project.git
+# or, if already cloned:
+git submodule update --init --recursive
+```
 
 ---
 
 ## Local-Only Files (gitignored)
 
-These files live in `C:\Github\agency` but are **never committed**:
+These files live in the agency repo root but are **never committed**:
 
 | File | Purpose |
 |------|---------|
-| `agents.html` | Local agent roster dashboard — open via VS Code Live Server |
-| `.foam/agents-paths.json` | SSOT config for agents.html (all image/doc paths) |
+| `agents.html` | Local agent roster dashboard — open in browser or via Live Server |
+| `.foam/agents-paths.json` | Config for agents.html (image/doc paths) |
 | `.foam/` (entire dir) | Local Foam knowledge graph config |
+| `.config/mcp_agents.json` | Your populated agent config (copy from `.example`) |
 
-To update `agents.html` data, edit `.foam/agents-paths.json` — no commit needed.
+`agents.html` has an embedded fallback config and works as a bare `file://` URL. For full local image paths and custom agent data, populate `.foam/agents-paths.json` and open via VS Code Live Server.
 
 ---
 
 ## Agent Profile Location
 
-Agent `.md` files are committed in this repo under `agents/`:
+Agent `.md` files are committed under `agents/`:
 
 ```
 agents/
@@ -73,30 +114,15 @@ agents/
 └── Vidette.md
 ```
 
-These are the **tracked SSOT profiles**. The jenninexus submodule and `agents-paths.json` both point here.
+These are the tracked SSOT profiles. Customize them for your project, or add your own. Use `templates/AGENT-TEMPLATE.md` as a starting point.
 
-MG and Jerry VR agents (`GlassField.md`, `MissionControl.md`, `Orbiter.md`, `Vixel.md`) live in their own project repos and are referenced in `.foam/agents-paths.json` by absolute path — they are NOT in this repo.
-
----
-
-## Quick Reference
-
-```bash
-# Full edit + sync cycle
-cd C:/Github/agency
-git add agents/Metrica.md && git commit -m "docs: update Metrica audit checklist"
-git push
-
-cd C:/Users/Owner/Projects/www/jenninexus/storage/agency && git pull origin main
-cd C:/Users/Owner/Projects/www/jenninexus && git add storage/agency
-git commit -m "chore: bump agency submodule" && git push
-```
+Project-specific agents that don't belong in the shared framework live in their own project repos and can be referenced in `.foam/agents-paths.json` by absolute path.
 
 ---
 
 ## MCP Server — AI Tool Integration
 
-`scripts/mcp-server.js` exposes agent data as MCP tools. Zero npm dependencies — pure Node stdlib.
+`scripts/mcp-server.js` exposes agent data as MCP tools. Zero npm dependencies — pure Node 18+ stdlib.
 
 ### Setup
 
@@ -123,7 +149,7 @@ node scripts/mcp-server.js   # or: npm run mcp
 
 ### IDE config
 
-**Claude Code / Cursor / Zed / Cline** — `.vscode/mcp.json` is already configured. The server starts automatically when you open the workspace.
+**Claude Code / Cursor / Zed / Cline** — `.vscode/mcp.json` is pre-configured. The server starts automatically when you open the workspace.
 
 **GitHub Copilot** — `.github/copilot-instructions.md` is auto-loaded by Copilot. No server needed — agent context is injected as markdown.
 
@@ -142,8 +168,15 @@ node scripts/mcp-server.js   # or: npm run mcp
 
 ---
 
-## `agents.html` — Live Server Required
+## Quick Reference
 
-`agents.html` uses `fetch('.foam/agents-paths.json')` to load config. This requires HTTP — it **will not work** opened as a bare `file://` URL.
+```bash
+# Full edit + sync cycle (submodule users)
+cd /path/to/agency
+git add agents/MyAgent.md && git commit -m "docs: update MyAgent checklist"
+git push
 
-Open it via VS Code Live Server (right-click → **Open with Live Server**) or any local HTTP server on port 5500+.
+cd /path/to/your-project/storage/agency && git pull origin main
+cd /path/to/your-project && git add storage/agency
+git commit -m "chore: bump agency submodule" && git push
+```
