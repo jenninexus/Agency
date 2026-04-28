@@ -2,13 +2,11 @@
 
 This project uses the **AI Agent Agency** framework: a team of specialized AI agents, each owning a domain of the codebase, enforcing standards, and running weekly audits.
 
-> **Customize this file** for your project — update the agent table, file ownership, and red flags to match your `agents/*.md` profiles and `.config/mcp_agents.json`.
+> **This is a template.** Replace the example agent table, file ownership map, and red flags below with your own agents from `agents/*.md` and `.config/mcp_agents.json`.
 
 ---
 
 ## Agent Team
-
-Each agent owns specific files, enforces rules, and audits on a fixed day. Before editing any file, check which agent owns it and follow their red flags.
 
 | Agent | Role | Audit Day | Domain |
 |-------|------|-----------|--------|
@@ -17,19 +15,17 @@ Each agent owns specific files, enforces rules, and audits on a fixed day. Befor
 | **ContentEditor** 📝 | Chief Content Quality & Consistency Officer | Tuesday | Content structure, metadata, formatting |
 | **AssetManager** 🎬 | Chief Media & Asset Integrity Officer | Monday | Images, videos, embeds, optimization |
 
-> **Agent profiles live in `agents/` — read the relevant `.md` before editing files in that agent's domain.**
+> Read `agents/<AgentName>.md` before editing files in that agent's domain.
 
 ---
 
-## Universal Rules (all agents enforce these)
+## Universal Rules
 
-1. Use CSS variables over hardcoded values
+1. Use CSS variables over hardcoded values — never hardcode color hex
 2. Test both light and dark themes before committing
-3. Document all changes in agent changelogs
+3. Document changes in the relevant agent's changelog
 4. Run audits on scheduled days (`scripts/audit-*.ps1`)
-5. Coordinate with related agents before major cross-domain changes
-
-**No white backgrounds.** Light mode uses a tinted surface (e.g. `#F9F3FB`), never `#FFFFFF`.
+5. Coordinate with related agents before cross-domain changes
 
 ---
 
@@ -38,38 +34,33 @@ Each agent owns specific files, enforces rules, and audits on a fixed day. Befor
 | File Pattern | Agent |
 |-------------|-------|
 | `theme-variables.css`, `themes/*.css`, `theme-toggle.js` | StyleGuard |
-| `layout.css`, `components/*.css`, `templates/*.html` | LayoutArchitect |
+| `layout.css`, `components/*.css`, `templates/` | LayoutArchitect |
 | `content/*.md`, `posts/*.md` | ContentEditor |
 | `assets/images/`, `assets/videos/`, `media-loader.js` | AssetManager |
 
 ---
 
-## Red Flags by Agent
+## Red Flags
 
 ### StyleGuard
 - Hardcoded hex colors (`#FFFFFF`, `background: white`)
 - Missing CSS variable fallbacks
 - Theme flash on page load
-- Low contrast text
 - Inline style attributes for colors
 
 ### LayoutArchitect
-- Inconsistent spacing
-- Missing responsive breakpoints
+- Inconsistent spacing or missing responsive breakpoints
 - Broken visual hierarchy
 - Misaligned components
 
 ### ContentEditor
 - Missing metadata (title, description, og:image)
-- Inconsistent formatting
-- Broken internal links
-- Missing alt text on images
+- Broken internal links, missing alt text
 
 ### AssetManager
 - Unoptimized images (>500KB)
-- Missing responsive variants
+- Missing responsive variants or lazy loading
 - Hardcoded asset paths
-- Missing lazy loading
 
 ---
 
@@ -83,28 +74,33 @@ Examples:
 ```
 [STYLEGUARD] Replace hardcoded #fff with --color-bg-surface
 [ASSETMANAGER] Convert hero.png to WebP, add width/height attrs
-[LAYOUTARCHITECT] Fix responsive grid gap at sm breakpoint
+[CONTENTEDITOR] Add og:image to about page
 ```
 
 ---
 
-## MCP Integration (Claude Code / Cursor / Cline / Zed)
+## MCP Tools (Claude Code / Cursor / Cline / Zed)
 
-`.vscode/mcp.json` is pre-configured. Start the server:
+`.vscode/mcp.json` is pre-configured. Start the server: `npm run mcp`
+
+| Tool | Returns |
+|------|---------|
+| `agency_list_agents` | All agents with roles + audit days |
+| `agency_get_agent` | Full profile for one agent |
+| `agency_get_agent_for_file` | Owner + red flags for a file path |
+| `agency_get_schedule` | Weekly audit schedule |
+| `agency_get_rules` | Universal rules + commit format |
+
+**Resources:** `agency://agents/<id>` · `agency://config`
+
+---
+
+## Setup
 
 ```bash
-node scripts/mcp-server.js   # or: npm run mcp
+cp .config/mcp_agents.example.json .config/mcp_agents.json
+cp .vscode/settings.example.json .vscode/settings.json
+# Edit both files for your project
 ```
 
-**Tools:** `agency_list_agents`, `agency_get_agent`, `agency_get_agent_for_file`, `agency_get_schedule`, `agency_get_rules`
-
-**Resources:** `agency://agents/<id>` (agent `.md` profile), `agency://config` (active config)
-
----
-
-## More
-
-- Agent profiles: `agents/*.md`
-- Config: `.config/mcp_agents.json` (copy from `.config/mcp_agents.example.json`)
-- Workflow: `docs/WORKFLOW.md`
-- Schedule: `docs/SCHEDULE.md`
+See `docs/WORKFLOW.md` for the full edit + submodule sync flow.
