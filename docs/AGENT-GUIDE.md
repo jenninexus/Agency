@@ -1,35 +1,30 @@
-# JenniNexus AI Agent Character Guide
+# AI Agent Agency — Character Guide
 
-**Version:** 2.0
+**Version:** 2.1
 **Created:** January 22, 2026
-**Last Updated:** March 19, 2026
+**Last Updated:** April 27, 2026
 **Status:** Active
 
 > **DOCUMENT ROLES:**
-> - **Technical standards** → Individual agent `.md` files (Vidette.md, Bloggie.md, etc.)
-> - **Image prompts** → `PROMPTS.md` (SINGLE SOURCE OF TRUTH for AI image generation)
-> - **Character details** → This file (AGENT-GUIDE.md) - personality, visual style summaries
-> - **Schedule config** → `storage/agency/.config/mcp_agents.json`
+> - **Technical standards** → Individual agent `.md` files (`agents/*.md`)
+> - **Image prompts** → `agents/characters.yaml` (SSOT for AI image generation)
+> - **Character details** → This file (AGENT-GUIDE.md) — personality, visual style
+> - **Agent config** → `.config/mcp_agents.json` (copy from `.config/mcp_agents.example.json`)
 
 ---
 
-## Project Integration
+## Integration
 
 ### Configuration References
 
-This agent system is self-contained within `agents/` and integrates with:
+The agent system is self-contained within `agents/` and connects to:
 
 | Config File | Purpose | Location |
 |-------------|---------|----------|
-| **assets-deps.json** | Build system, CSS/JS dependencies | `.config/assets-deps.json` |
-| **mcp_agents.json** | Agent schedule (single source of truth) | `storage/agency/.config/mcp_agents.json` |
-| **mcp_jenninexus.json** | Main project MCP configuration | `.config/mcp_jenninexus.json` |
-| **mcp_video.json** | Vidette's video system config | `.config/mcp_video.json` |
-
-### Cross-Project Reference
-
-GitHub template repository available at:
-- Agent system is self-contained within this project's `storage/agency/` directory
+| **mcp_agents.json** | Agent schedule + metadata (SSOT) | `.config/mcp_agents.json` |
+| **mcp-server.js** | MCP server — exposes agent tools to AI hosts | `scripts/mcp-server.js` |
+| **copilot-instructions.md** | GitHub Copilot auto-context | `.github/copilot-instructions.md` |
+| **Your project configs** | Build system, per-project settings | Adapt from `.env.example` |
 
 ---
 
@@ -37,18 +32,17 @@ GitHub template repository available at:
 
 ### Generation Pipeline
 
-Agent portraits are generated via the Grok Imagine API. The single source of truth for all prompts is `characters.yaml`.
+Agent portraits are generated via an AI image API (Grok Imagine, DALL-E, Midjourney, etc.). The SSOT for all prompts is `agents/characters.yaml`.
 
 | Resource | Location | Purpose |
 |----------|----------|---------|
-| **Character SSOT** | `storage/agency/agents/characters.yaml` | Shared style + per-agent prompts |
-| **Generator script** | `scripts/generate-agent-portrait.ps1` | Calls Grok API, saves images |
-| **Generations (transient)** | `storage/agency/generations/images/` | Gitignored output, review here |
-| **Production images** | `public_html/resources/images/ai/agents/` | Deployed via rsync |
-| **Legacy prompts** | [PROMPTS.md](PROMPTS.md) | Original standalone prompts (pre-YAML) |
+| **Character SSOT** | `agents/characters.yaml` | Shared style + per-agent prompts |
+| **Generator script** | `scripts/generate-agent-portrait.ps1` | Calls image API, saves output |
+| **Generations (transient)** | `generations/images/` | Gitignored output — review here |
+| **Production images** | Your project's image path | Copy reviewed images to deploy |
 
 ```
-characters.yaml → generate-agent-portrait.ps1 → generations/ → (review) → resources/images/ → deploy
+agents/characters.yaml → scripts/generate-agent-portrait.ps1 → generations/ → (review) → your project's image dir → deploy
 ```
 
 **Usage:**

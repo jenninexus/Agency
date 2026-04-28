@@ -135,29 +135,40 @@ All agent metadata, schedules, and coordination rules live in a single source of
 ```
 agency/
 ├── README.md                          # You are here
+├── package.json                       # npm run mcp convenience script
 ├── .env.example                       # Environment variable template
 ├── agency.example.code-workspace      # VS Code workspace (copy to agency.code-workspace)
 │
 ├── .config/
 │   └── mcp_agents.example.json        # Agent config template (copy to mcp_agents.json)
 │
+├── .github/
+│   └── copilot-instructions.md        # Auto-loaded by GitHub Copilot
+│
+├── .vscode/
+│   ├── mcp.json                       # MCP server config for Claude Code / Cursor / Zed
+│   └── settings.json                  # Workspace defaults + claude.contextFiles
+│
 ├── agents/                            # Agent profiles (working examples included)
-│   ├── README.md                      # Team overview and relationships
+│   ├── README.md                      # Team overview and agent structure
+│   ├── characters.yaml                # AI image generation prompts (all agents)
 │   ├── Vidette.md                     # Video & Media specialist
 │   ├── Bloggie.md                     # Blog & Content specialist
 │   ├── GraphViz.md                    # Theme & Visual specialist
 │   ├── GamerGirl.md                   # Gaming Content specialist
-│   └── DivineDesign.md               # Layout & Architecture specialist
+│   ├── DivineDesign.md                # Layout & Architecture specialist
+│   └── Metrica.md                     # SEO, Analytics & PR specialist
 │
 ├── resources/                         # Agent media assets
 │   ├── images/                        # Generated agent portraits
-│   │   └── banner.jpg                 # README banner (GamerGirl — Apr 27)
+│   │   └── banner.jpg                 # README banner
 │   └── video/                         # Agent video content
 │       └── .gitkeep
 │
 ├── docs/                              # Framework documentation
 │   ├── AGENT-GUIDE.md                 # Character creation & design guide
 │   ├── SCHEDULE.md                    # Weekly audit cadence template
+│   ├── WORKFLOW.md                    # Edit + MCP + submodule sync guide
 │   └── OPTIMIZATION-IDEAS.md          # IDE/workflow integration strategies
 │
 ├── templates/
@@ -166,7 +177,8 @@ agency/
 ├── examples/
 │   └── StyleGuard.md                  # Full working example agent
 │
-├── scripts/                           # Audit automation
+├── scripts/                           # Audit automation + MCP server
+│   ├── mcp-server.js                  # MCP stdio server (zero deps, Node 18+)
 │   ├── _audit-common.ps1              # Shared audit utilities
 │   └── audit-template.ps1             # Audit script template
 │
@@ -236,16 +248,28 @@ jobs:
       - run: ./scripts/audit-video-pages.sh
 ```
 
-### Claude Code Integration
+### MCP Integration (Claude Code, Cursor, Zed, Cline)
 
-The Agency framework works seamlessly with Claude Code (Anthropic's CLI) and similar AI coding assistants.
+`.vscode/mcp.json` is pre-configured. Start the server:
+
+```bash
+node scripts/mcp-server.js   # or: npm run mcp
+```
+
+Tools available: `agency_list_agents`, `agency_get_agent`, `agency_get_agent_for_file`, `agency_get_schedule`, `agency_get_rules`.
+
+### GitHub Copilot
+
+`.github/copilot-instructions.md` is auto-loaded by Copilot — no server needed. Agent rules, file ownership, and red flags are injected as context.
+
+### Claude Code Integration
 
 **CLAUDE.md Integration:**
 Add agent references to your project's `CLAUDE.md` for automatic context:
 
 ```markdown
 ## Agent Team
-- 5 AI agents with weekly audit schedules
+- 6 AI agents with weekly audit schedules
 - Agent profiles: `agents/*.md`
 - Master config: `.config/mcp_agents.json`
 - Audit scripts: `scripts/audit-*.ps1`
@@ -284,7 +308,6 @@ The audit scripts use these paths automatically via `_audit-common.ps1`.
 
 | Agent | Role | Status |
 |:------|:-----|:-------|
-| **Metrica** | Analytics, SEO & PR | ✅ Active |
 | **Codex** | Build System & DevOps | Planned |
 | **Tagster** | Tag System Specialist | Planned |
 | **Linklord** | External Links & APIs | Planned |

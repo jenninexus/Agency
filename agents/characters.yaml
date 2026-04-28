@@ -1,8 +1,7 @@
-# JenniNexus AI Agent Characters
-# ================================
+# AI Agent Agency — Character Image Prompts
+# ==========================================
 # Single source of truth for AI image generation prompts.
-# Used by: scripts/generate-agent-portrait.ps1
-# Pattern: Adapted from neophi/src/assets/data/characters.yaml
+# Used by: scripts/generate-agent-portrait.ps1 (adapt path for your project)
 #
 # Each agent has three prompt variants:
 #   landscape — 16:9 environment shot (team page, blog headers)

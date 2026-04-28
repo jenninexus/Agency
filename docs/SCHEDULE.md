@@ -1,10 +1,10 @@
-# JenniNexus Agent Weekly Schedule
+# Agent Weekly Schedule
 
-**Version:** 1.1
-**Last Updated:** April 11, 2026
+**Version:** 1.2
+**Last Updated:** April 27, 2026
 **Status:** Active
 
-> **SINGLE SOURCE OF TRUTH:** `storage/agency/.config/mcp_agents.json`
+> **SINGLE SOURCE OF TRUTH:** `.config/mcp_agents.json`
 > This document provides human-readable details. The canonical schedule data is in the JSON config.
 
 ---

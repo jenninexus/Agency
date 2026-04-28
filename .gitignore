@@ -1,73 +1,72 @@
-# AI Agent Agency - .gitignore
-# =============================
-# Framework for AI agent teams that audit and maintain codebases.
-# Local project customizations coexist with the public framework.
+# AI Agent Agency — .gitignore
+# ==============================
+# Framework for AI agent teams. Local customizations coexist with the public framework.
 
-# Audit reports (generated locally per project)
+# ── Generated / runtime ──────────────────────────────────────────────────────
+
+# Audit reports (generated locally per run)
 audits/*.md
 audits/*.log
 !audits/.gitkeep
 
-# Claude Code context (user-specific session data)
-.claude/
-
-# VSCode user-specific overrides (track .vscode/mcp.json + settings.json as framework defaults)
-.vscode/*.code-snippets
-.vscode/launch.json
-
-# Operating system files
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# Editor backup files
-*~
-*.swp
-*.swo
-*.bak
-
-# Node modules (if scripts use npm)
+# Node
 node_modules/
+package-lock.json
 
 # Logs
 *.log
 logs/
 
-# Environment files (contain local paths and secrets)
+# ── Local config (customize from .example) ───────────────────────────────────
+
+# Agent config — copy from .config/mcp_agents.example.json and populate
+.config/mcp_agents.json
+
+# Workspace — copy from agency.example.code-workspace
+agency.code-workspace
+
+# Environment vars (local paths and secrets)
 .env
 .env.local
 .env.*.local
 
-# Production config (customize from .example — contains local paths)
-.config/mcp_agents.json
+# ── Local-only tooling ────────────────────────────────────────────────────────
 
-# Customized workspace (customize from .example)
-agency.code-workspace
+# Local agent roster dashboard (requires Live Server to run)
+agents.html
 
-# Agent portrait images (generated per project, keep example only)
+# Local Foam knowledge graph config
+.foam/
+
+# Claude Code session data
+.claude/
+
+# VS Code per-user overrides (framework .vscode/mcp.json + settings.json ARE tracked)
+.vscode/*.code-snippets
+.vscode/launch.json
+
+# ── Generated media (large binaries, local only) ─────────────────────────────
+
+# Agent portrait output from generate-agent-portrait.ps1
+generations/
 agents/images/
 
-# Generated images and videos — local output from generate-agent-portrait.ps1
-# These are large binary files, stored locally only. Use the generation script to recreate.
-generations/images/
-generations/video/
-generations/
+# ── OS / editor cruft ────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+*~
+*.swp
+*.swo
+*.bak
 
-# -------------------------------------------
-# TRACKED FILES (pushed to GitHub)
-# -------------------------------------------
-# - README.md (public-facing introduction)
-# - .env.example (environment template)
-# - .gitattributes (line ending normalization)
-# - .config/mcp_agents.example.json (clean template for new projects)
-# - agency.example.code-workspace (VS Code studio theme template)
-# - agents/*.md (agent profiles — useful as real-world examples)
-# - docs/ (documentation, guides, schedules)
-# - templates/ (blank agent template)
-# - examples/ (working example agents)
-# - scripts/ (audit utilities and templates)
-# - resources/images/ (example agent artwork — tracked)
-
-# Local-only showcase and Foam config
-agents.html
-.foam/
+# ── TRACKED FILES (for reference) ────────────────────────────────────────────
+# README.md, package.json
+# .env.example, .gitattributes
+# .config/mcp_agents.example.json
+# .github/copilot-instructions.md
+# .vscode/mcp.json, .vscode/settings.json
+# agency.example.code-workspace
+# agents/*.md, agents/characters.yaml
+# docs/, templates/, examples/, scripts/
+# resources/images/banner.jpg

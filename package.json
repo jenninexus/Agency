@@ -4,8 +4,7 @@
   "description": "AI Agent Agency — specialized agent team framework for AI-assisted development",
   "main": "scripts/mcp-server.js",
   "scripts": {
-    "mcp": "node scripts/mcp-server.js",
-    "mcp:test": "node scripts/mcp-server-test.js"
+    "mcp": "node scripts/mcp-server.js"
   },
   "engines": {
     "node": ">=18.0.0"
