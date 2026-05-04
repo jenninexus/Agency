@@ -377,9 +377,32 @@ if (!defined('RES_ROOT')) {
 
 ### Glass Styling Standard
 - **Post content:** Use `.glass-card p-4 rounded-4` (as per `blog-post-template.php`)
+- **Blog listing cards:** Use `.card h-100 border-0 blog-post-card glass-card overflow-hidden` via `jn_render_blog_cards()`
 - **Recommended posts:** Use `.glass-card h-100 hover-lift` (acceptable here because each recommended post card is wrapped in a clickable `<a>` link)
 - **Alternative:** `.glass-panel` is acceptable but `.glass-card` is preferred for consistency
 - **NEVER:** White backgrounds - always use glass effects
+
+### Blog Card System (May 2026)
+The shared `jn_render_blog_cards()` function and the blog.php JS renderer both use a unified card pattern:
+```html
+<article class="card h-100 border-0 blog-post-card glass-card overflow-hidden">
+  <a class="blog-card-img-wrapper ratio ratio-16x9 d-block position-relative">
+    <img class="card-img-top w-100 h-100 object-fit-cover">
+    <span class="badge bg-primary blog-card-category position-absolute top-0 start-0 m-2">Category</span>
+  </a>
+  <div class="card-body p-4 d-flex flex-column">...</div>
+</article>
+```
+Key classes: `.blog-post-card` (hover lift + gradient bar), `.blog-card-img-wrapper` (zoom clip), `.blog-card-category` (blurred badge overlay).
+CSS: `blog-theme.css` owns all `.blog-post-card`, `.blog-card-img-wrapper`, `.blog-card-category` rules.
+
+### Blog Filter Pills (May 2026)
+Blog listing page uses `.blog-filter-pill` buttons with per-tag active colors — NOT generic badge buttons:
+```html
+<button class="blog-filter-pill active" data-tag="all">All Posts</button>
+<button class="blog-filter-pill" data-tag="gamedev">Game Dev</button>
+```
+Active colors defined in `blog-theme.css`. DO NOT use `badge` class for filter pills.
 
 ---
 
@@ -741,8 +764,8 @@ Every Tuesday, Bloggie checks all blog posts:
 ### CSS Files (Blog Styling)
 | File | Source | Bundled Into | Purpose |
 |------|--------|--------------|---------|
-| `blog-theme.css` | `src/assets/css/` | `main.min.css` | **Blog SSOT** — .blog-title, .post-content, typography, dark mode text |
-| `custom.css` | `src/assets/css/` | `main.min.css` | Glass effects, cards, badges |
+| `blog-theme.css` | `src/assets/css/` | `main.min.css` | **Blog SSOT** — .blog-title, .post-content, .blog-post-card, .blog-card-img-wrapper, .blog-card-category, .blog-filter-pill, typography, dark mode text |
+| `custom.css` | `src/assets/css/` | `main.min.css` | Glass effects (.glass-card, .glass-panel), badges |
 | `main.css` | `src/assets/css/` | `main.min.css` | Core layout, typography |
 | `link-cards.css` | `src/assets/css/` | `main.min.css` | Share button styles |
 
@@ -770,6 +793,14 @@ Every Tuesday, Bloggie checks all blog posts:
 ---
 
 ## Changelog
+
+### 2026-05-04
+- **Blog card system unified:** `jn_render_blog_cards()` + blog.php JS renderer now share `.blog-post-card glass-card` pattern with `.blog-card-img-wrapper` image zoom + `.blog-card-category` badge overlay. Old `.glass-panel` removed from card output.
+- **Blog filter pills:** Replaced badge filter buttons with `.blog-filter-pill` glass pills + per-tag active colors. Defined in `blog-theme.css`.
+- **DIY dual-renderer bug fixed:** Removed redundant `loadDIYBlogPosts()` JS fetch that overwrote PHP-rendered cards with error message when fetch failed.
+- **`data-mouse-gradient` fix:** blog.php hero section now uses it as HTML attribute (not CSS class) — matches the JS `[data-mouse-gradient]` selector.
+- **Audit script updated:** New system checks for `blog-post-card`, `blog-filter-pill`, and `data-mouse-gradient` attribute vs class usage.
+- **`react/src/shared/theme.ts` fixed:** CSS variable names corrected to match actual `theme-variables.css` tokens (`--jenni-primary`, `--jenni-secondary`, `--rainbow-*`, `--glow-primary`). Added `watchTheme()` observer helper.
 
 ### 2026-04-25
 - **Gitignore cleanup** — `src/assets/css/`, `src/assets/images/`, `storage/docs/` untracked from git; local-only

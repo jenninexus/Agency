@@ -2,7 +2,7 @@
 
 **Role:** Chief Site-Wide Design & Page Architecture Officer
 **Created:** January 25, 2026
-**Last Updated:** April 25, 2026
+**Last Updated:** May 4, 2026
 **Status:** Active
 **Weekly Audit Day:** Friday
 **Cross-Project Protocol:** `storage/docs/PROTOCOL.md` (sys-admin: `C:\mcp\sys-admin\`)
@@ -561,6 +561,7 @@ DivineDesign should be familiar with and reference:
 
 | Breakpoint | Width | Columns | Focus |
 |------------|-------|---------|-------|
+| **390px floor** | 390px | 1 | Minimum supported viewport (iPhone 14/15 Pro baseline) |
 | xs | <576px | 1 | Mobile-first, stacked |
 | sm | >=576px | 1-2 | Small tablets |
 | md | >=768px | 2-3 | Tablets |
@@ -568,14 +569,40 @@ DivineDesign should be familiar with and reference:
 | xl | >=1200px | 4+ | Desktops |
 | xxl | >=1400px | 4-6 | Large screens |
 
+**390px is the absolute floor.** Nothing on this site is expected to work below 390px wide. All layout, card, and grid decisions must be verified at 390px before any other width. The global SSOT for breakpoints is `C:\mcp\.config\mcp_breakpoints.json → bootstrap_5_3_8_extended_390_4k`.
+
 ### Mobile-First Checklist
 
-- [ ] Touch targets minimum 44x44px
-- [ ] No horizontal scroll
-- [ ] Readable text without zoom (16px min body)
-- [ ] CTAs visible without scrolling
-- [ ] Images scale appropriately
-- [ ] Navigation accessible (hamburger menu)
+- [ ] Verify layout at **390px** (minimum floor — do this first, always)
+- [ ] No horizontal scroll at 390px or above
+- [ ] Touch targets minimum 44x44px on mobile
+- [ ] Readable text without zoom (16px min body, no smaller at 390px)
+- [ ] CTAs visible without scrolling on 390px viewport
+- [ ] Images scale appropriately (`img-fluid` or `w-100`)
+- [ ] Navigation accessible (hamburger offcanvas, Bootstrap mobile nav)
+- [ ] Cards stack to single column at xs (no side-by-side below 576px unless explicitly intended)
+- [ ] No `col-6` on xs for content-heavy cards — 390px ÷ 2 = 195px is too narrow for most content
+- [ ] Glass-card padding does not overflow at 390px (`p-3` on mobile if `p-4` at desktop)
+- [ ] Modal bodies scroll vertically, never horizontally
+
+### 390px Audit Protocol
+
+When DivineDesign performs the Friday audit or reviews a new page, the 390px check is **mandatory step 1**:
+
+1. Open page at exactly 390px viewport width
+2. Confirm no horizontal scrollbar appears (zero tolerance)
+3. Confirm all text is readable without zooming
+4. Confirm all buttons/CTAs are tappable (44px+ height)
+5. Confirm images do not overflow their containers
+6. Confirm grid collapses to single column where expected
+7. Confirm modals (if present) fit within 390px and scroll vertically
+
+**Known 390px problem patterns to catch:**
+- Fixed-width elements wider than viewport (hardcoded `width: 500px`, `min-width: 400px` etc.)
+- Side-by-side image + text at xs that needs to stack
+- Agent/character cards with `col-6 col-md-4` that create 195px cells — verify content still readable
+- Oversized hero icons that push text below fold
+- Long URLs in paragraphs breaking layout (`word-break: break-all` fix)
 
 ---
 
@@ -635,13 +662,15 @@ DivineDesign should be familiar with and reference:
 
 ### Manual Review Checklist
 
-1. **Hero sections** - Consistent structure across all page types
-2. **Section spacing** - py-5 standard maintained
-3. **CTA visibility** - Clear actions on every page
-4. **Mobile responsiveness** - Test at xs, md, xl breakpoints
-5. **Visual grouping** - Related content properly grouped
-6. **Template compliance** - Pages follow their template patterns
-7. **Alignment** - All elements on Bootstrap grid
+1. **390px floor** — Test every page at 390px first; no horizontal scroll is non-negotiable
+2. **Hero sections** — Consistent structure across all page types
+3. **Section spacing** — py-5 standard maintained
+4. **CTA visibility** — Clear actions on every page; CTA visible without scroll at 390px
+5. **Mobile responsiveness** — Test at 390px (floor), md, xl, and ultra-wide (1920px+)
+6. **Visual grouping** — Related content properly grouped
+7. **Template compliance** — Pages follow their template patterns
+8. **Alignment** — All elements on Bootstrap grid
+9. **Agent/gallery pages** — Portrait images exist at `resources/images/ai/agents/*/square.jpg`; cards don't break at 390px
 
 ### Cross-Agent Friday Review
 
@@ -682,6 +711,10 @@ Friday is also implementation day for other agents. DivineDesign should:
 ---
 
 ## Changelog
+
+### 2026-05-04
+- **390px floor** — Added 390px as the absolute minimum viewport floor (iPhone 14/15 Pro baseline); all responsive audits start at 390px, not xs/576px; added 390px Audit Protocol with 7-step checklist and known problem patterns; updated Weekly Audit Manual Review Checklist to make 390px step 1
+- **Mobile-First Checklist expanded** — Added specific rules: no `col-6` on xs for content-heavy cards, glass-card padding at 390px, modal scroll behavior, mandatory 390px check before any other breakpoint
 
 ### 2026-04-25
 - **glass-pill** — documented `.glass-pill` as the canonical compact glass container; DivineDesign enforces correct scale: pill for badges, card for panels
@@ -838,4 +871,4 @@ The full AI image generation prompt for this character is maintained in [PROMPTS
 ---
 
 *"Every pixel has purpose. Every layout tells a story."*
-*Last Updated: January 26, 2026*
+*Last Updated: May 4, 2026*

@@ -2,7 +2,7 @@
 
 **Role:** Chief Gaming Content & Game Page Integrity Officer
 **Created:** January 22, 2026
-**Last Updated:** April 25, 2026
+**Last Updated:** May 1, 2026
 **Status:** Active
 **Weekly Audit Day:** Thursday
 **Cross-Project Protocol:** `storage/docs/PROTOCOL.md` (sys-admin: `C:\mcp\sys-admin\`)
@@ -187,21 +187,21 @@ GamerGirl is a competitive perfectionist who treats every game page like it's a 
 
 ### Individual Game Pages (public_html/game/)
 
-| Page | Video Display | Platform | Status | Notes |
-|------|---------------|----------|--------|-------|
-| **blueballs.php** | None | Web | Active | Static game page |
-| **botborgs.php** | Explicit IDs | Web3 | Active | renderPlaylist() with compact |
-| **catgame.php** | Explicit IDs | Unity WebGL | Active | Direct renderPlaylist() |
-| **cleanupinisle3.php** | None | Web | Active | Static game page |
-| **cowdefender.php** | Explicit IDs | GameJam | Active | renderPlaylistSection() |
-| **gamejams.php** | YAML Auto-Load | Multiple | Active | Ludum Dare hub |
-| **graveyardsmashers.php** | None | GameJam | Active | Static game page |
-| **jennistyles.php** | Explicit IDs | Mobile | Active | Modern renderPlaylist() |
-| **martiangames.php** | Explicit IDs | Steam | Active | Martian Games collection |
-| **momshouse.php** | None | GameJam | Active | Static game page |
-| **purgatoryfell.php** | Explicit IDs | VR/Steam | Active | renderPlaylist() compact |
-| **soccercow.php** | None | GameJam | Active | Static game page |
-| **tankoff.php** | Explicit IDs | Steam | Active | Retry loop pattern |
+| Page | Hero Color | Video Display | Platform | Status | Notes |
+|------|-----------|---------------|----------|--------|-------|
+| **blueballs.php** | blue | Direct iframes (`VIDEO_BLUEBALLS_1/2`) | Web | Active | No dedicated playlist — 2 direct embeds |
+| **botborgs.php** | martian | `renderVideos(PLAYLIST_BOTBORGS)` | Web3 | Active | Full hero overhaul May 1 |
+| **catgame.php** | purple | `renderVideos(PLAYLIST_CATGAME)` | Unity WebGL | Active | Hero overhaul May 1 |
+| **cleanupinisle3.php** | emerald | None (no videos) | Web | Active | Static game page |
+| **cowdefender.php** | martian | Direct iframes (`VIDEO_COWDEFENDER_1/2`) | Game Jam | Active | Martian Games title |
+| **gamejams.php** | teal | `renderPlaylists()` 8 playlists | Multiple | Active | Ludum Dare hub; structural fix May 1 |
+| **graveyardsmashers.php** | purple | None (no videos) | Game Jam | Active | Static game page |
+| **jennistyles.php** | purple | `renderVideos(PLAYLIST_JENNISTYLES)` | Flash/Web | Active | |
+| **martiangames.php** | *(dev-only)* | Explicit IDs | Steam | Dev-Only | Not deployed to prod |
+| **momshouse.php** | teal | None (no videos) | Game Jam | Active | Static game page |
+| **purgatoryfell.php** | *(steam-gradient)* | `renderVideos(PLAYLIST_PURGATORY_FELL)` | VR/Steam | Active | Uses steam-gradient (intentional) |
+| **soccercow.php** | green | None (no videos) | Game Jam | Active | Static game page |
+| **tankoff.php** | *(steam-gradient)* | Explicit IDs | Steam | Active | Steam blue intentional; 170+ inline CSS OPEN |
 
 ### Hub Pages
 
@@ -260,11 +260,17 @@ include __DIR__ . '/../includes/footer.php';
 
 ### Check 3: Hero Section Structure [FAIL]
 Every game page MUST have a hero section with:
-- Section with gradient background (`class="py-5 game-header"` or similar)
-- H1 title with display class
-- Lead paragraph description
-- Breadcrumb navigation (Home > Game Dev > Game)
-**Failure:** No hero section or missing H1
+- `<section class="py-5 game-header game-header-[COLOR] text-white hero-section" data-mouse-gradient>`
+- Content column: `<div class="col-lg-8 glass-holo p-4 rounded-4">`
+- Breadcrumb: Home > Game Dev > [optional mid-level] > Game (no inline color classes on links — inherit from `text-white` on the section)
+- H1 with `hero-title` class and display size
+- Lead paragraph, tag badges, platform CTAs
+- Decorative icon in `col-lg-4`
+
+**Approved `game-header-*` colors** (see `gamedev-theme.css`):
+`blue` | `purple` | `teal` | `green` | `emerald` | `martian` (Martian Games only)
+
+**Failure:** No hero section, missing `game-header-[COLOR]`, or missing H1
 
 ### Check 4: Tag Badge Pattern [FAIL]
 Tags MUST use anchor tags, NOT button onclick:
@@ -331,9 +337,10 @@ Issues discovered during analysis that need remediation:
 |------|-------|----------|--------|
 | `gaming.php` | Uses button onclick for tags (deprecated) | WARN | OPEN |
 | `tankoff.php` | 170+ lines inline CSS; duplicate carousel ID | WARN | OPEN |
-| `blueballs.php` | Hardcoded YouTube embeds (not YouTubeGrid) | WARN | OPEN |
-| `botborgs.php` | Missing breadcrumb navigation | WARN | OPEN |
-| `botborgs.php` | `$activePage = 'game-botborgs'` (non-standard) | INFO | OPEN |
+| `blueballs.php` | Direct iframe embeds (intentional — no playlist) | INFO | RESOLVED *(May 1)* |
+| `botborgs.php` | Missing breadcrumb, old hero pattern | WARN | RESOLVED *(May 1)* |
+| `catgame.php` | `<div>` hero, `gradient-game-purple`, missing `game-header-*` | FAIL | RESOLVED *(May 1)* |
+| `gamejams.php` | `<head>` inside `<body>`, old gradient class, schema URLs | FAIL | RESOLVED *(May 1)* |
 
 ---
 
