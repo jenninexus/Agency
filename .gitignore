@@ -52,6 +52,11 @@ agents.html
 generations/
 agents/images/
 
+# ── Private / personal content (local only) ──────────────────────────────────
+
+# Detailed character prompt YAML — stays local (use .env + local copy)
+agents/characters.yaml
+
 # ── OS / editor cruft ────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
@@ -68,6 +73,6 @@ desktop.ini
 # .github/copilot-instructions.md
 # .vscode/mcp.json, .vscode/settings.example.json
 # agency.example.code-workspace
-# agents/*.md, agents/characters.yaml
+# agents/*.md  (characters.yaml is gitignored — keep local)
 # docs/, templates/, examples/, scripts/
 # resources/images/banner.jpg
