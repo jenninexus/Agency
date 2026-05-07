@@ -8,7 +8,7 @@
 
 [![Framework](https://img.shields.io/badge/Framework-AI%20Agent%20Agency-9D4EDD?style=for-the-badge)](.)
 [![License](https://img.shields.io/badge/License-MIT-00D4FF?style=for-the-badge)](LICENSE)
-[![Agents](https://img.shields.io/badge/Agents-7%20Active-FF6B6B?style=for-the-badge)](.vscode/mcp.example.json)
+[![Agents](https://img.shields.io/badge/Agents-6%20Active-FF6B6B?style=for-the-badge)](.vscode/mcp.example.json)
 
 **Enterprise-quality consistency. Zero labor cost. No white backgrounds.**
 
@@ -82,38 +82,32 @@ The `agents/` directory includes a fully-built example team from a real producti
 <sub><i>"Investors don't fund white backgrounds."</i></sub>
 </td>
 <td align="center" width="130">
-<img src="resources/images/agents/gamergirl.jpg" width="80" height="80" alt="GamerGirl" onerror="this.style.display='none'"/><br/>
-<b><a href="agents/GamerGirl.md">GamerGirl</a></b><br/>
-<sub>Gaming Content &amp; Pages</sub><br/>
-<sub>📅 Thursday · 🎨 <code>#FF2E88</code></sub><br/>
-<sub><i>"Every game page is a sales page."</i></sub>
-</td>
-</tr>
-<tr>
-<td align="center" width="130">
 <img src="resources/images/agents/divinedesign.jpg" width="80" height="80" alt="DivineDesign" onerror="this.style.display='none'"/><br/>
 <b><a href="agents/DivineDesign.md">DivineDesign</a></b><br/>
 <sub>Layout &amp; Architecture</sub><br/>
 <sub>📅 Friday · 🎨 <code>#00D4AA</code></sub><br/>
 <sub><i>"Spacing is not decoration. It's structure."</i></sub>
 </td>
+</tr>
+<tr>
 <td align="center" width="130">
 <img src="resources/images/agents/metrica.jpg" width="80" height="80" alt="Metrica" onerror="this.style.display='none'"/><br/>
 <b><a href="agents/Metrica.md">Metrica</a></b><br/>
-<sub>SEO, Analytics &amp; PR</sub><br/>
+<sub>SEO, Analytics &amp; Performance</sub><br/>
 <sub>📅 Saturday · 🎨 <code>#39ff14</code></sub><br/>
 <sub><i>"If it's not indexed, it doesn't exist."</i></sub>
 </td>
 <td align="center" width="130">
 <img src="resources/images/agents/vixel.jpg" width="80" height="80" alt="Vixel" onerror="this.style.display='none'"/><br/>
 <b><a href="agents/Vixel.md">Vixel</a></b><br/>
-<sub>VR Game Site</sub><br/>
+<sub>VR/Game Project Site</sub><br/>
 <sub>📅 Sunday · 🎨 <code>#FF6B4A</code></sub><br/>
-<sub><i>"Ship the devlog. The lore sells the game."</i></sub>
+<sub><i>"Pixels don't lie. Fix the mixin."</i></sub>
 </td>
 <td align="center" width="130">
 <sub><br/><b>+ Your Agent</b><br/>Copy the template,<br/>define your domain</sub>
 </td>
+<td></td>
 </tr>
 </table>
 
@@ -147,7 +141,7 @@ cp templates/AGENT-TEMPLATE.md agents/YourAgent.md
 ```
 @GraphViz.md - Review this CSS for theme compliance
 @Bloggie.md - Check this blog post structure
-@GamerGirl.md - Audit the game page layout
+@DivineDesign.md - Audit the page layout and UX
 ```
 
 ### 4. Open the Workspace
@@ -220,15 +214,13 @@ agency/
 │   └── settings.example.json          # Workspace defaults template (copy to settings.json, gitignored)
 │
 ├── agents/                            # Showcase agent profiles (public examples)
-│   ├── README.md                      # Agnostic index — links to examples/
 │   ├── characters.yaml                # AI image generation prompts (gitignored)
 │   ├── Vidette.md                     # Video & Media specialist
 │   ├── Bloggie.md                     # Blog & Content specialist
 │   ├── GraphViz.md                    # Theme & Visual specialist
-│   ├── GamerGirl.md                   # Gaming Content specialist
 │   ├── DivineDesign.md                # Layout & Architecture specialist
-│   ├── Metrica.md                     # SEO, Analytics & PR specialist
-│   └── Vixel.md                       # VR & Horror Game specialist (cross-project)
+│   ├── Metrica.md                     # SEO, Analytics & Performance specialist
+│   └── Vixel.md                       # VR/Game site specialist (cross-project)
 │
 ├── projects/                          # Project-specific agent rosters (local only)
 │   └── README.md                      # How projects/ works — subdirs are gitignored

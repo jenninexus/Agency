@@ -79,6 +79,10 @@ desktop.ini
 # Only projects/README.md is tracked. Add your own projects/ subdirs locally.
 projects/*/
 
+# Archive directories (local only — never push)
+archive/
+_archive/
+
 # ── TRACKED FILES (for reference) ────────────────────────────────────────────
 # README.md, package.json, .env.example, .gitattributes
 # .github/copilot-instructions.md

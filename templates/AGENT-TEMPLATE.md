@@ -1,4 +1,4 @@
-# [AgentName] - [Domain] Manager Agent
+# [AgentName] — [Domain] Specialist
 
 **Role:** Chief [Domain] & [Specialty] Officer
 **Created:** [Date]
@@ -6,22 +6,22 @@
 **Status:** Active
 **Weekly Audit Day:** [Day]
 
+> **Using as a project override?** Copy this file to `projects/{your-project}/[AgentName].md` (gitignored) and add project-specific paths, file names, and audit results. Keep personality/framework rules in `agents/[AgentName].md` (tracked). Update `.vscode/mcp.json` → `agents.[agentname].profile` to point to the override.
+
 ---
 
 ## Resources & Quick Links
 
-> **Navigation:** Use this section to quickly access all resources related to this agent.
-
 | Resource | Location | Purpose |
 |:---|:---|:---|
-| **This Profile** | `agents/[AgentName].md` | Technical standards & rules for [domain]. |
-| **Image Prompts** | `agents/PROMPTS.md#[agentname]` | AI image generation prompts for this character. |
-| **Character Guide** | `agents/AGENT-GUIDE.md#[agentname]` | Visual style, personality, and full character details. |
-| **Master Config** | `.vscode/mcp.json` | Schedule, metadata, and domain ownership. |
-| **Audit Script** | `scripts/audit-[domain].ps1` | The script for the weekly [Day] audit. |
-| **Audit Report** | `storage/audits/AUDIT_[domain].md` | The output location for the audit report. |
-| **Primary Doc** | `storage/docs/[DOMAIN-DOC].md` | The single source of truth for [domain]. |
-| **Images Folder** | `public_html/resources/images/ai/agents/[agentname]/` | Generated character images. |
+| **This Profile** | `agents/[AgentName].md` | Technical standards & rules for [domain] |
+| **Character Prompts** | `agents/characters.yaml#[agentname]` | AI image generation prompts |
+| **Character Guide** | `docs/AGENT-GUIDE.md#[agentname]` | Visual style, personality, full character details |
+| **Master Config** | `.vscode/mcp.json` | Schedule, metadata, domain ownership |
+| **Audit Script** | `scripts/audit-[domain].ps1` | Weekly [Day] audit script |
+| **Audit Report** | `audits/AUDIT_[domain].md` | Audit output location |
+| **Primary Doc** | `[path/to/DOMAIN-DOC.md]` | Single source of truth for [domain] |
+| **Images** | `resources/images/agents/[agentname]/` | Character portraits (square.jpg, landscape.jpg) |
 
 ---
 
@@ -53,21 +53,31 @@
 | Attribute | Description |
 |:---|:---|
 | **Hair** | [Hair color, style, unique features] |
-| **Style** | [Clothing aesthetic: [theme]: specific items] |
+| **Style** | [Clothing aesthetic — theme: specific items] |
 | **Workstation** | [Description of their workspace setup] |
 | **Accessories** | [Distinctive items they wear or have] |
 
 ---
 
+## Visual Style
+
+**Accent:** [Color name] `#[HEX]` · **Studio corner:** [Location — brief description]
+
+[1-2 sentences describing the atmospheric feel of this agent's corner in the penthouse studio. Accent color bleeds from screens and neon, not just worn.]
+
+> Portrait prompts → `agents/characters.yaml` (local). See [`docs/ART-STYLE.md`](../docs/ART-STYLE.md).
+
+---
+
 ## Mission Statement
 
-[AgentName] ensures [what they ensure] across all [scope]. She is the single authority on:
+[AgentName] ensures [what they ensure] across all [scope]. They are the single authority on:
 - [Responsibility 1]
 - [Responsibility 2]
 - [Responsibility 3]
 - [Responsibility 4]
 
-Her goal is to [ultimate objective statement].
+Their goal is to [ultimate objective statement].
 
 ---
 
@@ -77,9 +87,9 @@ Her goal is to [ultimate objective statement].
 - [Scenario 1]
 - [Scenario 2]
 - [Scenario 3]
-- Running weekly [Day] audits on [domain].
+- Running weekly [Day] audits on [domain]
 
-**Key command:** `@[agentname].md audit [target]` or reference this file for standards.
+**Key command:** Reference this file or use `@[AgentName].md audit [target]`
 
 **[AgentName] tracks changes to:**
 - [File/folder pattern 1]
@@ -191,43 +201,8 @@ Run `.\scripts\audit-[domain].ps1` to update these metrics.
 
 ## Changelog
 
-### [Date] (Session X)
+### [Date]
 - **[Change category]:** [Description of change]
-- **[Change category]:** [Description of change]
-
----
-
-*"[Agent's catchphrase]"*
-*Last Updated: [Date]*
-
----
-
-## Character Image Prompt
-
-> **Full prompt location:** `agents/PROMPTS.md#[agentname]`
-> **Images folder:** `public_html/resources/images/ai/agents/[agentname]/`
-
-The full AI image generation prompt for this character is maintained in [PROMPTS.md](../PROMPTS.md). This ensures:
-- Single source of truth for all character prompts
-- Consistent base elements across all agents
-- Easy updates without modifying individual agent files
-
-### Quick Reference
-
-| Attribute | Value |
-|:---|:---|
-| **Time of Day** | [Time] |
-| **Hair** | [Description] |
-| **Style** | [Description] |
-| **Workstation** | [Description] |
-
-### Visual Easter Eggs
-
-| Element | Represents |
-|:---|:---|
-| [Element 1] | [What it represents in the codebase] |
-| [Element 2] | [What it represents in the codebase] |
-| [Element 3] | [What it represents in the codebase] |
 
 ---
 

@@ -72,7 +72,7 @@ resources/images/
     gamergirl.jpg
     divinedesign.jpg
     metrica.jpg
-    vixel.jpg
+    vixel.png
 ```
 
 > Portrait source files (all variants + studio scenes) are generated locally and live in `storage/agency/generations/images/` — not tracked in the public repo. Only the square portraits in `resources/images/agents/` are intended to be committed.

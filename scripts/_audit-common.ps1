@@ -20,7 +20,7 @@ if (Test-Path $envFile) {
 $script:ProjectRoot = if ($env:PROJECT_ROOT) { $env:PROJECT_ROOT } else { Split-Path (Split-Path $PSScriptRoot -Parent) -Parent }
 
 # Standard paths (override via .env or env vars)
-$script:AgentConfig = if ($env:AGENT_CONFIG) { $env:AGENT_CONFIG } else { Join-Path $ProjectRoot ".config\mcp_agents.json" }
+$script:AgentConfig = if ($env:AGENT_CONFIG) { $env:AGENT_CONFIG } else { Join-Path $ProjectRoot ".vscode\mcp.json" }
 $script:AuditsDir = if ($env:AUDITS_DIR) { $env:AUDITS_DIR } else { Join-Path $ProjectRoot "audits" }
 $script:AgentsDir = if ($env:AGENTS_DIR) { $env:AGENTS_DIR } else { Join-Path $ProjectRoot "agents" }
 
