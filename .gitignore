@@ -41,7 +41,8 @@ agents.html
 # Claude Code session data
 .claude/
 
-# VS Code per-user overrides (copy settings.example.json → settings.json and customize)
+# VS Code per-user overrides (copy *.example.json → the real file and customize)
+.vscode/mcp.json
 .vscode/*.code-snippets
 .vscode/launch.json
 .vscode/settings.json
@@ -75,12 +76,13 @@ projects/*/
 # ── TRACKED FILES (for reference) ────────────────────────────────────────────
 # README.md, package.json
 # .env.example, .gitattributes
-# .config/mcp_agents.example.json
+# .config/mcp_agents.example.json   ← agent data template (MCP server fallback)
 # .github/copilot-instructions.md
-# .vscode/mcp.json, .vscode/settings.example.json
+# .vscode/mcp.example.json          ← MCP server config template (copy → mcp.json)
+# .vscode/settings.example.json
 # agency.example.code-workspace
 # agents/*.md  (characters.yaml is gitignored — keep local)
-# projects/README.md  (the concept doc — tracked)
-# projects/*/         (all project subdirs — gitignored, local only)
+# projects/README.md  (concept doc — tracked)
+# projects/*/         (project subdirs — gitignored, local only)
 # docs/, templates/, examples/, scripts/
 # resources/images/banner.jpg

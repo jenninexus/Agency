@@ -1,0 +1,21 @@
+{
+  "servers": {
+    "agency": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${workspaceFolder}/scripts/mcp-server.js"],
+      "env": {}
+    }
+  }
+}
+
+// ── Copy this file to .vscode/mcp.json and adjust the path for your setup ───
+//
+// STANDALONE (open agency/ directly):
+//   "args": ["${workspaceFolder}/scripts/mcp-server.js"]
+//
+// AS SUBMODULE (agency lives at storage/agency inside your project):
+//   "args": ["${workspaceFolder}/storage/agency/scripts/mcp-server.js"]
+//
+// Agent data config: copy .config/mcp_agents.example.json → .config/mcp_agents.json
+// The MCP server reads mcp_agents.json and falls back to the example if missing.

@@ -10,7 +10,7 @@
     "background.useFront": false,
     "background.useDefault": false,
     "background.customImages": [
-      "https://raw.githubusercontent.com/jenninexus/agency/main/resources/images/GraphViz.jpg",
+      "https://raw.githubusercontent.com/jenninexus/agency/main/resources/images/banner.jpg",
     ],
     "background.style": {
       "content": "''",

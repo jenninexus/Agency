@@ -12,8 +12,12 @@
  *            agency://config       — active mcp_agents.json
  *
  * Setup:
- *   cp .config/mcp_agents.example.json .config/mcp_agents.json
+ *   cp .config/mcp_agents.example.json .config/mcp_agents.json   # agent data config
+ *   cp .vscode/mcp.example.json .vscode/mcp.json                 # MCP server config
  *   node scripts/mcp-server.js   # or: npm run mcp
+ *
+ * Submodule path (if agency lives at storage/agency inside your project):
+ *   Update .vscode/mcp.json args to: "${workspaceFolder}/storage/agency/scripts/mcp-server.js"
  *
  * Spec: https://modelcontextprotocol.io
  */
