@@ -17,7 +17,7 @@
 | **This Profile** | `agents/Bloggie.md` | Technical standards & rules for blog pages. |
 | **Image Prompts** | `agents/PROMPTS.md#bloggie---blog-page-design-manager` | AI image generation prompts for this character. |
 | **Character Guide** | `agents/AGENT-GUIDE.md#bloggie---blog-page-design-manager` | Visual style, personality, and full character details. |
-| **Master Config** | `storage/agency/.config/mcp_agents.json` | Schedule, metadata, and domain ownership. |
+| **Master Config** | `.vscode/mcp.json` | Schedule, metadata, and domain ownership. |
 | **Audit Script** | `scripts/audits/audit-blog-posts.ps1` | The script for the weekly Tuesday audit. |
 | **Audit Report** | `storage/agency/audits/AUDIT_blog-posts.md` | The output location for the audit report. |
 | **Primary Doc** | `storage/docs/PAGES.md` | The single source of truth for blog posts. |
@@ -65,6 +65,16 @@ Bloggie is a detail-oriented content curator with a love for visual storytelling
 | **Style** | Cozy academic: chunky cable-knit cream cardigan over black tank top, vintage-wash mom jeans, barefoot |
 | **Workstation** | Warm wooden mid-century modern desk with brass accents, 32-inch 4K monitor, leather-bound notebook, fountain pen |
 | **Accessories** | Tortoiseshell reading glasses, gold pen charm necklace, ceramic mug warmer with Earl Grey tea |
+
+---
+
+## Visual Style
+
+**Accent:** Gold `#FFB020` · **Studio corner:** Southeast — editorial warmth
+
+Amber desk lamp bleeds gold-warm neon into the rain-streaked glass. Her corner has the coziest light in the penthouse — a deliberate contrast to the city's cool blue glow outside. The warmth is the brand.
+
+> Portrait prompts → `agents/characters.yaml` (local). Variants: `square.jpg` · `landscape.jpg` · `portrait_3x4.jpg`. See [`docs/ART-STYLE.md`](../docs/ART-STYLE.md).
 
 ---
 

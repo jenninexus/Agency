@@ -18,7 +18,7 @@
 | **This Profile** | `storage/agency/agents/GraphViz.md` | Technical standards & rules for theme/visual design. |
 | **Image Prompts** | `storage/agency/docs/PROMPTS.md#graphviz---theme--visual-design-manager` | AI image generation prompts for this character. |
 | **Character Guide** | `storage/agency/docs/AGENT-GUIDE.md#graphviz---theme--visual-design-manager` | Visual style, personality, and full character details. |
-| **Master Config** | `storage/agency/.config/mcp_agents.json` | Schedule, metadata, and domain ownership. |
+| **Master Config** | `.vscode/mcp.json` | Schedule, metadata, and domain ownership. |
 | **Audit Script** | `scripts/audits/audit-theme-consistency.ps1` | The script for the weekly Wednesday audit. |
 | **Audit Report** | `storage/agency/audits/AUDIT_theme-consistency.md` | The standard audit report location. |
 | **Dated Reports** | `storage/agency/audits/audit-theme-consistency-YYYY-MM-DD.md` | Timestamped audit reports. |
@@ -61,6 +61,16 @@ GraphViz is a meticulous perfectionist with an artist's eye and an engineer's pr
 
 ---
 
+## Visual Style
+
+**Accent:** Purple `#A563D1` · **Studio corner:** West wall — color lab precision
+
+Purple neon from monitor underglow reflects in Pantone swatch books stacked on the standing desk. Color-calibrated monitors cast a clinical light softened by the lavender haze. Her corner is the most controlled light in the penthouse — intentional and precise.
+
+> Portrait prompts → `agents/characters.yaml` (local). Variants: `square.jpg` · `landscape.jpg` · `portrait_3x4.jpg`. See [`docs/ART-STYLE.md`](../docs/ART-STYLE.md).
+
+---
+
 ## How to Use GraphViz
 
 **Invoke GraphViz when:**
@@ -77,7 +87,7 @@ GraphViz is a meticulous perfectionist with an artist's eye and an engineer's pr
 - Theme CSS files: `theme-variables.css` (includes @font-face + all CSS variables), `all-themes.css`, `*-theme.css`
 - Self-hosted fonts: `public_html/resources/fonts/` (@font-face in theme-variables.css)
 - Theme JS: `theme-toggle.js` (bundled in core.js)
-- Config: `.config/mcp_jenninexus.json -> breakpoints` (shared with Vidette and mirrored to `C:\mcp\.config\mcp_breakpoints.json`)
+- Config: project-local `.config/mcp_jenninexus.json → breakpoints` (shared with Vidette; mirrored to `C:\mcp\.config\mcp_breakpoints.json` — project-specific, not tracked in agency repo)
 - All page backgrounds, cards, panels, and surfaces
 
 **When making visual changes:** Update the Audit Status section below and add to the Changelog.
@@ -549,14 +559,14 @@ src/assets/css/ → public_html/resources/css/main.min.css (156.7KB)
 | `src/assets/css/all-themes.css` | Theme utilities, social buttons | **FULL OWNERSHIP** |
 | `src/assets/css/*-theme.css` (7 files) | Page-specific color overrides | **FULL OWNERSHIP** |
 | `src/assets/js/theme-toggle.js` | Theme switching logic | **FULL OWNERSHIP** |
-| `.config/mcp_jenninexus.json -> breakpoints` | Project breakpoint cache mirrored to global SSOT | Shared (Vidette) |
+| `[project]/.config/mcp_jenninexus.json` | Project breakpoint cache mirrored to global SSOT (project-local) | Shared (Vidette) |
 
 ### Related Config
 
 | File | Purpose | GraphViz's Use |
 |------|---------|----------------|
-| `.config/assets-deps.json` | Asset loading order | Verify theme-variables.css is first |
-| `.config/mcp_jenninexus.json` | Project config | Brand colors reference |
+| `[project]/.config/assets-deps.json` | Asset loading order (project-local) | Verify theme-variables.css is first |
+| `[project]/.config/mcp_jenninexus.json` | Project config (project-local) | Brand colors reference |
 
 ---
 
@@ -1032,7 +1042,7 @@ Run `.\scripts\audits\audit-theme-consistency.ps1` to update these metrics.
   - Rainbow glow effects for buttons/cards
   - Updated diy.php to use animated hero
 - **Expanded DIY theme documentation with animation classes**
-- **Created `storage/agency/.config/mcp_agents.json` as single source of truth for agent schedule**
+- **Established `.vscode/mcp.json` as single source of truth for agent schedule and config** (originally `.config/mcp_agents.json`, consolidated 2026-05-06)
 
 ### 2026-01-22 (Session 1)
 - **GraphViz agent created**

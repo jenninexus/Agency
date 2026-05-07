@@ -1,0 +1,92 @@
+# characters.yaml.example — Agent Portrait Generation Prompts
+#
+# Copy this to agents/characters.yaml (gitignored) and fill in your prompts.
+# Used by: scripts/generate-agent-portrait.ps1 -Agent <Name> -Ratio <square|landscape|portrait_3x4>
+#
+# See docs/ART-STYLE.md for the full aesthetic guide and naming conventions.
+
+# ── Shared style block ────────────────────────────────────────────────────────
+# Applied as a prefix/suffix to every agent prompt for visual cohesion.
+
+shared_style: |
+  Hyperrealistic 3D render. Luxury cyberpunk penthouse loft, high-rise tower,
+  futuristic rainy Seattle at night. Floor-to-ceiling rain-streaked glass windows
+  on multiple sides, glowing neon city visible below. Polished dark concrete floors,
+  exposed industrial steel beams, hardwood accents. Cinematic depth of field, moody
+  atmospheric haze. Each corner lit by the agent's personal accent color.
+
+# ── Agent blocks ──────────────────────────────────────────────────────────────
+# One block per agent. Three prompt variants per agent.
+# Replace placeholder text with your actual generation prompts.
+
+agents:
+
+  styleguard:
+    name: StyleGuard
+    accent_color: "#YOUR_HEX"
+    catchphrase: "CSS variables aren't optional. They're the foundation."
+    landscape: |
+      [Your 16:9 landscape portrait prompt here.
+      Include: character description, accent color lighting, workstation details,
+      shared_style appended at end.]
+    square: |
+      [Your 1:1 square portrait prompt here.]
+    portrait_3x4: |
+      [Your 3:4 tall portrait prompt here.]
+
+  layoutarchitect:
+    name: LayoutArchitect
+    accent_color: "#YOUR_HEX"
+    catchphrase: "Every pixel has purpose."
+    landscape: |
+      [Prompt]
+    square: |
+      [Prompt]
+    portrait_3x4: |
+      [Prompt]
+
+  contenteditor:
+    name: ContentEditor
+    accent_color: "#YOUR_HEX"
+    catchphrase: "Structure is kindness to your reader."
+    landscape: |
+      [Prompt]
+    square: |
+      [Prompt]
+    portrait_3x4: |
+      [Prompt]
+
+  assetmanager:
+    name: AssetManager
+    accent_color: "#YOUR_HEX"
+    catchphrase: "Unoptimized images are user disrespect."
+    landscape: |
+      [Prompt]
+    square: |
+      [Prompt]
+    portrait_3x4: |
+      [Prompt]
+
+  metricsguard:
+    name: MetricsGuard
+    accent_color: "#YOUR_HEX"
+    catchphrase: "If it's not indexed, it doesn't exist."
+    landscape: |
+      [Prompt]
+    square: |
+      [Prompt]
+    portrait_3x4: |
+      [Prompt]
+
+# ── Studio backgrounds (optional) ─────────────────────────────────────────────
+# Scene shots without the character — used for VS Code background extension slideshow.
+# See docs/ART-STYLE.md → Studio Background Variants.
+
+studio:
+  styleguard:
+    landscape: |
+      [Empty workstation scene, no character in frame. 16:9.]
+    landscape_2: |
+      [Second angle of same workstation. 16:9.]
+    portrait_916: |
+      [Tall portrait 9:16 shot of workstation.]

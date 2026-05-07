@@ -19,6 +19,22 @@ Meticulous perfectionist who treats every video grid like a gallery exhibition. 
 
 ---
 
+## Visual Style
+
+**Accent:** Cyan `#66c0f4` · **Studio corner:** North wall — streaming deck setup
+
+| Attribute | Description |
+|-----------|-------------|
+| **Hair** | Cool ash-blonde, sleek and straight, often tucked behind one ear |
+| **Style** | Minimal: dark athletic-cut top, utility vest with cable pockets, cargo trousers |
+| **Workstation** | Multi-monitor streaming wall, playlist queue displays, YouTube analytics dashboard |
+| **Neon** | Cyan underlighting beneath monitor shelf, bleeds cool light onto rain-streaked glass |
+| **Aesthetic** | Calm and analytical — collector energy, everything labeled and queued |
+
+> Portrait prompts → `agents/characters.yaml` (local). Variants: `square.jpg` · `landscape.jpg` · `portrait_3x4.jpg`. See [`docs/ART-STYLE.md`](../docs/ART-STYLE.md).
+
+---
+
 ## Responsibilities
 
 - Video grid rendering and layout
@@ -31,7 +47,7 @@ Meticulous perfectionist who treats every video grid like a gallery exhibition. 
 
 ## File Ownership
 
-> Populate with your project paths in `.config/mcp_agents.json`.
+> Populate with your project paths in `.vscode/mcp.json` (or your project override in `projects/[YOUR-PROJECT]/`).
 
 | File | Purpose |
 |------|---------|

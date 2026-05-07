@@ -20,8 +20,8 @@ Clone and configure:
 ```bash
 git clone https://github.com/jenninexus/agency.git
 cd agency
-cp .config/mcp_agents.example.json .config/mcp_agents.json
-# edit mcp_agents.json with your project's agents
+cp .vscode/mcp.example.json .vscode/mcp.json
+# edit .vscode/mcp.json — update studio name, agents, file paths
 ```
 
 Edit agent files, run audits, update scripts — commit and push normally.
@@ -94,7 +94,7 @@ These files live in the agency repo root but are **never committed**:
 | `agents.html` | Local agent roster dashboard — open in browser or via Live Server |
 | `.foam/agents-paths.json` | Config for agents.html (image/doc paths) |
 | `.foam/` (entire dir) | Local Foam knowledge graph config |
-| `.config/mcp_agents.json` | Your populated agent config (copy from `.example`) |
+| `.vscode/mcp.json` | Your populated agent config (copy from `.vscode/mcp.example.json`) |
 
 `agents.html` has an embedded fallback config and works as a bare `file://` URL. For full local image paths and custom agent data, populate `.foam/agents-paths.json` and open via VS Code Live Server.
 
@@ -127,8 +127,8 @@ Project-specific agents that don't belong in the shared framework live in their 
 ### Setup
 
 ```bash
-cp .config/mcp_agents.example.json .config/mcp_agents.json
-# edit mcp_agents.json with your project's agents
+cp .vscode/mcp.example.json .vscode/mcp.json
+# edit .vscode/mcp.json — update studio name, agents, file paths
 ```
 
 ### Start

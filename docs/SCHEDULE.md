@@ -4,8 +4,8 @@
 **Last Updated:** April 27, 2026
 **Status:** Active
 
-> **SINGLE SOURCE OF TRUTH:** `.config/mcp_agents.json`
-> This document provides human-readable details. The canonical schedule data is in the JSON config.
+> **SINGLE SOURCE OF TRUTH:** `.vscode/mcp.json`
+> This document provides human-readable details. The canonical schedule data lives in `.vscode/mcp.json` → `schedule` key.
 
 ---
 

@@ -109,7 +109,7 @@ When you invoke `/seo`, `/seo-audit`, or ask about SEO/analytics for JenniNexus,
 |:---|:---|:---|
 | **This Profile** | `agents/Metrica.md` | Technical standards & rules for SEO, analytics, and PR. |
 | **Character Guide** | `agents/AGENT-GUIDE.md#metrica---seo-analytics--pr-manager` | Visual style, personality, and full character details. |
-| **Master Config** | `storage/agency/.config/mcp_agents.json` | Schedule, metadata, and domain ownership. |
+| **Master Config** | `.vscode/mcp.json` | Schedule, metadata, and domain ownership. |
 | **Audit Script** | `scripts/audits/audit-seo-analytics.ps1` | Weekly Saturday audit. |
 | **Audit Report** | `storage/agency/audits/AUDIT_seo-analytics.md` | Standard audit output. |
 | **SEO Doc** | `storage/seo/SEO-AND-MARKETING.md` | Narrative SEO plan and status (local-only). |
@@ -150,6 +150,16 @@ Metrica is a data-obsessed strategist who sees every page view as a vote, every 
 | **Style** | Analyst-chic: white structured blazer over dark turtleneck, slim black trousers, white sneakers with neon green accents |
 | **Workstation** | Dual monitors — one showing Google Search Console, one showing GA4 real-time dashboard; holographic rank tracker displays float around her |
 | **Accessories** | Thin wire-frame glasses, smart watch showing site uptime, green laser pointer pen |
+
+---
+
+## Visual Style
+
+**Accent:** Neon Green `#39ff14` · **Studio corner:** Northeast — the data wall
+
+Holographic GSC rank trackers and GA4 dashboards float in layers around her monitors. The neon green is the most aggressive light in the penthouse — it doesn't glow, it pulses. Her corner always looks like something important is about to happen.
+
+> Portrait prompts → `agents/characters.yaml` (local). Variants: `square.jpg` · `landscape.jpg` · `portrait_3x4.jpg`. See [`docs/ART-STYLE.md`](../docs/ART-STYLE.md).
 
 ---
 

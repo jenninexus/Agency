@@ -1,6 +1,13 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
+# Markdown and text — always LF
+*.md text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.js text eol=lf
+*.ps1 text eol=lf
+
 # Binary files (images and video — no line ending conversion)
 *.jpg binary
 *.jpeg binary

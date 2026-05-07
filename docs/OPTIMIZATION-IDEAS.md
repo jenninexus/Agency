@@ -243,7 +243,7 @@ foreach ($agent in $agents) {
     }
 
     # Check mcp_agents.json sync
-    $json = Get-Content ".config/mcp_agents.json" | ConvertFrom-Json
+    $json = Get-Content ".vscode/mcp.json" | ConvertFrom-Json
     $jsonAgent = $json.agents.$agent
 
     if (-not $jsonAgent) {
@@ -283,7 +283,7 @@ Every agent file should follow this standardized structure:
 |----------|----------|---------|
 | Profile | storage/agents/[Name].md | This file |
 | Character Guide | AGENT-GUIDE.md#[anchor] | Image prompts |
-| Config | .config/mcp_agents.json | Schedule data |
+| Config | .vscode/mcp.json | Schedule data |
 | Audit Script | scripts/audit-[domain].ps1 | Weekly audit |
 
 ## Character Profile
@@ -345,8 +345,8 @@ Every agent file should follow this standardized structure:
 |----------|----------|---------|
 | **This Profile** | `storage/agents/Vidette.md` | Technical standards |
 | **Character Guide** | `AGENT-GUIDE.md#vidette` | Image prompts, personality |
-| **Config (JSON)** | `.config/mcp_agents.json` | Schedule, metadata |
-| **Video Config** | `.config/mcp_video.json` | Video system settings |
+| **Config (JSON)** | `.vscode/mcp.json` | Schedule, metadata |
+| **Video Config** | `[project]/.config/mcp_video.json` | Video system settings (project-local) |
 | **Audit Script** | `scripts/audit-video-pages.ps1` | Weekly Monday audit |
 | **Audit Report** | `storage/audits/AUDIT_video-pages.md` | Audit output |
 | **Primary Doc** | `storage/docs/VIDEO-SYSTEM.md` | Video grid standards |
@@ -502,8 +502,9 @@ ai-agents/
 │   └── .gitkeep
 ├── examples/
 │   └── StyleGuard.md           # Example agent
-├── .config/
-│   └── mcp_agents.example.json # Example config
+├── .vscode/
+│   ├── mcp.example.json        # MCP server + agent config template
+│   └── settings.example.json   # Workspace defaults template
 ├── scripts/
 │   ├── audit-styles.ps1
 │   ├── audit-content.ps1

@@ -75,6 +75,16 @@ DivineDesign is an elegant perfectionist with an eye for spatial harmony and use
 
 ---
 
+## Visual Style
+
+**Accent:** Teal `#00D4AA` · **Studio corner:** South wall — architectural drafting bay
+
+Teal neon from under-desk strips traces the edge of the walnut drafting table and bleeds into floating wireframe grids projected mid-air. Her corner has the most negative space in the penthouse — intentional. The architecture breathes.
+
+> Portrait prompts → `agents/characters.yaml` (local). Variants: `square.jpg` · `landscape.jpg` · `portrait_3x4.jpg`. See [`docs/ART-STYLE.md`](../docs/ART-STYLE.md).
+
+---
+
 ## How to Use DivineDesign
 
 **Invoke DivineDesign when:**

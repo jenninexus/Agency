@@ -18,7 +18,7 @@
 | **Full SSOT (jerry-vr)** | `C:\Users\Owner\Projects\www\jerry-vr\storage\agency\agents\Vixel.md` | Implementation rules, domain authority, audit protocol |
 | **Character Prompts** | `agents/characters.yaml#vixel` | AI image generation prompts (penthouse loft context) |
 | **Jerry-VR Prompts** | `C:\Users\Owner\Projects\www\jerry-vr\storage\gen-ai\vixel\prompts\characters.yaml` | Horror-studio portrait prompts (jerry-vr context) |
-| **Agent Config** | `.config/mcp_agents.json#vixel` | Schedule, specialty, coordinates_with |
+| **Agent Config** | `.vscode/mcp.json` → `agents.vixel` | Schedule, specialty, coordinates_with |
 | **Audit Script** | `C:\Users\Owner\Projects\www\jerry-vr\scripts\audit.ps1` | Weekly Sunday audit |
 | **Images** | `public_html/resources/images/ai/agents/vixel/` | square.jpg (1:1) + landscape.jpg (16:9) |
 | **Studio Background** | `generations/images/studio/vixel.jpg` | Empty brutalist workstation scene |
@@ -67,6 +67,16 @@ Vixel is an intense, technically obsessive young dev who bleeds Jerry VR. He bui
 
 ---
 
+## Visual Style
+
+**Accent:** Orange `#FF6B4A` · **Studio corner:** The brutalist concrete sub-corner — exposed columns, isolated
+
+Crimson server rack backlight plus blood-red and orange neon strips — the darkest corner in the penthouse, the only one with exposed concrete. Vixel's setup is deliberately separated from the rest of the team's polished glass and hardwood. His corner looks like the engine room. It is.
+
+> Portrait prompts → `agents/characters.yaml` (local — penthouse context). Horror-studio variant → `jerry-vr/storage/gen-ai/vixel/prompts/characters.yaml`. See [`docs/ART-STYLE.md`](../docs/ART-STYLE.md).
+
+---
+
 ## How to Use Vixel
 
 **Invoke Vixel when:**
@@ -90,7 +100,7 @@ Vixel is an intense, technically obsessive young dev who bleeds Jerry VR. He bui
 
 Vixel appears in the JenniNexus virtual studio for:
 - `public_html/page/agents.php` — gallery card + weekly schedule strip (Sunday slot)
-- `storage/agency/.config/mcp_agents.json#vixel` — registered agent with audit metadata
+- `.vscode/mcp.json` → `agents.vixel` — registered agent with audit metadata
 - `agents/characters.yaml#vixel` — penthouse studio portrait generation
 
 He reports to the same virtual studio as Vidette, Bloggie, GraphViz, GamerGirl, DivineDesign, and Metrica, but his authority and project scope are entirely `jerry-vr` — he does not audit or modify `jenninexus.com`.

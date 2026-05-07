@@ -18,7 +18,7 @@
 | **This Profile** | `agents/GamerGirl.md` | Technical standards & rules for game pages. |
 | **Image Prompts** | `agents/PROMPTS.md#gamergirl---gaming-content-manager` | AI image generation prompts for this character. |
 | **Character Guide** | `agents/AGENT-GUIDE.md#gamergirl---gaming-content-manager` | Visual style, personality, and full character details. |
-| **Master Config** | `storage/agency/.config/mcp_agents.json` | Schedule, metadata, and domain ownership. |
+| **Master Config** | `.vscode/mcp.json` | Schedule, metadata, and domain ownership. |
 | **Audit Script** | `scripts/audits/audit-game-pages.ps1` | The script for the weekly Thursday audit. |
 | **Audit Report** | `storage/logs/audit-game-pages-YYYY-MM-DD.md` | The output location for the audit report. |
 | **Primary Doc** | `storage/docs/PAGES.md` | The single source of truth for page structure. |
@@ -85,6 +85,16 @@ GamerGirl is a competitive perfectionist who treats every game page like it's a 
 | **Style** | Esports: black team jersey with "NEXUS" logo in blue/pink, joggers with glowing stripes, LED gaming sneakers |
 | **Workstation** | Triple 27-inch gaming monitors, custom mechanical keyboard with pudding keycaps, RGB LED strips |
 | **Accessories** | Gaming headset around neck, controller charm earrings, smart fitness tracker, silicon wristbands |
+
+---
+
+## Visual Style
+
+**Accent:** Pink `#FF2E88` · **Studio corner:** East wall — esports rig fortress
+
+Hot pink and electric blue RGB strips layer in her corner — the most visually chaotic light in the penthouse, but somehow perfectly calibrated. Triple monitors, mechanical keyboard sound bleeds into the ambient soundtrack. The neon is loudest here.
+
+> Portrait prompts → `agents/characters.yaml` (local). Variants: `square.jpg` · `landscape.jpg` · `portrait_3x4.jpg`. See [`docs/ART-STYLE.md`](../docs/ART-STYLE.md).
 
 ---
 
@@ -766,7 +776,7 @@ Status legend: **PASS** (compliant), **WARN** (minor issues), **NEEDS WORK** (ma
 
 ## Contact & Config
 
-**Config:** `storage/agency/.config/mcp_agents.json`
+**Config:** `.vscode/mcp.json`
 **Primary Docs:** `storage/docs/PAGES.md` (Game Pages section)
 **Template:** `public_html/game/game/*.php (game page pattern)`
 **Audit Script:** `scripts/audits/audit-game-pages.ps1`
@@ -1085,10 +1095,10 @@ When auditing game pages for embeds, check:
 
 | Config File | Purpose | GamerGirl's Use |
 |-------------|---------|-----------------|
-| `storage/agency/.config/mcp_agents.json` | Agent team coordination | Find agent schedules, responsibilities |
-| `.config/mcp_video.json` | Video display system config | Reference when adding video sections |
-| `.config/mcp_jenninexus.json -> breakpoints` | Bootstrap breakpoint cache & video grid presets | Use correct preset strings |
-| `.config/assets-deps.json` | Build system, CSS/JS bundles | Know which theme files exist |
+| `.vscode/mcp.json` | Agent team coordination | Find agent schedules, responsibilities |
+| `[project]/.config/mcp_video.json` | Video display system config (project-local) | Reference when adding video sections |
+| `[project]/.config/mcp_jenninexus.json` | Breakpoint cache & video grid presets (project-local) | Use correct preset strings |
+| `[project]/.config/assets-deps.json` | Build system, CSS/JS bundles (project-local) | Know which theme files exist |
 
 ### PHP Include Files (Use in Game Pages)
 

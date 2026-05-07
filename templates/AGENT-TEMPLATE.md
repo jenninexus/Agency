@@ -17,7 +17,7 @@
 | **This Profile** | `agents/[AgentName].md` | Technical standards & rules for [domain]. |
 | **Image Prompts** | `agents/PROMPTS.md#[agentname]` | AI image generation prompts for this character. |
 | **Character Guide** | `agents/AGENT-GUIDE.md#[agentname]` | Visual style, personality, and full character details. |
-| **Master Config** | `storage/agency/.config/mcp_agents.json` | Schedule, metadata, and domain ownership. |
+| **Master Config** | `.vscode/mcp.json` | Schedule, metadata, and domain ownership. |
 | **Audit Script** | `scripts/audit-[domain].ps1` | The script for the weekly [Day] audit. |
 | **Audit Report** | `storage/audits/AUDIT_[domain].md` | The output location for the audit report. |
 | **Primary Doc** | `storage/docs/[DOMAIN-DOC].md` | The single source of truth for [domain]. |
