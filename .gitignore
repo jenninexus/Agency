@@ -36,6 +36,12 @@ agency.code-workspace
 # Local agent roster dashboard (requires Live Server to run)
 agents.html
 
+# Local roadmap / planning docs — keep in docs/ but off public repo
+# (docs/ in general IS tracked; only these specific planning files are local)
+docs/ROADMAP.md
+docs/PLANS.md
+docs/NOTES.md
+
 # Local Foam knowledge graph config
 .foam/
 

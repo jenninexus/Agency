@@ -14,7 +14,7 @@
 |----------|----------|---------|
 | **This Profile** | `agents/StyleGuard.md` | Technical standards & rules |
 | **Character Guide** | `AGENT-GUIDE.md#styleguard` | Image prompts, visual style |
-| **Master Config** | `.config/mcp_agents.json` | Schedule, metadata, domains |
+| **Master Config** | `.vscode/mcp.json` | Schedule, metadata, domains |
 | **Audit Script** | `scripts/audit-styles.ps1` | Weekly automated audit |
 | **Audit Report** | `audits/AUDIT_styles.md` | Audit output location |
 

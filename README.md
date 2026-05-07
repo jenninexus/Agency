@@ -54,21 +54,72 @@ See `templates/AGENT-TEMPLATE.md` and `.vscode/mcp.example.json` to build your o
 
 ## Showcase Team (JenniNexus Studio)
 
-The `agents/` directory includes a fully-built example team from a real production studio. Use these as inspiration — their profiles, audit checklists, and red flags are what yours should look like:
+The `agents/` directory includes a fully-built example team from a real production studio. Use these as inspiration — their profiles, audit checklists, and red flags are what yours should look like.
 
-| Agent | Role | Audit Day | Domain |
-|:------|:-----|:----------|:-------|
-| **Vidette** | Video & Image Display | Monday | YouTube grids, playlists, aspect ratios, thumbnails |
-| **Bloggie** | Blog & Content Quality | Tuesday | Blog structure, tags, SEO, share buttons |
-| **GraphViz** | Theme & Visual Harmony | Wednesday | Color palettes, CSS vars, glass effects, WCAG |
-| **GamerGirl** | Gaming Content & Pages | Thursday | Game pages, platform CTAs, hero sections |
-| **DivineDesign** | Layout & Architecture | Friday | UX/UI, visual hierarchy, spacing, breakpoints |
-| **Metrica** | SEO, Analytics & PR | Saturday | GA4, PageSpeed, GSC, JSON-LD, og:image |
-| **Vixel** | VR Game Site | Sunday | jerry-vr.com, Unity VR, devlog pipeline |
+> These are project-specific agents adapted for one studio. Excellent reference material but not meant to be used as-is. Start from `.vscode/mcp.example.json` and `templates/AGENT-TEMPLATE.md` instead.
+
+<table>
+<tr>
+<td align="center" width="130">
+<img src="resources/images/agents/vidette.jpg" width="80" height="80" alt="Vidette" onerror="this.style.display='none'"/><br/>
+<b><a href="agents/Vidette.md">Vidette</a></b><br/>
+<sub>Video &amp; Image Display</sub><br/>
+<sub>📅 Monday · 🎨 <code>#66c0f4</code></sub><br/>
+<sub><i>"If it's not 16:9, it's not right."</i></sub>
+</td>
+<td align="center" width="130">
+<img src="resources/images/agents/bloggie.jpg" width="80" height="80" alt="Bloggie" onerror="this.style.display='none'"/><br/>
+<b><a href="agents/Bloggie.md">Bloggie</a></b><br/>
+<sub>Blog &amp; Content Quality</sub><br/>
+<sub>📅 Tuesday · 🎨 <code>#FFB020</code></sub><br/>
+<sub><i>"Structure is kindness to your reader."</i></sub>
+</td>
+<td align="center" width="130">
+<img src="resources/images/agents/graphviz.jpg" width="80" height="80" alt="GraphViz" onerror="this.style.display='none'"/><br/>
+<b><a href="agents/GraphViz.md">GraphViz</a></b><br/>
+<sub>Theme &amp; Visual Harmony</sub><br/>
+<sub>📅 Wednesday · 🎨 <code>#A563D1</code></sub><br/>
+<sub><i>"Investors don't fund white backgrounds."</i></sub>
+</td>
+<td align="center" width="130">
+<img src="resources/images/agents/gamergirl.jpg" width="80" height="80" alt="GamerGirl" onerror="this.style.display='none'"/><br/>
+<b><a href="agents/GamerGirl.md">GamerGirl</a></b><br/>
+<sub>Gaming Content &amp; Pages</sub><br/>
+<sub>📅 Thursday · 🎨 <code>#FF2E88</code></sub><br/>
+<sub><i>"Every game page is a sales page."</i></sub>
+</td>
+</tr>
+<tr>
+<td align="center" width="130">
+<img src="resources/images/agents/divinedesign.jpg" width="80" height="80" alt="DivineDesign" onerror="this.style.display='none'"/><br/>
+<b><a href="agents/DivineDesign.md">DivineDesign</a></b><br/>
+<sub>Layout &amp; Architecture</sub><br/>
+<sub>📅 Friday · 🎨 <code>#00D4AA</code></sub><br/>
+<sub><i>"Spacing is not decoration. It's structure."</i></sub>
+</td>
+<td align="center" width="130">
+<img src="resources/images/agents/metrica.jpg" width="80" height="80" alt="Metrica" onerror="this.style.display='none'"/><br/>
+<b><a href="agents/Metrica.md">Metrica</a></b><br/>
+<sub>SEO, Analytics &amp; PR</sub><br/>
+<sub>📅 Saturday · 🎨 <code>#39ff14</code></sub><br/>
+<sub><i>"If it's not indexed, it doesn't exist."</i></sub>
+</td>
+<td align="center" width="130">
+<img src="resources/images/agents/vixel.jpg" width="80" height="80" alt="Vixel" onerror="this.style.display='none'"/><br/>
+<b><a href="agents/Vixel.md">Vixel</a></b><br/>
+<sub>VR Game Site</sub><br/>
+<sub>📅 Sunday · 🎨 <code>#FF6B4A</code></sub><br/>
+<sub><i>"Ship the devlog. The lore sells the game."</i></sub>
+</td>
+<td align="center" width="130">
+<sub><br/><b>+ Your Agent</b><br/>Copy the template,<br/>define your domain</sub>
+</td>
+</tr>
+</table>
 
 > **Friday PM:** Implementation day — all agents collaborate to fix flagged issues.
 
-> These are project-specific agents adapted for one studio. They're excellent reference material but not meant to be used as-is. Start from `.vscode/mcp.example.json` and `templates/AGENT-TEMPLATE.md` instead.
+> Portrait images go in `resources/images/agents/<name>.jpg` (80×80 square). See [`docs/ART-STYLE.md`](docs/ART-STYLE.md) for generation conventions.
 
 See individual agent files in [`agents/`](agents/) for complete profiles, validation checklists, and red flags.
 
@@ -169,7 +220,7 @@ agency/
 │   └── settings.example.json          # Workspace defaults template (copy to settings.json, gitignored)
 │
 ├── agents/                            # Showcase agent profiles (public examples)
-│   ├── README.md                      # Team overview and agent structure
+│   ├── README.md                      # Agnostic index — links to examples/
 │   ├── characters.yaml                # AI image generation prompts (gitignored)
 │   ├── Vidette.md                     # Video & Media specialist
 │   ├── Bloggie.md                     # Blog & Content specialist
@@ -179,21 +230,19 @@ agency/
 │   ├── Metrica.md                     # SEO, Analytics & PR specialist
 │   └── Vixel.md                       # VR & Horror Game specialist (cross-project)
 │
-├── projects/                          # Project-specific agent rosters
-│   ├── README.md                      # How projects/ works + roster by project
-│   ├── jenninexus/                    # jenninexus.com — points to agents/
-│   ├── neophi/                        # neophi.club — Cipher.md
-│   │   └── Cipher.md                  # Creative Director & Brand Guardian
-│   ├── martiangames/                  # martiangames.com — GlassField, MissionControl, Orbiter
-│   └── jerryvr/                       # jerry-vr.com — Vixel (in agents/)
+├── projects/                          # Project-specific agent rosters (local only)
+│   └── README.md                      # How projects/ works — subdirs are gitignored
 │
 ├── resources/                         # Agent media assets
-│   ├── images/                        # Generated agent portraits
-│   │   └── banner.jpg                 # README banner
-│   └── video/                         # Agent video content
+│   ├── images/
+│   │   ├── banner.jpg                 # README header banner
+│   │   └── agents/                    # Square portraits for README cards (80×80)
+│   │       └── <name>.jpg             # vidette.jpg, bloggie.jpg, etc.
+│   └── video/
 │       └── .gitkeep
 │
 ├── docs/                              # Framework documentation
+│   ├── ART-STYLE.md                   # Shared aesthetic + per-agent visual identity
 │   ├── AGENT-GUIDE.md                 # Character creation & design guide
 │   ├── SCHEDULE.md                    # Weekly audit cadence template
 │   ├── WORKFLOW.md                    # Edit + MCP + submodule sync guide
@@ -203,7 +252,8 @@ agency/
 │   └── AGENT-TEMPLATE.md              # Blank agent profile template
 │
 ├── examples/
-│   └── StyleGuard.md                  # Full working example agent
+│   ├── StyleGuard.md                  # Full working example agent
+│   └── AgentRoster.md                 # Example team roster doc (JenniNexus studio)
 │
 ├── scripts/                           # Audit automation + MCP server
 │   ├── mcp-server.js                  # MCP stdio server (zero deps, Node 18+)
@@ -220,15 +270,19 @@ agency/
 
 | Document | Description |
 |:---------|:------------|
+| [`docs/ART-STYLE.md`](docs/ART-STYLE.md) | Shared studio aesthetic, per-agent colors, portrait generation conventions |
 | [`docs/AGENT-GUIDE.md`](docs/AGENT-GUIDE.md) | Character creation guide with visual design system |
 | [`docs/SCHEDULE.md`](docs/SCHEDULE.md) | Weekly audit schedule and cross-agent coordination |
 | [`docs/OPTIMIZATION-IDEAS.md`](docs/OPTIMIZATION-IDEAS.md) | VS Code, Claude Code & workflow integration strategies |
 | [`templates/AGENT-TEMPLATE.md`](templates/AGENT-TEMPLATE.md) | Full agent profile template (200+ lines) |
-| [`examples/StyleGuard.md`](examples/StyleGuard.md) | Working example agent with checklists and red flags |
+| [`examples/StyleGuard.md`](examples/StyleGuard.md) | Full working example agent with checklists and red flags |
+| [`examples/AgentRoster.md`](examples/AgentRoster.md) | Example team roster doc (JenniNexus 7-agent studio) |
 
 ### Portrait Generation
 
-Agent portraits can be generated using AI image APIs (e.g., xAI Grok Imagine, DALL-E, Midjourney). See `resources/images/` for an example portrait. The included agent profiles contain visual descriptions suitable for image generation prompts.
+Agent portraits are generated via AI image APIs (xAI Grok Imagine, DALL-E, Midjourney). Place 80×80 square portraits at `resources/images/agents/<name>.jpg` to populate the showcase cards above.
+
+See [`docs/ART-STYLE.md`](docs/ART-STYLE.md) for the shared aesthetic, per-agent accent colors, and prompt conventions. Full prompts live in `agents/characters.yaml` (local only — gitignored).
 
 ---
 
