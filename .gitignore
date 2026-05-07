@@ -66,6 +66,14 @@ desktop.ini
 *.swo
 *.bak
 
+# ── Project-specific local agents (private paths / credentials) ──────────────
+
+# Uncomment to gitignore an entire project's agent directory if it contains
+# private implementation details not suitable for the public repo:
+# projects/jenninexus/storage/
+# projects/martiangames/storage/
+# projects/neophi/storage/
+
 # ── TRACKED FILES (for reference) ────────────────────────────────────────────
 # README.md, package.json
 # .env.example, .gitattributes
@@ -74,5 +82,6 @@ desktop.ini
 # .vscode/mcp.json, .vscode/settings.example.json
 # agency.example.code-workspace
 # agents/*.md  (characters.yaml is gitignored — keep local)
+# projects/*/README.md, projects/neophi/Cipher.md
 # docs/, templates/, examples/, scripts/
 # resources/images/banner.jpg

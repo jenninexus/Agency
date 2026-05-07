@@ -8,7 +8,7 @@
 
 [![Framework](https://img.shields.io/badge/Framework-AI%20Agent%20Agency-9D4EDD?style=for-the-badge)](.)
 [![License](https://img.shields.io/badge/License-MIT-00D4FF?style=for-the-badge)](LICENSE)
-[![Agents](https://img.shields.io/badge/Agents-6%20Active-FF6B6B?style=for-the-badge)](.config/mcp_agents.json)
+[![Agents](https://img.shields.io/badge/Agents-7%20Active-FF6B6B?style=for-the-badge)](.config/mcp_agents.json)
 
 **Enterprise-quality consistency. Zero labor cost. No white backgrounds.**
 
@@ -46,8 +46,11 @@ Think of it as staffing a virtual game studio where every agent has a desk in yo
 | **GamerGirl** | Chief Gaming Content & Game Page Integrity Officer | Thursday | Game pages, platform CTAs, hero sections |
 | **DivineDesign** | Chief Site-Wide Design & Page Architecture Officer | Friday | Layout, UX/UI, visual hierarchy, spacing |
 | **Metrica** | Chief SEO, Analytics & PR Officer | Saturday | GA4, PageSpeed, GSC, JSON-LD, og:image, sitemap |
+| **Vixel** | Chief VR & Horror Game Site Officer | Sunday | jerry-vr.com, Unity VR integration, devlog pipeline |
 
 > **Friday PM:** Implementation day—all agents collaborate to fix flagged issues.
+
+> **Vixel** is a cross-project agent — he manages `jerry-vr.com` full-time but his character profile lives here in the JenniNexus showcase team. See [`projects/jerryvr/`](projects/jerryvr/).
 
 See individual agent files in [`agents/`](agents/) for complete profiles, validation checklists, and red flags.
 
@@ -149,15 +152,24 @@ agency/
 │   ├── mcp.json                       # MCP server config for Claude Code / Cursor / Zed
 │   └── settings.example.json          # Workspace defaults template (copy to settings.json)
 │
-├── agents/                            # Agent profiles (working examples included)
+├── agents/                            # Showcase agent profiles (public examples)
 │   ├── README.md                      # Team overview and agent structure
-│   ├── characters.yaml                # AI image generation prompts (all agents)
+│   ├── characters.yaml                # AI image generation prompts (gitignored)
 │   ├── Vidette.md                     # Video & Media specialist
 │   ├── Bloggie.md                     # Blog & Content specialist
 │   ├── GraphViz.md                    # Theme & Visual specialist
 │   ├── GamerGirl.md                   # Gaming Content specialist
 │   ├── DivineDesign.md                # Layout & Architecture specialist
-│   └── Metrica.md                     # SEO, Analytics & PR specialist
+│   ├── Metrica.md                     # SEO, Analytics & PR specialist
+│   └── Vixel.md                       # VR & Horror Game specialist (cross-project)
+│
+├── projects/                          # Project-specific agent rosters
+│   ├── README.md                      # How projects/ works + roster by project
+│   ├── jenninexus/                    # jenninexus.com — points to agents/
+│   ├── neophi/                        # neophi.club — Cipher.md
+│   │   └── Cipher.md                  # Creative Director & Brand Guardian
+│   ├── martiangames/                  # martiangames.com — GlassField, MissionControl, Orbiter
+│   └── jerryvr/                       # jerry-vr.com — Vixel (in agents/)
 │
 ├── resources/                         # Agent media assets
 │   ├── images/                        # Generated agent portraits
@@ -313,6 +325,8 @@ The audit scripts use these paths automatically via `_audit-common.ps1`.
 | **Linklord** | External Links & APIs | Planned |
 | **Docster** | Documentation Manager | Planned |
 | **Testrix** | Testing & QA | Planned |
+
+> Project-specific agents (Cipher, GlassField, MissionControl, Orbiter) live in [`projects/`](projects/) — not in this showcase roster.
 
 ---
 

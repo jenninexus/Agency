@@ -8,7 +8,9 @@
 
 ## Overview
 
-This directory contains agent profiles for the JenniNexus virtual agency. Each `.md` file is a specialist persona with defined file ownership, enforced rules, and a weekly audit protocol.
+This directory contains the **showcase agent profiles** — the public JenniNexus team that serves as a working example of the framework. Each `.md` file is a specialist persona with defined file ownership, enforced rules, and a weekly audit protocol.
+
+Project-specific agents (tied to one domain or codebase) live in [`../projects/`](../projects/) — see `projects/neophi/Cipher.md` as an example of a project-scoped agent that doesn't belong in the showcase roster.
 
 All agents work at the same luxury cyberpunk penthouse studio — high-rise tower, futuristic rainy Seattle skyline, each corner reflecting the agent's personality through neon color and specialized equipment. Their shared art style and image prompts are defined in `characters.yaml`.
 

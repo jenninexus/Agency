@@ -412,7 +412,6 @@ All agents enforce these universal rules:
 |-------|------|-----------|--------|
 | **Codex** | Build System & DevOps | build.ps1, deploy.ps1, optimization | Planned |
 | **Tagster** | Tag System Specialist | tags.json, tag-system.js, filtering | Planned |
-| **Metrica** | Analytics & SEO | Performance, meta tags, Core Web Vitals | Planned |
 | **Linklord** | External Links & APIs | API integrations, link validation | Planned |
 
 ---
