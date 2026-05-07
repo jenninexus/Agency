@@ -1,44 +1,52 @@
 # Agency Projects
 
-This directory holds project-specific agent rosters — agents that belong to a particular website or app rather than serving as generic framework examples.
+This directory holds your project-specific agent rosters — agents that belong to one particular website or app rather than the shared showcase team in `agents/`.
+
+**Everything in `projects/` subdirectories is gitignored.** Only this README is public. Your project agents stay local.
+
+---
 
 ## Structure
 
 ```
 projects/
-├── jenninexus/     ← jenninexus.com — 7 agents (see agents/ for their profiles)
-├── neophi/         ← neophi.club — 1 agent: Cipher
-├── martiangames/   ← martiangames.com — 3 agents: GlassField, MissionControl, Orbiter
-└── jerryvr/        ← jerry-vr.com — Vixel (also in agents/ as a cross-project example)
+├── README.md          ← you are here (tracked)
+└── yourproject/       ← gitignored — local only
+    ├── AgentName.md
+    └── README.md
 ```
 
-## How This Works
+---
 
-- **`agents/`** — Public showcase agents. Complete, polished examples that demonstrate the framework. Any project can adapt these.
-- **`projects/<name>/`** — Project-specific agents. Tied to one codebase, one domain, one tech stack.
+## How It Works
+
+- **`agents/`** — Public showcase team. Complete, polished examples that demonstrate the framework. Any project can adapt these.
+- **`projects/<name>/`** — Your project-specific agents. Tied to one codebase, one domain, one tech stack. Never pushed to GitHub.
 
 When you fork or adapt this repo:
 1. Keep `agents/` as your reference team (or strip it and start fresh)
-2. Create `projects/<your-project>/` for each site/app
-3. Add agent `.md` files to each project directory
-4. Point your project's `storage/agency/agents/` at these files (or copy them locally)
+2. Create `projects/<your-project>/` for each site or app
+3. Add agent `.md` files to each project directory — they stay local
+4. Point each project's implementation SSOT at these files (or copy them locally)
 
-## Agent Roster by Project
+---
 
-| Project | Domain | Agents | Notes |
-|---------|--------|--------|-------|
-| jenninexus | jenninexus.com | 7 (see `agents/`) | PHP + Bootstrap + React islands |
-| neophi | neophi.club | Cipher | PHP + Bootstrap, character universe |
-| martiangames | martiangames.com | GlassField, MissionControl, Orbiter | PHP + Bootstrap, game studio |
-| jerryvr | jerry-vr.com | Vixel | PHP + Bootstrap, Unity VR / horror |
+## Adding a Project
 
-## Adding a New Project
-
-```
-projects/
-└── myproject/
-    ├── AgentName.md   ← Copy from templates/AGENT-TEMPLATE.md
-    └── README.md      ← Optional: project overview + agent list
+```bash
+mkdir projects/myproject
+cp templates/AGENT-TEMPLATE.md projects/myproject/MyAgent.md
 ```
 
-The only rule: keep agent profiles public-safe (no credentials, no private paths, no personal data).
+Then add a `projects/myproject/README.md` listing your agents and linking to the implementation SSOT in your project's private `storage/` directory.
+
+---
+
+## Why Keep Projects Local?
+
+Project agents often contain:
+- Private file paths and server structure
+- Internal naming conventions you don't want public
+- Implementation details tied to a specific codebase
+
+The public `agents/` showcase is for the *pattern* — your `projects/` is where you apply it.
