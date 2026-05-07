@@ -1,33 +1,66 @@
 # Agency Projects
 
-This directory holds your project-specific agent rosters — agents that belong to one particular website or app rather than the shared showcase team in `agents/`.
+This directory is intentionally empty in the public repo.
 
-**Everything in `projects/` subdirectories is gitignored.** Only this README is public. Your project agents stay local.
+Project-specific agent directories live here **locally only** — they are gitignored (`projects/*/`). Only this README is tracked.
 
 ---
 
-## Structure
+## The Pattern
+
+Each project that uses the agency framework gets its own subdirectory here:
 
 ```
 projects/
-├── README.md          ← you are here (tracked)
-└── yourproject/       ← gitignored — local only
-    ├── AgentName.md
-    └── README.md
+├── README.md              ← this file (tracked)
+└── yourproject/           ← gitignored — local only
+    ├── README.md          ← lists agents + links to implementation SSOT
+    └── AgentName.md       ← public-safe agent profile (no credentials, no private paths)
+```
+
+The implementation SSOT (private paths, audit scripts, build pipeline) lives **inside the project itself**, not here:
+
+```
+yourproject/
+└── storage/
+    ├── agency/            ← agent profiles, audit outputs, generations
+    │   ├── agents/        ← local agent .md files (project-specific)
+    │   ├── agents.json    ← cluster/project agent registry
+    │   └── audits/        ← audit output (gitignored)
+    └── gen-ai/            ← AI image generation pipeline (gitignored)
+        ├── agents/        ← generated agent portraits
+        └── characters.yaml  ← generation prompts (private, gitignored)
 ```
 
 ---
 
-## How It Works
+## Submodule vs Standalone
 
-- **`agents/`** — Public showcase team. Complete, polished examples that demonstrate the framework. Any project can adapt these.
-- **`projects/<name>/`** — Your project-specific agents. Tied to one codebase, one domain, one tech stack. Never pushed to GitHub.
+**As a submodule** (`git submodule add https://github.com/jenninexus/agency.git storage/agency`):
+- Public agent profiles pull automatically via `git submodule update --remote`
+- Local project agents live in `projects/<name>/` (gitignored) alongside the submodule files
+- Update workflow: edit in `C:\Github\agency` → push → `git submodule update --remote` in each project
 
-When you fork or adapt this repo:
-1. Keep `agents/` as your reference team (or strip it and start fresh)
-2. Create `projects/<your-project>/` for each site or app
-3. Add agent `.md` files to each project directory — they stay local
-4. Point each project's implementation SSOT at these files (or copy them locally)
+**Standalone copy** (cloned directly into a project):
+- No submodule overhead — just a reference copy you update manually
+- Best for projects that heavily customize agent profiles
+
+---
+
+## gen-ai Pipeline
+
+Agent portrait generation uses a separate companion toolkit. The pattern:
+
+```
+storage/gen-ai/
+├── agents/           ← per-agent portrait outputs (landscape, square, portrait_3x4)
+├── characters.yaml   ← prompt SSOT (gitignored — private)
+└── protocol.yaml     ← model, aspect ratios, output conventions
+```
+
+Generate with: `pwsh scripts/generate-agent-portrait.ps1 -Agent <Name> -AspectRatio both`
+
+Prompts live in `characters.yaml` alongside the public `agents/` profiles. Outputs go to `storage/gen-ai/agents/<name>/` before being copied to the project's public image path.
 
 ---
 
@@ -38,15 +71,4 @@ mkdir projects/myproject
 cp templates/AGENT-TEMPLATE.md projects/myproject/MyAgent.md
 ```
 
-Then add a `projects/myproject/README.md` listing your agents and linking to the implementation SSOT in your project's private `storage/` directory.
-
----
-
-## Why Keep Projects Local?
-
-Project agents often contain:
-- Private file paths and server structure
-- Internal naming conventions you don't want public
-- Implementation details tied to a specific codebase
-
-The public `agents/` showcase is for the *pattern* — your `projects/` is where you apply it.
+The only public-safety rule: no credentials, no private paths, no personal data in anything you commit to the agency origin.

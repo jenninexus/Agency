@@ -119,6 +119,33 @@
         "Missing lazy loading"
       ],
       "coordinates_with": ["styleguard", "contenteditor"]
+    },
+
+    "metricsguard": {
+      "name": "MetricsGuard",
+      "fullName": "MetricsGuard",
+      "title": "Chief SEO, Analytics & Performance Officer",
+      "emoji": "📊",
+      "profile": "agents/MetricsGuard.md",
+      "specialty": ["SEO metadata", "JSON-LD structured data", "Core Web Vitals", "PageSpeed", "og:image", "sitemap"],
+      "philosophy": "If Google can't crawl it, it doesn't exist.",
+      "tagline": "Every page earns its place in the index.",
+      "audit_day": "Saturday",
+      "audit_script": "scripts/audit-seo.ps1",
+      "audit_report": "audits/AUDIT_seo.md",
+      "domains": {
+        "meta_files": ["head.php", "header.php", "*.php"],
+        "config_files": ["sitemap.xml", "robots.txt"]
+      },
+      "red_flags": [
+        "Missing og:image or wrong dimensions (not 1200×630)",
+        "No JSON-LD structured data on key page types",
+        "PageSpeed mobile score below 70",
+        "Pages returning 200 with thin/duplicate content",
+        "Missing canonical tags on paginated content",
+        "robots.txt blocking CSS/JS assets"
+      ],
+      "coordinates_with": ["contenteditor", "assetmanager"]
     }
   },
 
@@ -153,6 +180,11 @@
         "agent": "all",
         "focus": "Implementation day - fix all audit failures before weekend",
         "command": "Implementation based on audit results"
+      },
+      "saturday": {
+        "agent": "metricsguard",
+        "focus": "SEO metadata, JSON-LD, PageSpeed, og:image, crawl health",
+        "command": "powershell -ExecutionPolicy Bypass -File scripts/audit-seo.ps1"
       }
     }
   },

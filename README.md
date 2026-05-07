@@ -36,21 +36,39 @@ Think of it as staffing a virtual game studio where every agent has a desk in yo
 
 ---
 
-## Agent Roster
+## The 5 Core Audit Areas
+
+Before building a custom team, start with the five categories that catch 90% of recurring drift:
+
+| # | Audit Area | What It Catches | Starter Agent |
+|:--|:-----------|:----------------|:--------------|
+| 1 | **Theme & Design Tokens** | Hardcoded hex, missing CSS vars, dark/light mode inconsistency, WCAG contrast | StyleGuard |
+| 2 | **Layout & UX** | Broken breakpoints, spacing inconsistency, missing responsive rules, visual hierarchy drift | LayoutArchitect |
+| 3 | **Content Quality** | Inconsistent formatting, missing metadata, broken structure, stale copy | ContentEditor |
+| 4 | **Media & Assets** | Unoptimized images, wrong aspect ratios, missing lazy loading, broken embeds | AssetManager |
+| 5 | **SEO & Performance** | Missing JSON-LD, bad og:image, PageSpeed regressions, uncrawled pages | MetricsGuard |
+
+See `templates/AGENT-TEMPLATE.md` and `.config/mcp_agents.example.json` to build your own team around these areas.
+
+---
+
+## Showcase Team (JenniNexus Studio)
+
+The `agents/` directory includes a fully-built example team from a real production studio. Use these as inspiration — their profiles, audit checklists, and red flags are what yours should look like:
 
 | Agent | Role | Audit Day | Domain |
 |:------|:-----|:----------|:-------|
-| **Vidette** | Chief Video & Image Display Integrity Officer | Monday | YouTube grids, playlists, aspect ratios, thumbnails |
-| **Bloggie** | Chief Blog Page Design & Consistency Officer | Tuesday | Blog structure, tags, SEO, share buttons |
-| **GraphViz** | Chief Visual Harmony & Theme System Architect | Wednesday | Color palettes, themes, glass effects, WCAG |
-| **GamerGirl** | Chief Gaming Content & Game Page Integrity Officer | Thursday | Game pages, platform CTAs, hero sections |
-| **DivineDesign** | Chief Site-Wide Design & Page Architecture Officer | Friday | Layout, UX/UI, visual hierarchy, spacing |
-| **Metrica** | Chief SEO, Analytics & PR Officer | Saturday | GA4, PageSpeed, GSC, JSON-LD, og:image, sitemap |
-| **Vixel** | Chief VR & Horror Game Site Officer | Sunday | jerry-vr.com, Unity VR integration, devlog pipeline |
+| **Vidette** | Video & Image Display | Monday | YouTube grids, playlists, aspect ratios, thumbnails |
+| **Bloggie** | Blog & Content Quality | Tuesday | Blog structure, tags, SEO, share buttons |
+| **GraphViz** | Theme & Visual Harmony | Wednesday | Color palettes, CSS vars, glass effects, WCAG |
+| **GamerGirl** | Gaming Content & Pages | Thursday | Game pages, platform CTAs, hero sections |
+| **DivineDesign** | Layout & Architecture | Friday | UX/UI, visual hierarchy, spacing, breakpoints |
+| **Metrica** | SEO, Analytics & PR | Saturday | GA4, PageSpeed, GSC, JSON-LD, og:image |
+| **Vixel** | VR Game Site | Sunday | jerry-vr.com, Unity VR, devlog pipeline |
 
-> **Friday PM:** Implementation day—all agents collaborate to fix flagged issues.
+> **Friday PM:** Implementation day — all agents collaborate to fix flagged issues.
 
-> **Vixel** is a cross-project agent — he manages `jerry-vr.com` full-time but his character profile lives here in the JenniNexus showcase team. See [`projects/jerryvr/`](projects/jerryvr/).
+> These are project-specific agents adapted for one studio. They're excellent reference material but not meant to be used as-is. Start from `.config/mcp_agents.example.json` and `templates/AGENT-TEMPLATE.md` instead.
 
 See individual agent files in [`agents/`](agents/) for complete profiles, validation checklists, and red flags.
 
@@ -281,9 +299,10 @@ Add agent references to your project's `CLAUDE.md` for automatic context:
 
 ```markdown
 ## Agent Team
-- 6 AI agents with weekly audit schedules
+- 5 AI agents covering theme, layout, content, assets, and SEO
 - Agent profiles: `agents/*.md`
-- Master config: `.config/mcp_agents.json`
+- Agent config: `.config/mcp_agents.json` (copy from `.config/mcp_agents.example.json`)
+- MCP server: `.vscode/mcp.json` (copy from `.vscode/mcp.example.json`)
 - Audit scripts: `scripts/audit-*.ps1`
 - Audit results: `audits/AUDIT_*.md`
 ```
