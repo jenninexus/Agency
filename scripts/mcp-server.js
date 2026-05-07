@@ -12,11 +12,10 @@
  *            agency://config       — active mcp_agents.json
  *
  * Setup:
- *   cp .config/mcp_agents.example.json .config/mcp_agents.json   # agent data config
- *   cp .vscode/mcp.example.json .vscode/mcp.json                 # MCP server config
- *   node scripts/mcp-server.js   # or: npm run mcp
+ *   cp .vscode/mcp.example.json .vscode/mcp.json   # copy template, edit for your project
+ *   node scripts/mcp-server.js                      # or: npm run mcp
  *
- * Submodule path (if agency lives at storage/agency inside your project):
+ * Submodule path (agency at storage/agency inside your project):
  *   Update .vscode/mcp.json args to: "${workspaceFolder}/storage/agency/scripts/mcp-server.js"
  *
  * Spec: https://modelcontextprotocol.io
@@ -30,13 +29,15 @@ const readline = require('readline');
 
 // ── Paths ─────────────────────────────────────────────────────────────────────
 const ROOT         = path.join(__dirname, '..');
-const CONFIG_PATH  = path.join(ROOT, '.config', 'mcp_agents.json');
-const EXAMPLE_PATH = path.join(ROOT, '.config', 'mcp_agents.example.json');
+const CONFIG_PATH  = path.join(ROOT, '.vscode', 'mcp.json');
+const EXAMPLE_PATH = path.join(ROOT, '.vscode', 'mcp.example.json');
 const AGENTS_DIR   = path.join(ROOT, 'agents');
 
 function loadConfig() {
   const p = fs.existsSync(CONFIG_PATH) ? CONFIG_PATH : EXAMPLE_PATH;
-  return JSON.parse(fs.readFileSync(p, 'utf8'));
+  // Strip // comments (VS Code mcp.json uses JSONC) before parsing
+  const raw = fs.readFileSync(p, 'utf8').replace(/\/\/[^\n]*/g, '');
+  return JSON.parse(raw);
 }
 
 // ── Tools ─────────────────────────────────────────────────────────────────────

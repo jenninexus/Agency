@@ -19,8 +19,9 @@ logs/
 
 # ── Local config (customize from .example) ───────────────────────────────────
 
-# Agent config — copy from .config/mcp_agents.example.json and populate
-.config/mcp_agents.json
+# Agent + MCP config — copy from .vscode/mcp.example.json → .vscode/mcp.json
+.vscode/mcp.json
+.config/
 
 # Workspace — copy from agency.example.code-workspace
 agency.code-workspace
@@ -42,7 +43,6 @@ agents.html
 .claude/
 
 # VS Code per-user overrides (copy *.example.json → the real file and customize)
-.vscode/mcp.json
 .vscode/*.code-snippets
 .vscode/launch.json
 .vscode/settings.json
@@ -74,15 +74,12 @@ desktop.ini
 projects/*/
 
 # ── TRACKED FILES (for reference) ────────────────────────────────────────────
-# README.md, package.json
-# .env.example, .gitattributes
-# .config/mcp_agents.example.json   ← agent data template (MCP server fallback)
+# README.md, package.json, .env.example, .gitattributes
 # .github/copilot-instructions.md
-# .vscode/mcp.example.json          ← MCP server config template (copy → mcp.json)
+# .vscode/mcp.example.json     ← ONE config for both MCP server + agent data (copy → mcp.json)
 # .vscode/settings.example.json
 # agency.example.code-workspace
 # agents/*.md  (characters.yaml is gitignored — keep local)
-# projects/README.md  (concept doc — tracked)
-# projects/*/         (project subdirs — gitignored, local only)
+# projects/README.md  (concept doc only — project subdirs are local/gitignored)
 # docs/, templates/, examples/, scripts/
 # resources/images/banner.jpg

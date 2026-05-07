@@ -8,7 +8,7 @@
 
 [![Framework](https://img.shields.io/badge/Framework-AI%20Agent%20Agency-9D4EDD?style=for-the-badge)](.)
 [![License](https://img.shields.io/badge/License-MIT-00D4FF?style=for-the-badge)](LICENSE)
-[![Agents](https://img.shields.io/badge/Agents-7%20Active-FF6B6B?style=for-the-badge)](.config/mcp_agents.json)
+[![Agents](https://img.shields.io/badge/Agents-7%20Active-FF6B6B?style=for-the-badge)](.vscode/mcp.example.json)
 
 **Enterprise-quality consistency. Zero labor cost. No white backgrounds.**
 
@@ -48,7 +48,7 @@ Before building a custom team, start with the five categories that catch 90% of 
 | 4 | **Media & Assets** | Unoptimized images, wrong aspect ratios, missing lazy loading, broken embeds | AssetManager |
 | 5 | **SEO & Performance** | Missing JSON-LD, bad og:image, PageSpeed regressions, uncrawled pages | MetricsGuard |
 
-See `templates/AGENT-TEMPLATE.md` and `.config/mcp_agents.example.json` to build your own team around these areas.
+See `templates/AGENT-TEMPLATE.md` and `.vscode/mcp.example.json` to build your own team around these areas.
 
 ---
 
@@ -68,7 +68,7 @@ The `agents/` directory includes a fully-built example team from a real producti
 
 > **Friday PM:** Implementation day — all agents collaborate to fix flagged issues.
 
-> These are project-specific agents adapted for one studio. They're excellent reference material but not meant to be used as-is. Start from `.config/mcp_agents.example.json` and `templates/AGENT-TEMPLATE.md` instead.
+> These are project-specific agents adapted for one studio. They're excellent reference material but not meant to be used as-is. Start from `.vscode/mcp.example.json` and `templates/AGENT-TEMPLATE.md` instead.
 
 See individual agent files in [`agents/`](agents/) for complete profiles, validation checklists, and red flags.
 
@@ -81,7 +81,8 @@ See individual agent files in [`agents/`](agents/) for complete profiles, valida
 ```bash
 git clone https://github.com/jenninexus/agency.git
 cd agency
-cp .config/mcp_agents.example.json .config/mcp_agents.json
+cp .vscode/mcp.example.json .vscode/mcp.json
+# Edit .vscode/mcp.json — update studio name, agent domains, file paths
 ```
 
 ### 2. Create Your First Agent
@@ -131,8 +132,8 @@ All agent metadata, schedules, and coordination rules live in a single source of
 
 | File | Purpose |
 |:-----|:--------|
-| [`.config/mcp_agents.json`](.config/mcp_agents.json) | Master configuration—agents, schedules, rules |
-| [`.config/mcp_agents.example.json`](.config/mcp_agents.example.json) | Template for new projects |
+| [`.vscode/mcp.json`](.vscode/mcp.example.json) | Master configuration—agents, schedules, rules (gitignored, copy from example) |
+| [`.vscode/mcp.example.json`](.vscode/mcp.example.json) | Template for new projects (tracked) |
 
 ### Universal Rules (Non-Negotiable)
 
@@ -160,15 +161,12 @@ agency/
 ├── .env.example                       # Environment variable template
 ├── agency.example.code-workspace      # VS Code workspace (copy to agency.code-workspace)
 │
-├── .config/
-│   └── mcp_agents.example.json        # Agent config template (copy to mcp_agents.json)
-│
 ├── .github/
 │   └── copilot-instructions.md        # Auto-loaded by GitHub Copilot
 │
 ├── .vscode/
-│   ├── mcp.json                       # MCP server config for Claude Code / Cursor / Zed
-│   └── settings.example.json          # Workspace defaults template (copy to settings.json)
+│   ├── mcp.example.json               # MCP server + agent config template (copy to mcp.json, gitignored)
+│   └── settings.example.json          # Workspace defaults template (copy to settings.json, gitignored)
 │
 ├── agents/                            # Showcase agent profiles (public examples)
 │   ├── README.md                      # Team overview and agent structure
@@ -250,7 +248,7 @@ git commit -m "[BLOGGIE] Fixed tag system to use anchor tags"
 ```
 
 ### Cross-References
-When multiple agents collaborate, use the coordination matrix in `.config/mcp_agents.json` to identify dependencies.
+When multiple agents collaborate, use the coordination matrix in `.vscode/mcp.json` to identify dependencies.
 
 ---
 
@@ -301,8 +299,7 @@ Add agent references to your project's `CLAUDE.md` for automatic context:
 ## Agent Team
 - 5 AI agents covering theme, layout, content, assets, and SEO
 - Agent profiles: `agents/*.md`
-- Agent config: `.config/mcp_agents.json` (copy from `.config/mcp_agents.example.json`)
-- MCP server: `.vscode/mcp.json` (copy from `.vscode/mcp.example.json`)
+- MCP config: `.vscode/mcp.json` (copy from `.vscode/mcp.example.json`, gitignored)
 - Audit scripts: `scripts/audit-*.ps1`
 - Audit results: `audits/AUDIT_*.md`
 ```

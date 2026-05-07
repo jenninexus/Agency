@@ -2,7 +2,7 @@
 
 This project uses the **AI Agent Agency** framework: a team of specialized AI agents, each owning a domain of the codebase, enforcing standards, and running weekly audits.
 
-> **This is a template.** Replace the example agent table, file ownership map, and red flags below with your own agents from `agents/*.md` and `.config/mcp_agents.json`.
+> **This is a template.** Replace the example agents below with your own team defined in `.vscode/mcp.json`.
 
 ---
 
@@ -14,6 +14,7 @@ This project uses the **AI Agent Agency** framework: a team of specialized AI ag
 | **LayoutArchitect** ✨ | Chief UX/UI Design & Page Architecture Officer | Friday | Page layout, component architecture, UX/spacing |
 | **ContentEditor** 📝 | Chief Content Quality & Consistency Officer | Tuesday | Content structure, metadata, formatting |
 | **AssetManager** 🎬 | Chief Media & Asset Integrity Officer | Monday | Images, videos, embeds, optimization |
+| **MetricsGuard** 📊 | Chief SEO, Analytics & Performance Officer | Saturday | JSON-LD, og:image, PageSpeed, crawl health |
 
 > Read `agents/<AgentName>.md` before editing files in that agent's domain.
 
@@ -21,7 +22,7 @@ This project uses the **AI Agent Agency** framework: a team of specialized AI ag
 
 ## Universal Rules
 
-1. Use CSS variables over hardcoded values — never hardcode color hex
+1. Use CSS variables over hardcoded hex — never hardcode colors
 2. Test both light and dark themes before committing
 3. Document changes in the relevant agent's changelog
 4. Run audits on scheduled days (`scripts/audit-*.ps1`)
@@ -37,30 +38,33 @@ This project uses the **AI Agent Agency** framework: a team of specialized AI ag
 | `layout.css`, `components/*.css`, `templates/` | LayoutArchitect |
 | `content/*.md`, `posts/*.md` | ContentEditor |
 | `assets/images/`, `assets/videos/`, `media-loader.js` | AssetManager |
+| `head.php`, `header.php`, `sitemap.xml`, `robots.txt` | MetricsGuard |
 
 ---
 
 ## Red Flags
 
 ### StyleGuard
-- Hardcoded hex colors (`#FFFFFF`, `background: white`)
-- Missing CSS variable fallbacks
-- Theme flash on page load
+- Hardcoded hex (`#FFFFFF`, `background: white`)
+- Missing CSS variable fallbacks or theme flash on load
 - Inline style attributes for colors
 
 ### LayoutArchitect
 - Inconsistent spacing or missing responsive breakpoints
-- Broken visual hierarchy
-- Misaligned components
+- Broken visual hierarchy or misaligned components
 
 ### ContentEditor
 - Missing metadata (title, description, og:image)
 - Broken internal links, missing alt text
 
 ### AssetManager
-- Unoptimized images (>500KB)
-- Missing responsive variants or lazy loading
-- Hardcoded asset paths
+- Unoptimized images (>500KB), missing lazy loading
+- Hardcoded asset paths or duplicate files
+
+### MetricsGuard
+- Missing JSON-LD on key page types
+- og:image wrong dimensions (must be 1200x630)
+- PageSpeed mobile below 70
 
 ---
 
@@ -73,15 +77,15 @@ This project uses the **AI Agent Agency** framework: a team of specialized AI ag
 Examples:
 ```
 [STYLEGUARD] Replace hardcoded #fff with --color-bg-surface
+[METRICSGUARD] Add VideoGame JSON-LD to all game pages
 [ASSETMANAGER] Convert hero.png to WebP, add width/height attrs
-[CONTENTEDITOR] Add og:image to about page
 ```
 
 ---
 
 ## MCP Tools (Claude Code / Cursor / Cline / Zed)
 
-`.vscode/mcp.json` is pre-configured. Start the server: `npm run mcp`
+Copy `.vscode/mcp.example.json` to `.vscode/mcp.json` and start the server: `npm run mcp`
 
 | Tool | Returns |
 |------|---------|
@@ -98,9 +102,10 @@ Examples:
 ## Setup
 
 ```bash
-cp .config/mcp_agents.example.json .config/mcp_agents.json
+cp .vscode/mcp.example.json .vscode/mcp.json
 cp .vscode/settings.example.json .vscode/settings.json
-# Edit both files for your project
+# Edit .vscode/mcp.json — update studio name, agent domains, file paths
+npm run mcp
 ```
 
 See `docs/WORKFLOW.md` for the full edit + submodule sync flow.

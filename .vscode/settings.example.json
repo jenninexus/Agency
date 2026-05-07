@@ -2,7 +2,7 @@
   "editor.formatOnSave": false,
 
   "claude.contextFiles": [
-    ".config/mcp_agents.example.json",
+    ".vscode/mcp.json",
     "agents/",
     "docs/WORKFLOW.md"
   ],
