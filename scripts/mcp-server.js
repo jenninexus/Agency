@@ -144,9 +144,21 @@ function handleTool(name, args) {
     case 'agency_get_schedule': {
       const schedule = cfg.schedule || {};
       const weekly = schedule.weekly || schedule;
-      return {
-        schedule: Object.entries(weekly).map(([day, info]) => ({ day, ...info }))
-      };
+      // Schedule format (2026-05-09): each day is an array of audit entries
+      // (JSON forbids duplicate keys, so multi-agent days must be arrays).
+      // Skip the _format meta key. Single-agent days are also 1-element arrays
+      // for structural consistency. Legacy single-object format also handled.
+      const entries = [];
+      for (const [day, info] of Object.entries(weekly)) {
+        if (day.startsWith('_')) continue; // skip _format / _meta
+        if (Array.isArray(info)) {
+          for (const audit of info) entries.push({ day, ...audit });
+        } else if (info && typeof info === 'object') {
+          // Legacy single-object format
+          entries.push({ day, ...info });
+        }
+      }
+      return { schedule: entries };
     }
 
     case 'agency_get_rules': {
