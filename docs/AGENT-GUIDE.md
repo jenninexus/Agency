@@ -9,7 +9,8 @@
 > - **Technical standards** → Individual agent `.md` files (`agents/*.md`)
 > - **Image prompts** → `agents/characters.yaml` (SSOT for AI image generation)
 > - **Character details** → This file (AGENT-GUIDE.md) — personality, visual style
-> - **Agent config** → `.vscode/mcp.json` (copy from `.vscode/mcp.example.json`)
+> - **Agent config** → local `mcp.json` (copy from `mcp.example.json`)
+> - **MCP server entry** → local `.vscode/mcp.json` (copy from `.vscode/mcp.example.json`)
 
 ---
 
@@ -21,7 +22,7 @@ The agent system is self-contained within `agents/` and connects to:
 
 | Config File | Purpose | Location |
 |-------------|---------|----------|
-| **mcp.json** | Agent schedule + metadata (SSOT) | `.vscode/mcp.json` |
+| **mcp.json** | Agent schedule + metadata (local SSOT) | `mcp.json` |
 | **mcp-server.js** | MCP server — exposes agent tools to AI hosts | `scripts/mcp-server.js` |
 | **copilot-instructions.md** | GitHub Copilot auto-context | `.github/copilot-instructions.md` |
 | **characters.yaml** | AI portrait generation prompts | `agents/characters.yaml` (gitignored) |

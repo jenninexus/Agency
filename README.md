@@ -8,7 +8,7 @@
 
 [![Framework](https://img.shields.io/badge/Framework-AI%20Agent%20Agency-9D4EDD?style=for-the-badge)](.)
 [![License](https://img.shields.io/badge/License-MIT-00D4FF?style=for-the-badge)](LICENSE)
-[![Agents](https://img.shields.io/badge/Agents-6%20Active-FF6B6B?style=for-the-badge)](.vscode/mcp.example.json)
+[![Agents](https://img.shields.io/badge/Agents-Template-FF6B6B?style=for-the-badge)](mcp.example.json)
 
 **Enterprise-quality consistency. Zero labor cost. No white backgrounds.**
 
@@ -48,7 +48,7 @@ Before building a custom team, start with the five categories that catch 90% of 
 | 4 | **Media & Assets** | Unoptimized images, wrong aspect ratios, missing lazy loading, broken embeds | AssetManager |
 | 5 | **SEO & Performance** | Missing JSON-LD, bad og:image, PageSpeed regressions, uncrawled pages | MetricsGuard |
 
-See `templates/AGENT-TEMPLATE.md` and `.vscode/mcp.example.json` to build your own team around these areas.
+See `templates/AGENT-TEMPLATE.md` and `mcp.example.json` to build your own team around these areas.
 
 ---
 
@@ -56,7 +56,7 @@ See `templates/AGENT-TEMPLATE.md` and `.vscode/mcp.example.json` to build your o
 
 The `agents/` directory includes a fully-built example team from a real production studio. Use these as inspiration — their profiles, audit checklists, and red flags are what yours should look like.
 
-> These are project-specific agents adapted for one studio. Excellent reference material but not meant to be used as-is. Start from `.vscode/mcp.example.json` and `templates/AGENT-TEMPLATE.md` instead.
+> These are project-inspired showcase agents adapted into public examples. Excellent reference material but not meant to be used as-is. Start from `mcp.example.json` and `templates/AGENT-TEMPLATE.md` instead.
 
 <table>
 <tr>
@@ -126,8 +126,10 @@ See individual agent files in [`agents/`](agents/) for complete profiles, valida
 ```bash
 git clone https://github.com/jenninexus/agency.git
 cd agency
+cp mcp.example.json mcp.json
 cp .vscode/mcp.example.json .vscode/mcp.json
-# Edit .vscode/mcp.json — update studio name, agent domains, file paths
+# Edit mcp.json — update studio name, agent domains, file paths.
+# Keep mcp.json local; it is gitignored so personal MCP/project paths are not pushed.
 ```
 
 ### 2. Create Your First Agent
@@ -173,12 +175,22 @@ The workspace includes settings for the `shalldie.background` extension to displ
 
 ## Configuration
 
-All agent metadata, schedules, and coordination rules live in a single source of truth:
+All agent metadata, schedules, and coordination rules live in a local registry copied from the public template:
 
 | File | Purpose |
 |:-----|:--------|
-| [`.vscode/mcp.json`](.vscode/mcp.example.json) | Master configuration—agents, schedules, rules (gitignored, copy from example) |
-| [`.vscode/mcp.example.json`](.vscode/mcp.example.json) | Template for new projects (tracked) |
+| [`mcp.example.json`](mcp.example.json) | Public sanitized agent registry template (tracked) |
+| `mcp.json` | Local registry for your project (gitignored, copy from `mcp.example.json`) |
+| [`.vscode/mcp.example.json`](.vscode/mcp.example.json) | VS Code MCP server entry template (tracked) |
+| `.vscode/mcp.json` | Local VS Code MCP server entry (gitignored) |
+
+### Public vs Local Configuration
+
+- Track `mcp.example.json` only when the data is generic, sanitized, and useful to other projects.
+- Keep `mcp.json` local for personal paths, private MCP servers, project names, audit outputs, and per-project rosters.
+- Track `.vscode/mcp.example.json` as a minimal server stub only.
+- Keep `.vscode/mcp.json` local because MCP hosts often need machine-specific paths or environment variables.
+- Put project-specific agents and overrides in `projects/<project-name>/`; that directory is gitignored by default.
 
 ### Universal Rules (Non-Negotiable)
 
@@ -203,6 +215,8 @@ All agent metadata, schedules, and coordination rules live in a single source of
 agency/
 ├── README.md                          # You are here
 ├── package.json                       # npm run mcp convenience script
+├── mcp.example.json                   # Public agent registry template (copy to mcp.json)
+├── mcp.json                           # Local populated registry (gitignored)
 ├── .env.example                       # Environment variable template
 ├── agency.example.code-workspace      # VS Code workspace (copy to agency.code-workspace)
 │
@@ -210,7 +224,7 @@ agency/
 │   └── copilot-instructions.md        # Auto-loaded by GitHub Copilot
 │
 ├── .vscode/
-│   ├── mcp.example.json               # MCP server + agent config template (copy to mcp.json, gitignored)
+│   ├── mcp.example.json               # VS Code MCP server entry only (copy to .vscode/mcp.json)
 │   └── settings.example.json          # Workspace defaults template (copy to settings.json, gitignored)
 │
 ├── agents/                            # Showcase agent profiles (public examples)
@@ -294,7 +308,7 @@ git commit -m "[BLOGGIE] Fixed tag system to use anchor tags"
 ```
 
 ### Cross-References
-When multiple agents collaborate, use the coordination matrix in `.vscode/mcp.json` to identify dependencies.
+When multiple agents collaborate, use the coordination matrix in local `mcp.json` to identify dependencies.
 
 ---
 
@@ -324,7 +338,12 @@ jobs:
 
 ### MCP Integration (Claude Code, Cursor, Zed, Cline)
 
-`.vscode/mcp.json` is pre-configured. Start the server:
+Copy the public examples, then start the server:
+
+```bash
+cp mcp.example.json mcp.json
+cp .vscode/mcp.example.json .vscode/mcp.json
+```
 
 ```bash
 node scripts/mcp-server.js   # or: npm run mcp
@@ -345,7 +364,8 @@ Add agent references to your project's `CLAUDE.md` for automatic context:
 ## Agent Team
 - 5 AI agents covering theme, layout, content, assets, and SEO
 - Agent profiles: `agents/*.md`
-- MCP config: `.vscode/mcp.json` (copy from `.vscode/mcp.example.json`, gitignored)
+- Agent registry: `mcp.json` (copy from `mcp.example.json`, gitignored)
+- MCP server config: `.vscode/mcp.json` (copy from `.vscode/mcp.example.json`, gitignored)
 - Audit scripts: `scripts/audit-*.ps1`
 - Audit results: `audits/AUDIT_*.md`
 ```

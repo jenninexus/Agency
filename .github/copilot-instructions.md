@@ -2,7 +2,9 @@
 
 This project uses the **AI Agent Agency** framework: a team of specialized AI agents, each owning a domain of the codebase, enforcing standards, and running weekly audits.
 
-> **This is a template.** Replace the example agents below with your own team defined in `.vscode/mcp.json`.
+> **This is a PUBLIC TEMPLATE.** Replace the example agents below with your own team defined in local `mcp.json` copied from `mcp.example.json`.
+
+> **Boundary rule — DO NOT push project-specific content here.** This repo contains only generic, project-agnostic agent profiles. Project-specific customizations (page names, CSS filenames, audit findings, project-only agents, private MCP paths) belong in your consuming project's `projects/<project-name>/` directory (gitignored by the framework's `.gitignore`) or in local `mcp.json`. Agents that only exist in one project are NOT added to `agents/` here.
 
 ---
 
@@ -85,7 +87,7 @@ Examples:
 
 ## MCP Tools (Claude Code / Cursor / Cline / Zed)
 
-Copy `.vscode/mcp.example.json` to `.vscode/mcp.json` and start the server: `npm run mcp`
+Copy `mcp.example.json` to `mcp.json`, copy `.vscode/mcp.example.json` to `.vscode/mcp.json`, and start the server: `npm run mcp`
 
 | Tool | Returns |
 |------|---------|
@@ -102,9 +104,10 @@ Copy `.vscode/mcp.example.json` to `.vscode/mcp.json` and start the server: `npm
 ## Setup
 
 ```bash
+cp mcp.example.json mcp.json
 cp .vscode/mcp.example.json .vscode/mcp.json
 cp .vscode/settings.example.json .vscode/settings.json
-# Edit .vscode/mcp.json — update studio name, agent domains, file paths
+# Edit mcp.json — update studio name, agent domains, file paths
 npm run mcp
 ```
 

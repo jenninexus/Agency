@@ -19,7 +19,9 @@ logs/
 
 # ── Local config (customize from .example) ───────────────────────────────────
 
-# Agent + MCP config — copy from .vscode/mcp.example.json → .vscode/mcp.json
+# Agent + MCP config — copy from mcp.example.json → mcp.json.
+# Keep personal paths, private server names, local MCP env, and project-specific rosters out of Git.
+mcp.json
 .vscode/mcp.json
 .config/
 
@@ -86,7 +88,8 @@ _archive/
 # ── TRACKED FILES (for reference) ────────────────────────────────────────────
 # README.md, package.json, .env.example, .gitattributes
 # .github/copilot-instructions.md
-# .vscode/mcp.example.json     ← ONE config for both MCP server + agent data (copy → mcp.json)
+# mcp.example.json             ← public agent registry template (copy → mcp.json)
+# .vscode/mcp.example.json     ← VS Code MCP server entry only (copy → .vscode/mcp.json)
 # .vscode/settings.example.json
 # agency.example.code-workspace
 # agents/*.md  (characters.yaml is gitignored — keep local)

@@ -9,10 +9,11 @@
  * Tools:    agency_list_agents, agency_get_agent, agency_get_agent_for_file,
  *           agency_get_schedule, agency_get_rules
  * Resources: agency://agents/<id>  — full agent .md profile content
- *            agency://config       — active mcp_agents.json
+ *            agency://config       — active mcp.json registry
  *
  * Setup:
- *   cp .vscode/mcp.example.json .vscode/mcp.json   # copy template, edit for your project
+ *   cp mcp.example.json mcp.json                    # local agent registry
+ *   cp .vscode/mcp.example.json .vscode/mcp.json    # local MCP host entry
  *   node scripts/mcp-server.js                      # or: npm run mcp
  *
  * Submodule path (agency at storage/agency inside your project):
@@ -29,13 +30,13 @@ const readline = require('readline');
 
 // ── Paths ─────────────────────────────────────────────────────────────────────
 const ROOT         = path.join(__dirname, '..');
-const CONFIG_PATH  = path.join(ROOT, '.vscode', 'mcp.json');
-const EXAMPLE_PATH = path.join(ROOT, '.vscode', 'mcp.example.json');
+const CONFIG_PATH  = path.join(ROOT, 'mcp.json');
+const EXAMPLE_PATH = path.join(ROOT, 'mcp.example.json');
 const AGENTS_DIR   = path.join(ROOT, 'agents');
 
 function loadConfig() {
   const p = fs.existsSync(CONFIG_PATH) ? CONFIG_PATH : EXAMPLE_PATH;
-  // Strip // comments (VS Code mcp.json uses JSONC) before parsing
+  // Strip // comments if a local registry uses JSONC-style notes.
   const raw = fs.readFileSync(p, 'utf8').replace(/\/\/[^\n]*/g, '');
   return JSON.parse(raw);
 }
@@ -141,7 +142,8 @@ function handleTool(name, args) {
     }
 
     case 'agency_get_schedule': {
-      const weekly = (cfg.schedule || {}).weekly || {};
+      const schedule = cfg.schedule || {};
+      const weekly = schedule.weekly || schedule;
       return {
         schedule: Object.entries(weekly).map(([day, info]) => ({ day, ...info }))
       };
@@ -181,7 +183,7 @@ function listResources() {
   // The active config itself
   resources.push({
     uri:      'agency://config',
-    name:     'Active Agent Config (mcp_agents.json)',
+    name:     'Active Agent Registry (mcp.json)',
     mimeType: 'application/json',
     description: 'Full agent configuration — schedules, rules, domains, red flags.'
   });

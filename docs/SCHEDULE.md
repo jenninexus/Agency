@@ -4,8 +4,8 @@
 **Last Updated:** April 27, 2026
 **Status:** Active
 
-> **SINGLE SOURCE OF TRUTH:** `.vscode/mcp.json`
-> This document provides human-readable details. The canonical schedule data lives in `.vscode/mcp.json` → `schedule` key.
+> **LOCAL SOURCE OF TRUTH:** `mcp.json`
+> This document provides human-readable details. The canonical local schedule data lives in `mcp.json` → `schedule` key. Public repos should track `mcp.example.json`, not private populated configs.
 
 ---
 

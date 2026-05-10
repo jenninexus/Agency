@@ -1,0 +1,75 @@
+{
+  "_comment": "Public sanitized agency registry template. Copy to mcp.json and populate locally for your project. Do not commit populated personal/project configs. VS Code users: also copy .vscode/mcp.example.json to .vscode/mcp.json for the server entry.",
+
+  "server": {
+    "type": "stdio",
+    "command": "node",
+    "args": ["scripts/mcp-server.js"],
+    "env": {}
+  },
+
+  "agents": {
+    "styleguard": {
+      "name": "StyleGuard",
+      "project": "your-project-name",
+      "emoji": "🎨",
+      "profile": "agents/StyleGuard.md",
+      "specialty": ["CSS variables", "color palettes", "dark/light themes", "WCAG compliance"],
+      "audit_day": "Wednesday",
+      "audit_script": "scripts/audit-styles.ps1",
+      "ssot_docs": ["docs/DESIGN-SYSTEM.md"],
+      "key_files": ["src/css/theme.css", "src/css/variables.css"],
+      "portrait_dir": "storage/gen-ai/output/agents/styleguard/",
+      "claude_skill": null,
+      "note": "Set claude_skill to the skill filename (no extension) once a /skillname.md is created in ~/.claude/skills/"
+    },
+
+    "layoutarchitect": {
+      "name": "LayoutArchitect",
+      "project": "your-project-name",
+      "emoji": "✨",
+      "profile": "agents/LayoutArchitect.md",
+      "specialty": ["page layout", "UX design", "component architecture", "responsive design"],
+      "audit_day": "Friday",
+      "audit_script": null,
+      "ssot_docs": ["docs/UX-STANDARDS.md"],
+      "key_files": ["src/css/layout.css"],
+      "portrait_dir": "storage/gen-ai/output/agents/layoutarchitect/",
+      "claude_skill": null
+    },
+
+    "metricsguard": {
+      "name": "MetricsGuard",
+      "project": "your-project-name",
+      "emoji": "📊",
+      "profile": "agents/MetricsGuard.md",
+      "specialty": ["SEO metadata", "JSON-LD", "Core Web Vitals", "PageSpeed", "sitemap"],
+      "audit_day": "Saturday",
+      "audit_script": "scripts/audit-seo.ps1",
+      "ssot_docs": ["docs/SEO-STANDARDS.md"],
+      "key_files": ["includes/head.php", "sitemap.xml"],
+      "portrait_dir": "storage/gen-ai/output/agents/metricsguard/",
+      "claude_skill": null
+    }
+  },
+
+  "untracked_agents": {
+    "_comment": "Agents without a dedicated Claude skill (/skillname). Add a skill file to ~/.claude/skills/<name>.md to promote them.",
+    "needs_skill": ["styleguard", "layoutarchitect", "metricsguard"],
+    "has_skill": []
+  },
+
+  "schedule": {
+    "wednesday": { "agent": "styleguard",      "focus": "Color compliance, theme consistency, accessibility" },
+    "friday":    { "agent": "layoutarchitect", "focus": "Layout review, component consistency" },
+    "saturday":  { "agent": "metricsguard",    "focus": "SEO metadata, PageSpeed, og:image, crawl health" }
+  },
+
+  "documentation": {
+    "readme": "README.md",
+    "agent_guide": "docs/AGENT-GUIDE.md",
+    "schedule": "docs/SCHEDULE.md",
+    "agent_template": "templates/AGENT-TEMPLATE.md",
+    "example_agent": "examples/StyleGuard.md"
+  }
+}

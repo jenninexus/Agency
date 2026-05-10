@@ -20,8 +20,9 @@ Clone and configure:
 ```bash
 git clone https://github.com/jenninexus/agency.git
 cd agency
+cp mcp.example.json mcp.json
 cp .vscode/mcp.example.json .vscode/mcp.json
-# edit .vscode/mcp.json — update studio name, agents, file paths
+# edit mcp.json — update studio name, agents, file paths
 ```
 
 Edit agent files, run audits, update scripts — commit and push normally.
@@ -60,7 +61,7 @@ git push
 
 That's it — three commands after any edit.
 
-> **Rule:** Never push changes from inside the submodule path. Always push from the canonical clone, then bump the pointer in the parent.
+> **Rule:** Never push changes from inside the submodule path. Always push public/framework changes from the canonical clone, then bump the pointer in the parent. Project-specific changes belong in `projects/<project-name>/`, which is gitignored.
 
 ---
 
@@ -94,7 +95,9 @@ These files live in the agency repo root but are **never committed**:
 | `agents.html` | Local agent roster dashboard — open in browser or via Live Server |
 | `.foam/agents-paths.json` | Config for agents.html (image/doc paths) |
 | `.foam/` (entire dir) | Local Foam knowledge graph config |
-| `.vscode/mcp.json` | Your populated agent config (copy from `.vscode/mcp.example.json`) |
+| `mcp.json` | Your populated local agent registry (copy from `mcp.example.json`) |
+| `.vscode/mcp.json` | Your local MCP host config (copy from `.vscode/mcp.example.json`) |
+| `projects/<project-name>/` | Project-specific agent overrides and private pointers |
 
 `agents.html` has an embedded fallback config and works as a bare `file://` URL. For full local image paths and custom agent data, populate `.foam/agents-paths.json` and open via VS Code Live Server.
 
@@ -114,9 +117,9 @@ agents/
 └── Vidette.md
 ```
 
-These are the tracked SSOT profiles. Customize them for your project, or add your own. Use `templates/AGENT-TEMPLATE.md` as a starting point.
+These are tracked public profiles. Keep them generic enough for the public framework. Use `templates/AGENT-TEMPLATE.md` as a starting point.
 
-Project-specific agents that don't belong in the shared framework live in their own project repos and can be referenced in `.foam/agents-paths.json` by absolute path.
+Project-specific agents that don't belong in the shared framework live in `projects/<project-name>/` or in the consuming project repo and can be referenced from local `mcp.json` or `.foam/agents-paths.json`.
 
 ---
 
@@ -127,8 +130,9 @@ Project-specific agents that don't belong in the shared framework live in their 
 ### Setup
 
 ```bash
+cp mcp.example.json mcp.json
 cp .vscode/mcp.example.json .vscode/mcp.json
-# edit .vscode/mcp.json — update studio name, agents, file paths
+# edit mcp.json — update studio name, agents, file paths
 ```
 
 ### Start
@@ -149,11 +153,11 @@ node scripts/mcp-server.js   # or: npm run mcp
 
 ### IDE config
 
-**Claude Code / Cursor / Zed / Cline** — `.vscode/mcp.json` is pre-configured. The server starts automatically when you open the workspace.
+**Claude Code / Cursor / Zed / Cline** — `.vscode/mcp.json` is the local server entry. The agent registry is local `mcp.json`.
 
 **GitHub Copilot** — `.github/copilot-instructions.md` is auto-loaded by Copilot. No server needed — agent context is injected as markdown.
 
-**Other MCP hosts** — add to your client's MCP config:
+**Other MCP hosts** — add the server entry to your client's MCP config. Keep the agent registry in local `mcp.json` at the agency repo root:
 ```json
 {
   "servers": {
