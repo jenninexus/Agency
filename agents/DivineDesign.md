@@ -222,7 +222,32 @@ Every content page should follow this structure:
 
 ### Hero Section Standards
 
-Every hero section should include:
+Every hero section must satisfy both structural and content requirements:
+
+**Structural requirements (non-negotiable):**
+
+| Requirement | Correct | Wrong |
+|-------------|---------|-------|
+| Wrapper tag | `<section>` | `<div>` |
+| Base class | `hero-section` on the `<section>` | Omitting it |
+| Mouse-gradient | `data-mouse-gradient` as standalone HTML attribute | Inside `class=""` — becomes a CSS classname, JS won't find it |
+| Vertical padding | `py-5` on `<section>` only | `py-5` on inner `<div class="container">` doubles spacing |
+| Inner row | `class="row align-items-center [your-min-height-class]"` | Row without a min-height class |
+
+```html
+<!-- ✅ Correct structure -->
+<section class="hero-section [brand]-hero py-5" data-mouse-gradient>
+  <div class="container">
+    <div class="row align-items-center [your-row-min-height-class]">
+      <div class="col-lg-8 mx-auto text-center">
+        <!-- content -->
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+**Content requirements:**
 
 | Element | Required | Notes |
 |---------|----------|-------|
@@ -232,7 +257,7 @@ Every hero section should include:
 | Primary CTA | Context-dependent | Clear action button |
 | Themed background | YES | Coordinate with your theme agent |
 
-**Hero padding:** `py-5` minimum (48px top/bottom)
+**Hero padding:** `py-5` on the `<section>` (48px top/bottom) — never replicate on the inner container.
 
 ### Content Section Standards
 
@@ -258,6 +283,9 @@ Define your hero class inventory in `projects/[YOUR-PROJECT]/DivineDesign.md`. S
 **Checklist when registering a new hero type:**
 - [ ] Hero class defined in the correct theme CSS file
 - [ ] Uses CSS variables, no hardcoded colors
+- [ ] `hero-section` base class added to the `<section>` element
+- [ ] `data-mouse-gradient` added as standalone HTML attribute (NOT inside `class=""`)
+- [ ] `py-5` on the `<section>` only — container inside gets no `py-*`
 - [ ] Tested at minimum viewport width (define your floor, e.g. 390px)
 - [ ] `.hero-title` on text elements if parallax is used
 - [ ] Reduced motion support (`@media (prefers-reduced-motion)`)
