@@ -396,13 +396,17 @@ if (!defined('RES_ROOT')) {
 The shared `jn_render_blog_cards()` function and the blog.php JS renderer both use a unified card pattern:
 ```html
 <article class="card h-100 border-0 blog-post-card glass-card overflow-hidden">
-  <a class="blog-card-img-wrapper ratio ratio-16x9 d-block position-relative">
-    <img class="card-img-top w-100 h-100 object-fit-cover">
+  <div class="position-relative">
+    <a class="blog-card-img-wrapper ratio ratio-16x9 d-block">
+      <img class="card-img-top w-100 h-100 object-fit-cover">
+    </a>
     <span class="badge bg-primary blog-card-category position-absolute top-0 start-0 m-2">Category</span>
-  </a>
+  </div>
   <div class="card-body p-4 d-flex flex-column">...</div>
 </article>
 ```
+**Critical:** The category badge MUST be a sibling of `.ratio`, not a child. Bootstrap's `.ratio > *` applies `position:absolute; width:100%; height:100%` to ALL direct children — placing the badge inside `.ratio` causes it to expand to the full image size. The `position:relative` wrapper div holds both `.ratio` (image) and the badge as siblings.
+
 Key classes: `.blog-post-card` (hover lift + gradient bar), `.blog-card-img-wrapper` (zoom clip), `.blog-card-category` (blurred badge overlay).
 CSS: `blog-theme.css` owns all `.blog-post-card`, `.blog-card-img-wrapper`, `.blog-card-category` rules.
 
