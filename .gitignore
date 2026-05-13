@@ -47,6 +47,9 @@ docs/NOTES.md
 # Local Foam knowledge graph config
 .foam/
 
+# Local Foam workspace notes (agent graph visualization)
+foam/
+
 # Claude Code session data
 .claude/
 

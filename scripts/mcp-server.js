@@ -33,6 +33,14 @@ const ROOT         = path.join(__dirname, '..');
 const CONFIG_PATH  = path.join(ROOT, 'mcp.json');
 const EXAMPLE_PATH = path.join(ROOT, 'mcp.example.json');
 const AGENTS_DIR   = path.join(ROOT, 'agents');
+const PROJECTS_DIR = path.join(ROOT, 'projects');
+
+// Optional project context: --project <name> arg or AGENCY_PROJECT env var.
+// When set, agent profile reads prefer projects/<project>/<Name>.md over agents/<Name>.md.
+const PROJECT_ARG = process.argv.indexOf('--project');
+const ACTIVE_PROJECT = (PROJECT_ARG !== -1 ? process.argv[PROJECT_ARG + 1] : null)
+  || process.env.AGENCY_PROJECT
+  || null;
 
 function loadConfig() {
   const p = fs.existsSync(CONFIG_PATH) ? CONFIG_PATH : EXAMPLE_PATH;
@@ -79,6 +87,17 @@ const TOOLS = [
     name: 'agency_get_rules',
     description: 'Universal rules all agents enforce: coding standards, color rules, commit format, conflict resolution.',
     inputSchema: { type: 'object', properties: {}, required: [] }
+  },
+  {
+    name: 'agency_list_project_agents',
+    description: 'List agents with local project overrides in projects/<project>/. Shows which agents have been customized for this project vs using only the origin template.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name (e.g. "jenninexus", "martiangames"). Defaults to AGENCY_PROJECT env var or --project arg.' }
+      },
+      required: []
+    }
   }
 ];
 
@@ -171,6 +190,45 @@ function handleTool(name, args) {
       };
     }
 
+    case 'agency_list_project_agents': {
+      const project = (args.project || ACTIVE_PROJECT || '').trim();
+      if (!project) {
+        const dirs = fs.existsSync(PROJECTS_DIR)
+          ? fs.readdirSync(PROJECTS_DIR).filter(d => {
+              const full = path.join(PROJECTS_DIR, d);
+              return fs.statSync(full).isDirectory();
+            })
+          : [];
+        return { note: 'No project specified. Use --project <name> or AGENCY_PROJECT env var.', available_projects: dirs };
+      }
+
+      const projectDir = path.join(PROJECTS_DIR, project);
+      if (!fs.existsSync(projectDir)) {
+        return { error: `Project dir not found: projects/${project}`, project };
+      }
+
+      const mds = fs.readdirSync(projectDir)
+        .filter(f => f.endsWith('.md') && f !== 'README.md');
+
+      const cfg    = loadConfig();
+      const agents = cfg.agents || {};
+
+      const overrides = mds.map(file => {
+        const agentName = path.basename(file, '.md');
+        const id = agentName.toLowerCase();
+        const hasOrigin = !!agents[id];
+        return {
+          agent_id:     id,
+          agent_name:   agentName,
+          override_file: `projects/${project}/${file}`,
+          has_origin_template: hasOrigin,
+          origin_file:  hasOrigin ? (agents[id].profile || `agents/${agentName}.md`) : null
+        };
+      });
+
+      return { project, override_count: overrides.length, agents: overrides };
+    }
+
     default:
       return { error: `Unknown tool: ${name}` };
   }
@@ -211,6 +269,14 @@ function readResource(uri) {
     const cfg   = loadConfig();
     const agent = (cfg.agents || {})[id];
     if (!agent) throw new Error(`No agent "${id}" in config.`);
+
+    // Prefer project override profile if ACTIVE_PROJECT is set
+    if (ACTIVE_PROJECT) {
+      const overridePath = path.join(PROJECTS_DIR, ACTIVE_PROJECT, `${agent.name}.md`);
+      if (fs.existsSync(overridePath)) {
+        return { mimeType: 'text/markdown', text: fs.readFileSync(overridePath, 'utf8') };
+      }
+    }
 
     // Try to read the .md profile file
     const profilePath = agent.profile
@@ -276,7 +342,7 @@ rl.on('line', (line) => {
             tools:     {},
             resources: { subscribe: false, listChanged: false }
           },
-          serverInfo: { name: 'agency', version: '1.1.0' }
+          serverInfo: { name: 'agency', version: '1.2.0' }
         }
       });
 
@@ -318,4 +384,5 @@ rl.on('line', (line) => {
 
 rl.on('close', () => process.exit(0));
 
-process.stderr.write('[agency-mcp] v1.1.0 started — tools: 5, resources: dynamic\n');
+const projectNote = ACTIVE_PROJECT ? ` — project: ${ACTIVE_PROJECT}` : '';
+process.stderr.write(`[agency-mcp] v1.2.0 started — tools: 6, resources: dynamic${projectNote}\n`);

@@ -5,7 +5,8 @@
 **Last Updated:** April 27, 2026
 **Status:** Active
 **Weekly Audit Day:** Saturday
-**Cross-Project Protocol:** `storage/docs/PROTOCOL.md` (sys-admin: `C:\mcp\sys-admin\`)
+
+> **Public framework agent — repo origin.** This file is a generic reusable template. Project-specific implementation (real GA4 IDs, Search Console properties, audit scripts, private dashboards) belongs in `projects/[your-project]/Metrica.md` (gitignored). See `projects/README.md` for the two-layer pattern.
 
 ---
 

@@ -13,5 +13,16 @@
 
   "files.exclude": {
     ".foam/": true
-  }
+  },
+
+  "foam.openDailyNote.onVSCodeStartup": false,
+  "foam.graph.style": {
+    "background": "#1a1a2e",
+    "edge": { "line": { "color": "#44475a" } }
+  },
+  "foam.files.ignore": [
+    "audits/**",
+    "generations/**",
+    "agents/images/**"
+  ]
 }

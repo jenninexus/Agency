@@ -4,6 +4,8 @@
 **Audit Day:** Monday
 **Specialty:** Video grids, playlists, aspect ratios, thumbnails, hover effects
 
+> **Public framework agent — repo origin.** This file is a generic reusable template. Project-specific implementation (playlist constants, video API keys, embed patterns, private media paths) belongs in `projects/[your-project]/Vidette.md` (gitignored). See `projects/README.md` for the two-layer pattern.
+
 ---
 
 ## Identity

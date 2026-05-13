@@ -6,6 +6,8 @@
 **Status:** Active
 **Weekly Audit Day:** Tuesday
 
+> **Public framework agent — repo origin.** This file is a generic reusable template. Project-specific implementation (real file paths, audit scripts, CMS details, private lore) belongs in `projects/[your-project]/Bloggie.md` (gitignored). See `projects/README.md` for the two-layer pattern.
+
 ---
 
 ## Resources & Quick Links

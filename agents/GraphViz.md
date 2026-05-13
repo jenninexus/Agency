@@ -5,7 +5,8 @@
 **Last Updated:** April 25, 2026
 **Status:** Active
 **Weekly Audit Day:** Wednesday
-**Cross-Project Protocol:** `storage/docs/PROTOCOL.md` (sys-admin: `C:\mcp\sys-admin\`)
+
+> **Public framework agent — repo origin.** This file is a generic reusable template. Project-specific implementation (design token paths, SCSS partials, private color systems, audit scripts) belongs in `projects/[your-project]/GraphViz.md` (gitignored). See `projects/README.md` for the two-layer pattern.
 
 ---
 

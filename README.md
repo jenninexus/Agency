@@ -283,6 +283,7 @@ agency/
 | [`templates/AGENT-TEMPLATE.md`](templates/AGENT-TEMPLATE.md) | Full agent profile template (200+ lines) |
 | [`examples/StyleGuard.md`](examples/StyleGuard.md) | Full working example agent with checklists and red flags |
 | [`examples/AgentRoster.md`](examples/AgentRoster.md) | Example team roster doc (JenniNexus 7-agent studio) |
+| [`docs/PUBLIC-LOCAL-SPLIT.md`](docs/PUBLIC-LOCAL-SPLIT.md) | Two-layer pattern: public framework agents vs project-specific overrides in `projects/` |
 
 ### Portrait Generation
 
@@ -395,6 +396,51 @@ cp .env.example .env
 ```
 
 The audit scripts use these paths automatically via `_audit-common.ps1`.
+
+---
+
+## Using as a Submodule
+
+This repo can be embedded in any project as a git submodule — giving you the full agent framework while keeping project-specific customizations local and gitignored.
+
+### Initial Setup
+
+```bash
+# Add the submodule (once per consuming project)
+git submodule add https://github.com/jenninexus/agency storage/agency
+git submodule update --init --recursive
+```
+
+### Two-Layer Override Pattern
+
+```
+storage/agency/agents/GraphViz.md       ← public template (tracked, read-only)
+storage/agency/projects/yourproject/    ← your local overrides (gitignored)
+  GraphViz.md                           ← project-specific paths, secrets, scripts
+  landscape.webp                        ← canonical agent portrait (landscape)
+  square.webp                           ← canonical agent portrait (square)
+  gen-ai/                               ← raw generation output (local only)
+```
+
+See [`projects/README.md`](projects/README.md) for full per-project setup and [`docs/PUBLIC-LOCAL-SPLIT.md`](docs/PUBLIC-LOCAL-SPLIT.md) for the design rationale.
+
+### Updating the Submodule
+
+Always edit in the **canonical clone** (`C:\Github\agency` or your fork), then propagate:
+
+```bash
+# 1. Edit in canonical clone
+cd C:\Github\agency
+git add <files> && git commit -m "[AGENT] description" && git push
+
+# 2. Bump the pointer in each consuming project
+cd path/to/consuming-project
+git submodule update --remote storage/agency
+git add storage/agency
+git commit -m "chore: bump agency submodule"
+```
+
+Never edit files inside `storage/agency/` from within a consuming project — those changes won't propagate back to the submodule origin.
 
 ---
 
