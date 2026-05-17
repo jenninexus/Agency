@@ -64,6 +64,9 @@ foam/
 generations/
 agents/images/
 
+# Source JPGs for agent images (already converted to webp in resources/images/agents/)
+resources/images/agents/jenninexus/
+
 # ── Private / personal content (local only) ──────────────────────────────────
 
 # Detailed character prompt YAML — stays local (use .env + local copy)
