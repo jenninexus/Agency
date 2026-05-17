@@ -61,28 +61,28 @@ The `agents/` directory includes a fully-built example team from a real producti
 <table>
 <tr>
 <td align="center" width="130">
-<img src="resources/images/agents/vidette.jpg" width="80" height="80" alt="Vidette" onerror="this.style.display='none'"/><br/>
+<img src="resources/images/agents/vidette-1x1.webp" width="80" height="80" alt="Vidette" onerror="this.style.display='none'"/><br/>
 <b><a href="agents/Vidette.md">Vidette</a></b><br/>
 <sub>Video &amp; Image Display</sub><br/>
 <sub>📅 Monday · 🎨 <code>#66c0f4</code></sub><br/>
 <sub><i>"If it's not 16:9, it's not right."</i></sub>
 </td>
 <td align="center" width="130">
-<img src="resources/images/agents/bloggie.jpg" width="80" height="80" alt="Bloggie" onerror="this.style.display='none'"/><br/>
+<img src="resources/images/agents/bloggie-1x1.webp" width="80" height="80" alt="Bloggie" onerror="this.style.display='none'"/><br/>
 <b><a href="agents/Bloggie.md">Bloggie</a></b><br/>
 <sub>Blog &amp; Content Quality</sub><br/>
 <sub>📅 Tuesday · 🎨 <code>#FFB020</code></sub><br/>
 <sub><i>"Structure is kindness to your reader."</i></sub>
 </td>
 <td align="center" width="130">
-<img src="resources/images/agents/graphviz.jpg" width="80" height="80" alt="GraphViz" onerror="this.style.display='none'"/><br/>
+<img src="resources/images/agents/graphviz-1x1.webp" width="80" height="80" alt="GraphViz" onerror="this.style.display='none'"/><br/>
 <b><a href="agents/GraphViz.md">GraphViz</a></b><br/>
 <sub>Theme &amp; Visual Harmony</sub><br/>
 <sub>📅 Wednesday · 🎨 <code>#A563D1</code></sub><br/>
 <sub><i>"Investors don't fund white backgrounds."</i></sub>
 </td>
 <td align="center" width="130">
-<img src="resources/images/agents/divinedesign.jpg" width="80" height="80" alt="DivineDesign" onerror="this.style.display='none'"/><br/>
+<img src="resources/images/agents/divinedesign-1x1.webp" width="80" height="80" alt="DivineDesign" onerror="this.style.display='none'"/><br/>
 <b><a href="agents/DivineDesign.md">DivineDesign</a></b><br/>
 <sub>Layout &amp; Architecture</sub><br/>
 <sub>📅 Friday · 🎨 <code>#00D4AA</code></sub><br/>
@@ -91,14 +91,14 @@ The `agents/` directory includes a fully-built example team from a real producti
 </tr>
 <tr>
 <td align="center" width="130">
-<img src="resources/images/agents/metrica.jpg" width="80" height="80" alt="Metrica" onerror="this.style.display='none'"/><br/>
+<img src="resources/images/agents/metrica-1x1.webp" width="80" height="80" alt="Metrica" onerror="this.style.display='none'"/><br/>
 <b><a href="agents/Metrica.md">Metrica</a></b><br/>
 <sub>SEO, Analytics &amp; Performance</sub><br/>
 <sub>📅 Saturday · 🎨 <code>#39ff14</code></sub><br/>
 <sub><i>"If it's not indexed, it doesn't exist."</i></sub>
 </td>
 <td align="center" width="130">
-<img src="resources/images/agents/vixel.jpg" width="80" height="80" alt="Vixel" onerror="this.style.display='none'"/><br/>
+<img src="resources/images/agents/vixel-1x1.webp" width="80" height="80" alt="Vixel" onerror="this.style.display='none'"/><br/>
 <b><a href="agents/Vixel.md">Vixel</a></b><br/>
 <sub>VR/Game Project Site</sub><br/>
 <sub>📅 Sunday · 🎨 <code>#FF6B4A</code></sub><br/>
