@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Roster — AI Agent Agency</title>
+<script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js" defer></script>
+<style>
+  /* ── Reset & Tokens ─────────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:           #0a0b0f;
+    --bg2:          #11131a;
+    --bg3:          #0d0e14;
+    --glass-bg:     rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.08);
+    --glass-blur:   18px;
+    --text:         #e4e2f0;
+    --text-dim:     #7a788a;
+    --text-bright:  #fff;
+    --radius:       14px;
+    --radius-sm:    8px;
+
+    /* Replace with your project brand colors */
+    --jn-color:  #a855f7;
+    --jn-glow:   rgba(168,85,247,0.22);
+    --mg-color:  #FF6B00;
+    --mg-glow:   rgba(255,107,0,0.22);
+    --jvr-color: #ef4444;
+    --jvr-glow:  rgba(239,68,68,0.22);
+    --np-color:  #D14BFF;
+    --np-glow:   rgba(209,75,255,0.22);
+
+    --ap-color:  #42f4c8;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* ── Header ─────────────────────────────────────────────────────────── */
+  .site-header {
+    text-align: center;
+    padding: 48px 24px 28px;
+  }
+  .site-header::after {
+    content: '';
+    display: block;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
+    margin-top: 28px;
+  }
+  .header-eyebrow {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+  .header-title {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.55) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .header-sub {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* ── /ap Daily Context Panel ─────────────────────────────────────────── */
+  .ap-panel {
+    max-width: 1400px;
+    margin: 24px auto 0;
+    padding: 0 24px;
+  }
+  .ap-panel-inner {
+    background: rgba(66,244,200,0.04);
+    border: 1px solid rgba(66,244,200,0.14);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .ap-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ap-color);
+    font-weight: 700;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .ap-label::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--ap-color);
+    box-shadow: 0 0 6px var(--ap-color);
+  }
+  .ap-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    flex: 1;
+  }
+  .ap-link {
+    background: rgba(66,244,200,0.07);
+    border: 1px solid rgba(66,244,200,0.15);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'Cascadia Code', 'Fira Code', monospace;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .ap-link:hover {
+    background: rgba(66,244,200,0.13);
+    border-color: rgba(66,244,200,0.35);
+    color: #fff;
+  }
+  .ap-link .ap-icon { font-size: 0.75rem; }
+
+  /* ── Filter bar ─────────────────────────────────────────────────────── */
+  .filter-bar {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 24px 24px 0;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    padding: 6px 18px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .filter-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
+  .filter-btn.active { color: var(--text-bright); background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.18); }
+  .filter-btn[data-project="my-project"].active { background: rgba(168,85,247,0.13); border-color: var(--jn-color); color: var(--jn-color); }
+
+  /* ── Main layout ─────────────────────────────────────────────────────── */
+  .main { max-width: 1400px; margin: 0 auto; padding: 32px 24px 64px; }
+
+  /* ── Project group ───────────────────────────────────────────────────── */
+  .project-group { margin-bottom: 52px; }
+  .project-group.hidden { display: none; }
+
+  .project-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .project-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .project-label[data-project="my-project"] .project-dot { background: var(--jn-color); box-shadow: 0 0 8px var(--jn-color); }
+
+  .project-name {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .project-label[data-project="my-project"] .project-name { color: var(--jn-color); }
+
+  .project-url-link {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    transition: color 0.15s;
+  }
+  .project-url-link:hover { color: var(--text); }
+  .project-agent-count {
+    margin-left: auto;
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    padding: 2px 10px;
+  }
+  .seo-badge-project {
+    font-size: 0.62rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .seo-badge-project:hover { color: var(--text); border-color: rgba(255,255,255,0.18); }
+
+  /* ── Agent card grid ─────────────────────────────────────────────────── */
+  .agent-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 14px;
+  }
+
+  .agent-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+  }
+  .agent-card:hover { transform: translateY(-3px); }
+  .agent-card[data-project="my-project"]:hover { border-color: rgba(168,85,247,0.4); box-shadow: 0 10px 32px var(--jn-glow); }
+
+  /* 1:1 square thumb */
+  .card-thumb {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    overflow: hidden;
+    background: #14151e;
+    position: relative;
+  }
+  .card-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    transition: transform 0.35s ease;
+  }
+  .agent-card:hover .card-thumb img { transform: scale(1.06); }
+
+  .card-thumb .expand-hint {
+    position: absolute;
+    bottom: 8px; right: 8px;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 5px;
+    padding: 3px 8px;
+    font-size: 0.62rem;
+    color: rgba(255,255,255,0.55);
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .agent-card:hover .expand-hint { opacity: 1; }
+
+  .analytics-badge-card {
+    position: absolute;
+    top: 8px; left: 8px;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(66,244,200,0.3);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-size: 0.58rem;
+    font-weight: 700;
+    color: var(--ap-color);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .card-accent { height: 2px; width: 100%; }
+  .agent-card[data-project="my-project"] .card-accent { background: linear-gradient(90deg, var(--jn-color), transparent); }
+
+  .card-body { padding: 12px 14px 14px; }
+  .card-name {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card-title {
+    font-size: 0.67rem;
+    color: var(--text-dim);
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+  .card-meta { display: flex; align-items: center; gap: 6px; }
+  .audit-pill {
+    font-size: 0.6rem;
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-weight: 600;
+    border: 1px solid;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .agent-card[data-project="my-project"] .audit-pill { color: var(--jn-color); border-color: rgba(168,85,247,0.3); background: rgba(168,85,247,0.07); }
+
+  /* ── Modal ───────────────────────────────────────────────────────────── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.84);
+    backdrop-filter: blur(14px);
+    z-index: 1000;
+    padding: 24px;
+    overflow-y: auto;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; animation: fadeIn 0.16s ease; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .modal {
+    background: var(--bg3);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    width: 100%;
+    max-width: 880px;
+    overflow: hidden;
+    position: relative;
+    margin: auto;
+    animation: slideUp 0.2s ease;
+  }
+  @keyframes slideUp { from { transform: translateY(18px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  /* 16:9 banner */
+  .modal-banner {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #0d0e14;
+    position: relative;
+  }
+  .modal-banner img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
+  .modal-banner-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 35%, var(--bg3) 100%); }
+
+  .modal-accent { height: 3px; }
+  .modal[data-project="my-project"] .modal-accent { background: linear-gradient(90deg, var(--jn-color), transparent 65%); }
+
+  .modal-body { padding: 24px 28px 32px; }
+
+  .modal-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px; }
+  .modal-emoji { font-size: 2.1rem; line-height: 1; flex-shrink: 0; }
+  .modal-name { font-size: 1.55rem; font-weight: 800; color: var(--text-bright); letter-spacing: -0.02em; line-height: 1.1; }
+  .modal-role { font-size: 0.76rem; color: var(--text-dim); margin-top: 3px; line-height: 1.4; }
+
+  .modal-tagline {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--text);
+    opacity: 0.72;
+    border-left: 3px solid;
+    padding-left: 14px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+  .modal[data-project="my-project"] .modal-tagline { border-color: var(--jn-color); }
+
+  .modal-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+  .chip {
+    font-size: 0.68rem;
+    padding: 3px 10px;
+    border-radius: 100px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: var(--text-dim);
+    display: flex; align-items: center; gap: 5px;
+  }
+  .chip-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+  .chip.analytics-chip {
+    border-color: rgba(66,244,200,0.3);
+    background: rgba(66,244,200,0.07);
+    color: var(--ap-color);
+    font-weight: 700;
+  }
+  .modal[data-project="my-project"] .chip-dot { background: var(--jn-color); }
+
+  /* Two-column layout: docs + paths */
+  .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 620px) { .modal-grid { grid-template-columns: 1fr; } }
+
+  .modal-section {
+    background: rgba(0,0,0,0.28);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+  }
+  .modal-section h4 {
+    font-size: 0.64rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+
+  /* SSOT doc links */
+  .doc-link {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: color 0.15s;
+    color: var(--text-dim);
+  }
+  .doc-link:last-child { border-bottom: none; padding-bottom: 0; }
+  .doc-link:hover { color: var(--text-bright); }
+  .doc-link .doc-icon { font-size: 0.7rem; flex-shrink: 0; }
+  .doc-link .doc-label { flex: 1; }
+  .doc-link .doc-arrow { font-size: 0.6rem; opacity: 0.4; transition: opacity 0.15s; }
+  .doc-link:hover .doc-arrow { opacity: 1; }
+  .doc-link.is-dashboard { color: var(--ap-color); }
+  .doc-link.is-dashboard:hover { color: #fff; }
+
+  /* Paths section */
+  .path-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 7px;
+    font-size: 0.7rem;
+  }
+  .path-row:last-child { margin-bottom: 0; }
+  .path-lbl { color: var(--text-dim); flex-shrink: 0; width: 56px; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  .path-val {
+    font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    color: rgba(255,255,255,0.6);
+    word-break: break-all;
+    font-size: 0.67rem;
+    line-height: 1.4;
+  }
+
+  /* Owns list */
+  .owns-list { margin: 0; padding: 0; list-style: none; }
+  .owns-list li {
+    font-size: 0.7rem;
+    font-family: 'Cascadia Code', 'Fira Code', monospace;
+    color: rgba(255,255,255,0.55);
+    padding: 3px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex; gap: 6px; align-items: baseline;
+  }
+  .owns-list li:last-child { border-bottom: none; }
+  .owns-list li::before { content: '→'; color: var(--text-dim); font-size: 0.6rem; flex-shrink: 0; }
+
+  .modal-close {
+    position: absolute;
+    top: 14px; right: 14px;
+    width: 30px; height: 30px;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 50%;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.14s;
+    z-index: 10;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.1); color: var(--text-bright); }
+
+  /* ── Footer ───────────────────────────────────────────────────────────── */
+  .site-footer {
+    text-align: center;
+    padding: 20px 24px;
+    color: var(--text-dim);
+    font-size: 0.7rem;
+    border-top: 1px solid var(--glass-border);
+  }
+  .site-footer code {
+    font-family: 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 0.66rem;
+    background: rgba(255,255,255,0.05);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  /* ── Image tabs (modal banner switcher) ─────────────────────────────────── */
+  .img-tabs {
+    display: flex;
+    gap: 6px;
+    padding: 8px 12px;
+    background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    z-index: 2;
+  }
+  .img-tab {
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 3px 10px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(0,0,0,0.45);
+    color: rgba(255,255,255,0.4);
+    cursor: pointer;
+    transition: all 0.14s;
+    backdrop-filter: blur(6px);
+  }
+  .img-tab.active { background: rgba(255,255,255,0.13); color: #fff; border-color: rgba(255,255,255,0.28); }
+  .img-tab:hover:not(.active) { color: rgba(255,255,255,0.75); border-color: rgba(255,255,255,0.18); }
+  .img-tab.hidden { display: none; }
+
+  /* ── Responsive ───────────────────────────────────────────────────────── */
+  @media (max-width: 600px) {
+    .agent-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .modal-body { padding: 18px 18px 26px; }
+    .modal-name { font-size: 1.25rem; }
+    .main { padding: 20px 14px 48px; }
+    .ap-panel-inner { gap: 10px; }
+  }
+  @media (max-width: 360px) { .agent-grid { grid-template-columns: 1fr; } }
+
+  /* ── MD Viewer Panel ─────────────────────────────────────────────────── */
+  #md-backdrop { position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:9998;opacity:0;pointer-events:none;transition:opacity 150ms ease }
+  #md-backdrop.open { opacity:1;pointer-events:auto }
+  #md-panel { position:fixed;top:0;right:0;width:min(560px,100vw);height:100vh;background:var(--bg2);border-left:1px solid var(--glass-border);z-index:9999;display:flex;flex-direction:column;transform:translateX(100%);transition:transform 280ms cubic-bezier(0.4,0,0.2,1) }
+  #md-panel.open { transform:none }
+  #md-panel-head { position:relative;display:flex;align-items:center;gap:.6rem;padding:.65rem 1rem;border-bottom:1px solid var(--glass-border);flex-shrink:0 }
+  #md-panel-head::before { content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--jn-color),var(--np-color)) }
+  #md-panel-title { flex:1;font-size:.74rem;font-weight:600;color:#fff;font-family:monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis }
+  #md-panel-close { background:none;border:1px solid var(--glass-border);color:var(--text-dim);cursor:pointer;border-radius:6px;padding:.14rem .42rem;font-size:.7rem;transition:all 150ms ease;flex-shrink:0 }
+  #md-panel-close:hover { border-color:rgba(255,255,255,.3);color:#fff }
+  #md-panel-body { flex:1;overflow-y:auto;padding:1.2rem 1.4rem;font-size:.82rem;line-height:1.7;color:var(--text) }
+  #md-panel-body h1 { font-size:1.1rem;font-weight:700;color:#fff;margin:0 0 .75rem;padding-bottom:.35rem;border-bottom:1px solid var(--glass-border) }
+  #md-panel-body h2 { font-size:.93rem;font-weight:600;color:var(--jn-color);margin:1.1rem 0 .38rem }
+  #md-panel-body h3 { font-size:.84rem;font-weight:600;color:var(--ap-color);margin:.95rem 0 .32rem }
+  #md-panel-body h4,#md-panel-body h5 { font-size:.8rem;font-weight:600;color:#fff;margin:.75rem 0 .28rem }
+  #md-panel-body p { margin:.32rem 0 .48rem }
+  #md-panel-body a { color:var(--jn-color);transition:color 150ms }
+  #md-panel-body a:hover { color:var(--ap-color) }
+  #md-panel-body code { font-family:monospace;font-size:.72rem;background:rgba(168,85,247,0.1);border:1px solid var(--glass-border);padding:.05rem .26rem;border-radius:3px;color:var(--ap-color) }
+  #md-panel-body pre { background:rgba(0,0,0,.45);border:1px solid var(--glass-border);border-radius:8px;padding:.7rem .9rem;overflow-x:auto;margin:.45rem 0 }
+  #md-panel-body pre code { background:none;border:none;padding:0;font-size:.71rem;color:var(--text) }
+  #md-panel-body ul,#md-panel-body ol { padding-left:1.4rem;margin:.28rem 0 .48rem }
+  #md-panel-body li { margin:.1rem 0 }
+  #md-panel-body table { width:100%;border-collapse:collapse;font-size:.73rem;margin:.45rem 0 }
+  #md-panel-body th { text-align:left;padding:.26rem .5rem;color:var(--text-dim);border-bottom:1px solid var(--glass-border);font-weight:600;font-size:.66rem;text-transform:uppercase;letter-spacing:.05em }
+  #md-panel-body td { padding:.2rem .5rem;border-bottom:1px solid rgba(255,255,255,.04) }
+  #md-panel-body blockquote { border-left:2px solid rgba(168,85,247,.4);padding:.28rem .7rem;color:var(--text-dim);margin:.38rem 0;font-style:italic }
+  #md-panel-body hr { border:none;border-top:1px solid var(--glass-border);margin:1rem 0 }
+  #md-panel-body strong { color:#fff }
+  .md-loading { color:var(--text-dim);font-size:.8rem;padding:1.5rem 0;text-align:center }
+  .md-error { color:var(--text-dim);padding:.85rem;border:1px solid var(--glass-border);border-radius:8px;font-size:.77rem }
+  .md-error code { color:var(--jn-color) }
+  .md-copy-btn { display:inline-block;margin-top:.45rem;padding:.18rem .5rem;border-radius:4px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text-dim);font-size:.67rem;cursor:pointer;font-family:monospace;transition:all 150ms ease }
+  .md-copy-btn:hover { border-color:rgba(255,255,255,.25);color:#fff }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     HEADER — replace with your project name / brand tagline
+═══════════════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="header-eyebrow">your-project · ai agent agency</div>
+  <h1 class="header-title">Agent Roster</h1>
+  <p class="header-sub">All AI agents for your project — portraits, roles, SSOT docs, audit schedules.</p>
+</header>
+
+<!-- /ap Daily Context Panel — link to your own action plan / dashboard -->
+<div class="ap-panel">
+  <div class="ap-panel-inner">
+    <div class="ap-label">/ap daily</div>
+    <div class="ap-links" id="ap-links"></div>
+  </div>
+</div>
+
+<!-- Project filter — add more buttons for additional projects -->
+<div class="filter-bar">
+  <button class="filter-btn active" data-project="all">All Agents</button>
+  <button class="filter-btn" data-project="my-project">My Project</button>
+</div>
+
+<main class="main" id="roster"></main>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+    <div class="modal-accent"></div>
+    <div class="modal-banner">
+      <img id="modal-landscape" src="" alt="">
+      <div class="modal-banner-overlay"></div>
+      <div class="img-tabs">
+        <button class="img-tab active" data-img-type="landscape">Landscape</button>
+        <button class="img-tab hidden" data-img-type="studio" id="tab-studio">Studio Env</button>
+        <button class="img-tab" data-img-type="square">Portrait</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-header">
+        <div class="modal-emoji" id="modal-emoji"></div>
+        <div>
+          <div class="modal-name" id="modal-name"></div>
+          <div class="modal-role" id="modal-role"></div>
+        </div>
+      </div>
+      <div class="modal-tagline" id="modal-tagline"></div>
+      <div class="modal-chips" id="modal-chips"></div>
+      <div class="modal-grid">
+        <div class="modal-section">
+          <h4>📁 SSOT Docs</h4>
+          <div id="modal-docs"></div>
+        </div>
+        <div class="modal-section">
+          <h4>📌 Owns</h4>
+          <ul class="owns-list" id="modal-owns"></ul>
+        </div>
+      </div>
+      <div class="modal-section" style="margin-top:14px">
+        <h4>🗂 Local Paths</h4>
+        <div id="modal-paths"></div>
+      </div>
+      <div id="modal-tasks-section" class="modal-section" style="margin-top:14px; display:none">
+        <h4>⚡ Recurring Tasks</h4>
+        <ul class="owns-list" id="modal-tasks"></ul>
+      </div>
+      <div id="modal-when-section" class="modal-section" style="margin-top:14px; display:none">
+        <h4>💡 When to Invoke</h4>
+        <div id="modal-when" style="font-size:0.75rem; color: var(--text-dim); line-height:1.6;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  Config: <code>agency.html</code> → EMBEDDED_CONFIG &nbsp;·&nbsp;
+  Gitignored — local only &nbsp;·&nbsp;
+  Copy <code>agency.html.example</code> → <code>agency.html</code> and customize &nbsp;·&nbsp;
+  <a href="https://github.com/jenninexus/agency" target="_blank" style="color:var(--text-dim)">github.com/jenninexus/agency</a>
+</footer>
+
+<script>
+// ══════════════════════════════════════════════════════════════════════════════
+// SETUP INSTRUCTIONS
+// ══════════════════════════════════════════════════════════════════════════════
+//
+// 1. Copy this file: agency.html.example → agency.html  (gitignored — stays local)
+// 2. Edit EMBEDDED_CONFIG below:
+//    - Replace "my-project" with your project slug
+//    - Replace {YOUR_PROJECT_ROOT} with your local project path
+//    - Update agents_root, docs_root, seo_dashboard to your local paths
+//    - images_root stays as "resources/images/agents" — images are in this repo
+// 3. Add more projects by duplicating the "my-project" block in projects{}
+//    and adding agents with "project": "your-new-project"
+// 4. Open agency.html via VS Code Live Server (not file://) — images require it
+//
+// ══════════════════════════════════════════════════════════════════════════════
+
+const EMBEDDED_CONFIG = {
+  "_comment": "Local SSOT config. Gitignored — never committed. Copy agency.html.example → agency.html and customize.",
+  "_last_updated": "2026-05-16",
+
+  // ── Daily context links — replace with your own local paths ────────────────
+  "daily_context": {
+    "action_plan":   "{YOUR_PROJECT_ROOT}/ACTION-PLAN.md",
+    "dashboard":     "{YOUR_PROJECT_ROOT}/dashboard.html"
+  },
+
+  // ── Projects — one entry per brand / project ───────────────────────────────
+  // images_root: relative path from agency.html — keep as-is if images are in this repo
+  // agents_root: absolute local path to your agent .md files
+  // docs_root:   absolute local path to your project docs
+  // seo_dashboard: absolute local path to SEO dashboard, or null
+  "projects": {
+    "my-project": {
+      "label": "My Project",
+      "url": "https://yoursite.com",
+      "color": "#a855f7",
+      "images_root": "resources/images/agents",
+      "agents_root": "{YOUR_PROJECT_ROOT}/storage/agency/agents",
+      "docs_root":   "{YOUR_PROJECT_ROOT}/storage/docs",
+      "seo_dashboard": null
+    }
+  },
+
+  // ── Agents — the 6 starter agents included in this repo ───────────────────
+  // profile_path: filename inside agents_root (e.g. "Bloggie.md")
+  // landscape: 16:9 image filename inside images_root
+  // square:    1:1 image filename inside images_root
+  // ssot_docs: local files to open in the MD viewer panel
+  "agents": [
+    {
+      "id": "bloggie",
+      "name": "Bloggie",
+      "title": "Chief Blog Page Design & Consistency Officer",
+      "tagline": "Every post is a product. Ship it like one.",
+      "audit_day": "Tuesday",
+      "emoji": "✍️",
+      "project": "my-project",
+      "landscape": "bloggie-16x9.webp",
+      "square": "bloggie-1x1.webp",
+      "profile_path": "Bloggie.md",
+      "owns": [
+        "public_html/blog/",
+        "public_html/includes/blog-*.php"
+      ],
+      "tasks": [
+        "Tuesday: audit latest blog posts for layout + template consistency",
+        "Review new post PHP against DESIGN-SYSTEM card/typography rules",
+        "Check blog includes for inline styles → flag for extraction",
+        "Verify post meta (OG image, excerpt, canonical) on new posts"
+      ],
+      "when_to_use": "Invoke Bloggie when adding new blog posts, editing the blog template, checking blog layout regressions, or auditing blog page SEO/meta consistency.",
+      "ssot_docs": [
+        { "label": "Design System", "path": "{YOUR_PROJECT_ROOT}/storage/docs/DESIGN-SYSTEM.md" },
+        { "label": "Protocol",      "path": "{YOUR_PROJECT_ROOT}/storage/docs/PROTOCOL.md" },
+        { "label": "Features",      "path": "{YOUR_PROJECT_ROOT}/storage/docs/FEATURES.md" },
+        { "label": "Roadmap",       "path": "{YOUR_PROJECT_ROOT}/storage/docs/ROADMAP.md" }
+      ]
+    },
+    {
+      "id": "divinedesign",
+      "name": "DivineDesign",
+      "title": "Project Manager — Design & Page Architecture",
+      "tagline": "Layout is the product. Spacing is the message.",
+      "audit_day": "Friday",
+      "emoji": "🏛️",
+      "badge": "Project Manager",
+      "project": "my-project",
+      "landscape": "divinedesign-16x9.webp",
+      "square": "divinedesign-1x1.webp",
+      "profile_path": "DivineDesign.md",
+      "owns": [
+        "public_html/**/*.php (layout)",
+        "src/assets/scss/",
+        "breakpoints + theme-kit adoption"
+      ],
+      "tasks": [
+        "Friday: cross-project breakpoints alignment check",
+        "www-theme-kit token propagation verify",
+        "MCP health check — sys-admin + synabrain in .vscode/mcp.json",
+        "Monthly: 390px containment audit",
+        "Protocol SSOT drift check"
+      ],
+      "when_to_use": "Invoke DivineDesign for cross-project layout decisions, breakpoint standards, page architecture reviews, or any design protocol audits.",
+      "ssot_docs": [
+        { "label": "Design System", "path": "{YOUR_PROJECT_ROOT}/storage/docs/DESIGN-SYSTEM.md" },
+        { "label": "Protocol",      "path": "{YOUR_PROJECT_ROOT}/storage/docs/PROTOCOL.md" },
+        { "label": "Pages",         "path": "{YOUR_PROJECT_ROOT}/storage/docs/PAGES.md" },
+        { "label": "Roadmap",       "path": "{YOUR_PROJECT_ROOT}/storage/docs/ROADMAP.md" }
+      ]
+    },
+    {
+      "id": "graphviz",
+      "name": "GraphViz",
+      "title": "Chief Visual Harmony & Theme System Architect",
+      "tagline": "Investors don't fund white backgrounds.",
+      "audit_day": "Wednesday",
+      "emoji": "🎨",
+      "project": "my-project",
+      "landscape": "graphviz-16x9.webp",
+      "square": "graphviz-1x1.webp",
+      "profile_path": "GraphViz.md",
+      "owns": [
+        "src/assets/scss/base/",
+        "src/assets/scss/themes/"
+      ],
+      "tasks": [
+        "Wednesday: SCSS audit — no hardcoded hex values, no #FFF/#FFFFFF backgrounds",
+        "Verify CSS custom property usage — all colors via variables only",
+        "Theme token propagation from www-theme-kit → www-design-tokens.css",
+        "Cross-check animation patterns adoption"
+      ],
+      "when_to_use": "Invoke GraphViz when modifying SCSS, adding new color tokens, auditing theme consistency, or reviewing www-theme-kit integration.",
+      "ssot_docs": [
+        { "label": "Design System", "path": "{YOUR_PROJECT_ROOT}/storage/docs/DESIGN-SYSTEM.md" },
+        { "label": "Protocol",      "path": "{YOUR_PROJECT_ROOT}/storage/docs/PROTOCOL.md" }
+      ]
+    },
+    {
+      "id": "metrica",
+      "name": "Metrica",
+      "title": "Chief SEO, Analytics & PR Officer",
+      "tagline": "If Google can't see it, it doesn't exist.",
+      "audit_day": "Saturday",
+      "emoji": "📊",
+      "project": "my-project",
+      "is_analytics_owner": true,
+      "landscape": "metrica-16x9.webp",
+      "square": "metrica-1x1.webp",
+      "profile_path": "Metrica.md",
+      "owns": [
+        "public_html/includes/head.php",
+        "public_html/sitemap.xml",
+        "storage/seo/"
+      ],
+      "tasks": [
+        "Saturday: GA4 weekly review — traffic, events, conversions",
+        "Search Console indexing check — crawled-not-indexed investigation",
+        "Audit meta tags, OG images, canonical URLs on new/changed pages",
+        "Track accessibility score and Core Web Vitals"
+      ],
+      "when_to_use": "Invoke Metrica when reviewing SEO performance, adding structured data, fixing indexing issues, or auditing page meta/OG tags.",
+      "ssot_docs": [
+        { "label": "SEO Strategy",  "path": "{YOUR_PROJECT_ROOT}/storage/seo/SEO-AND-MARKETING.md" },
+        { "label": "Protocol",      "path": "{YOUR_PROJECT_ROOT}/storage/docs/PROTOCOL.md" },
+        { "label": "Roadmap",       "path": "{YOUR_PROJECT_ROOT}/storage/docs/ROADMAP.md" }
+      ]
+    },
+    {
+      "id": "vidette",
+      "name": "Vidette",
+      "title": "Chief Video & Image Display Integrity Officer",
+      "tagline": "Aspect ratios are non-negotiable.",
+      "audit_day": "Monday",
+      "emoji": "🎬",
+      "project": "my-project",
+      "landscape": "vidette-16x9.webp",
+      "square": "vidette-1x1.webp",
+      "profile_path": "Vidette.md",
+      "owns": [
+        "public_html/includes/video-*.php",
+        "src/assets/js/video-*.js"
+      ],
+      "tasks": [
+        "Monday: video aspect ratio QA — 16:9 embeds, 9:16 shorts",
+        "Check lazy load + thumbnail integrity across video pages",
+        "Review video PHP includes for hardcoded dimensions",
+        "Verify media gallery click tracking events"
+      ],
+      "when_to_use": "Invoke Vidette when adding video embeds, fixing aspect ratio issues, updating video PHP includes, or auditing media gallery behavior.",
+      "ssot_docs": [
+        { "label": "Video System",  "path": "{YOUR_PROJECT_ROOT}/storage/docs/VIDEO-SYSTEM.md" },
+        { "label": "Design System", "path": "{YOUR_PROJECT_ROOT}/storage/docs/DESIGN-SYSTEM.md" },
+        { "label": "Protocol",      "path": "{YOUR_PROJECT_ROOT}/storage/docs/PROTOCOL.md" }
+      ]
+    },
+    {
+      "id": "vixel",
+      "name": "Vixel",
+      "title": "Project Manager — Site Development Lead",
+      "tagline": "Ship the feature. Debug the edge case. Build the lore.",
+      "audit_day": "Sunday",
+      "emoji": "👾",
+      "badge": "Project Manager",
+      "project": "my-project",
+      "is_analytics_owner": false,
+      "landscape": "vixel-16x9.webp",
+      "square": "vixel-1x1.webp",
+      "profile_path": "Vixel.md",
+      "owns": [
+        "public_html/",
+        "src/",
+        "storage/agency/agents/Vixel.md"
+      ],
+      "tasks": [
+        "Sunday: full site QA — mobile breakpoints, nav, aesthetic check",
+        "Devlog + content page review — new entries, image integrity",
+        "Deploy audit — verify build → deploy pipeline integrity"
+      ],
+      "when_to_use": "Invoke Vixel as the primary site PM — design, dev, deploy, content pages, or cross-cutting decisions that don't fit a specialist agent.",
+      "ssot_docs": [
+        { "label": "Protocol",       "path": "{YOUR_PROJECT_ROOT}/storage/docs/PROTOCOL.md" },
+        { "label": "Design Prefs",   "path": "{YOUR_PROJECT_ROOT}/storage/docs/DESIGN-PREFS.md" },
+        { "label": "Roadmap",        "path": "{YOUR_PROJECT_ROOT}/storage/docs/ROADMAP.md" },
+        { "label": "Build & Deploy", "path": "{YOUR_PROJECT_ROOT}/storage/docs/BUILD-DEPLOY.md" }
+      ]
+    }
+  ]
+};
+
+// ── Config loader — tries .foam/agents-paths.json first, falls back to embedded ──
+async function loadConfig() {
+  try {
+    const r = await fetch('.foam/agents-paths.json');
+    if (!r.ok) throw new Error(r.status);
+    return await r.json();
+  } catch (e) {
+    return EMBEDDED_CONFIG;
+  }
+}
+
+// ── Helpers ─────────────────────────────────────────────────────────────────
+function imgSrc(cfg, agent, type) {
+  return `${cfg.projects[agent.project].images_root}/${agent[type]}`;
+}
+function profilePath(cfg, agent) {
+  return `${cfg.projects[agent.project].agents_root}/${agent.profile_path}`;
+}
+function openPath(path) {
+  const url = path.startsWith('file://') ? path : `file:///${path.replace(/\\/g, '/')}`;
+  if (/\.md$/i.test(path)) {
+    openMdViewer(url, path.split(/[/\\]/).pop());
+  } else {
+    window.open(url, '_blank');
+  }
+}
+
+// ── /ap panel ────────────────────────────────────────────────────────────────
+function buildApPanel(cfg) {
+  const dc = cfg.daily_context;
+  const container = document.getElementById('ap-links');
+  const items = [
+    { icon: '📋', label: 'ACTION-PLAN', path: dc.action_plan },
+    { icon: '🌐', label: 'Dashboard',   path: dc.dashboard   },
+  ];
+  items.forEach(item => {
+    const btn = document.createElement('div');
+    btn.className = 'ap-link';
+    btn.innerHTML = `<span class="ap-icon">${item.icon}</span>${item.label}`;
+    btn.title = item.path;
+    btn.addEventListener('click', () => openPath(item.path));
+    container.appendChild(btn);
+  });
+}
+
+// ── Roster ────────────────────────────────────────────────────────────────────
+function buildRoster(cfg) {
+  const roster = document.getElementById('roster');
+  const order = Object.keys(cfg.projects);
+  const groups = {};
+  cfg.agents.forEach(a => { (groups[a.project] = groups[a.project] || []).push(a); });
+
+  order.forEach(projId => {
+    const proj = cfg.projects[projId];
+    const agents = groups[projId] || [];
+    if (!agents.length) return;
+
+    const analyticsOwner = agents.find(a => a.is_analytics_owner);
+
+    const group = document.createElement('div');
+    group.className = 'project-group';
+    group.dataset.project = projId;
+
+    const labelRow = document.createElement('div');
+    labelRow.className = 'project-label';
+    labelRow.dataset.project = projId;
+
+    let seoBtnHtml = '';
+    if (proj.seo_dashboard) {
+      const ownerName = analyticsOwner ? analyticsOwner.name : 'SEO';
+      seoBtnHtml = `<span class="seo-badge-project" data-path="${proj.seo_dashboard}" title="${proj.seo_dashboard}">📊 ${ownerName} dashboard</span>`;
+    }
+
+    labelRow.innerHTML = `
+      <div class="project-dot"></div>
+      <span class="project-name">${proj.label}</span>
+      <a class="project-url-link" href="${proj.url}" target="_blank">${proj.url.replace('https://','')}</a>
+      ${seoBtnHtml}
+      <span class="project-agent-count">${agents.length} agent${agents.length !== 1 ? 's':''}</span>`;
+
+    group.appendChild(labelRow);
+    if (proj.seo_dashboard) {
+      const seoBtn = labelRow.querySelector('.seo-badge-project');
+      if (seoBtn) seoBtn.addEventListener('click', e => { e.stopPropagation(); openPath(seoBtn.dataset.path); });
+    }
+
+    const grid = document.createElement('div');
+    grid.className = 'agent-grid';
+
+    agents.forEach(agent => {
+      const card = document.createElement('div');
+      card.className = 'agent-card';
+      card.dataset.project = projId;
+
+      const cardBadge = agent.badge
+        ? `<div class="analytics-badge-card">${agent.badge}</div>`
+        : (agent.is_analytics_owner ? `<div class="analytics-badge-card">SEO Owner</div>` : '');
+
+      card.innerHTML = `
+        <div class="card-thumb">
+          <img src="${imgSrc(cfg,agent,'square')}" alt="${agent.name}" loading="lazy">
+          ${cardBadge}
+          <div class="expand-hint">View ↗</div>
+        </div>
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-name"><span>${agent.emoji}</span>${agent.name}</div>
+          <div class="card-title">${agent.title}</div>
+          <div class="card-meta">
+            <span class="audit-pill">${agent.audit_day}</span>
+          </div>
+        </div>`;
+
+      card.addEventListener('click', () => openModal(cfg, agent));
+      grid.appendChild(card);
+    });
+
+    group.appendChild(grid);
+    roster.appendChild(group);
+  });
+}
+
+// ── Image tab wiring ──────────────────────────────────────────────────────────
+let _currentCfg = null, _currentAgent = null;
+
+function initImgTabs() {
+  document.querySelectorAll('.img-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      if (!_currentCfg || !_currentAgent) return;
+      const type = tab.dataset.imgType;
+      const src = type === 'studio'
+        ? (_currentAgent.studio ? imgSrc(_currentCfg, _currentAgent, 'studio') : null)
+        : imgSrc(_currentCfg, _currentAgent, type === 'portrait' ? 'square' : type);
+      if (!src) return;
+      document.getElementById('modal-landscape').src = src;
+      document.querySelectorAll('.img-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+}
+
+// ── Modal ─────────────────────────────────────────────────────────────────────
+function openModal(cfg, agent) {
+  _currentCfg = cfg; _currentAgent = agent;
+  const proj = cfg.projects[agent.project];
+  const modal = document.getElementById('modal');
+  modal.dataset.project = agent.project;
+
+  document.querySelectorAll('.img-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('[data-img-type="landscape"]').classList.add('active');
+  const studioTab = document.getElementById('tab-studio');
+  studioTab.classList.toggle('hidden', !agent.studio);
+
+  document.getElementById('modal-landscape').src = imgSrc(cfg, agent, 'landscape');
+  document.getElementById('modal-landscape').alt = `${agent.name}`;
+  document.getElementById('modal-emoji').textContent = agent.emoji;
+  document.getElementById('modal-name').textContent = agent.name;
+  document.getElementById('modal-role').textContent = agent.title;
+  document.getElementById('modal-tagline').textContent = `"${agent.tagline}"`;
+
+  const chips = document.getElementById('modal-chips');
+  chips.innerHTML = `
+    <div class="chip"><div class="chip-dot"></div>${proj.label}</div>
+    <div class="chip">Audit: ${agent.audit_day}</div>
+    ${agent.badge ? `<div class="chip analytics-chip">🏷 ${agent.badge}</div>` : ''}
+    ${agent.is_analytics_owner && !agent.badge ? `<div class="chip analytics-chip">📊 SEO &amp; Analytics Owner</div>` : ''}`;
+
+  const docsEl = document.getElementById('modal-docs');
+  docsEl.innerHTML = '';
+  (agent.ssot_docs || []).forEach(doc => {
+    const row = document.createElement('div');
+    row.className = `doc-link${doc.is_dashboard ? ' is-dashboard' : ''}`;
+    const icon = doc.is_dashboard ? '📊' : doc.label.includes('Roadmap') ? '🗺' : doc.label.includes('SEO') ? '📈' : doc.label.includes('Design') ? '🎨' : doc.label.includes('Protocol') ? '📋' : '📄';
+    row.innerHTML = `<span class="doc-icon">${icon}</span><span class="doc-label">${doc.label}</span><span class="doc-arrow">↗</span>`;
+    row.title = doc.path;
+    row.addEventListener('click', () => openPath(doc.path));
+    docsEl.appendChild(row);
+  });
+
+  const ownsEl = document.getElementById('modal-owns');
+  ownsEl.innerHTML = '';
+  (agent.owns || []).forEach(o => {
+    const li = document.createElement('li');
+    li.textContent = o;
+    ownsEl.appendChild(li);
+  });
+
+  document.getElementById('modal-paths').innerHTML = `
+    <div class="path-row"><span class="path-lbl">Profile</span><span class="path-val">${profilePath(cfg,agent)}</span></div>
+    <div class="path-row"><span class="path-lbl">16:9</span><span class="path-val">${imgSrc(cfg,agent,'landscape').replace('file:///','')}</span></div>
+    <div class="path-row"><span class="path-lbl">1:1</span><span class="path-val">${imgSrc(cfg,agent,'square').replace('file:///','')}</span></div>
+    <div class="path-row"><span class="path-lbl">Images</span><span class="path-val">${proj.images_root}</span></div>
+    ${proj.seo_dashboard ? `<div class="path-row"><span class="path-lbl">SEO</span><span class="path-val">${proj.seo_dashboard}</span></div>` : ''}`;
+
+  const tasksSection = document.getElementById('modal-tasks-section');
+  const tasksEl = document.getElementById('modal-tasks');
+  if (agent.tasks && agent.tasks.length) {
+    tasksEl.innerHTML = '';
+    agent.tasks.forEach(t => { const li = document.createElement('li'); li.textContent = t; tasksEl.appendChild(li); });
+    tasksSection.style.display = '';
+  } else {
+    tasksSection.style.display = 'none';
+  }
+
+  const whenSection = document.getElementById('modal-when-section');
+  const whenEl = document.getElementById('modal-when');
+  if (agent.when_to_use) {
+    whenEl.textContent = agent.when_to_use;
+    whenSection.style.display = '';
+  } else {
+    whenSection.style.display = 'none';
+  }
+
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── Filters ───────────────────────────────────────────────────────────────────
+function initFilters() {
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const target = btn.dataset.project;
+      document.querySelectorAll('.project-group').forEach(g => {
+        g.classList.toggle('hidden', target !== 'all' && g.dataset.project !== target);
+      });
+    });
+  });
+}
+
+document.getElementById('modal-close').addEventListener('click', closeModal);
+document.getElementById('modal-overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+(async () => {
+  const cfg = await loadConfig();
+  if (!cfg) return;
+  buildApPanel(cfg);
+  buildRoster(cfg);
+  initFilters();
+  initImgTabs();
+})();
+
+// ── MD Viewer ─────────────────────────────────────────────────────────────────
+(function(){
+  const backdrop = document.getElementById('md-backdrop');
+  const panel    = document.getElementById('md-panel');
+  const titleEl  = document.getElementById('md-panel-title');
+  const bodyEl   = document.getElementById('md-panel-body');
+  const closeBtn = document.getElementById('md-panel-close');
+  if (!panel) return;
+
+  window.openMdViewer = function(href, label) {
+    titleEl.textContent = label || href.split(/[/\\]/).pop();
+    bodyEl.innerHTML = '<div class="md-loading">Loading…</div>';
+    backdrop.classList.add('open');
+    panel.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    fetch(href)
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
+      .then(text => {
+        bodyEl.innerHTML = (typeof marked !== 'undefined')
+          ? marked.parse(text)
+          : `<pre style="white-space:pre-wrap">${text.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</pre>`;
+      })
+      .catch(() => {
+        const clean = href.replace(/^file:\/\/\//,'').replace(/\//g,'\\');
+        bodyEl.innerHTML = `<div class="md-error"><p>Could not fetch: <code>${href.split(/[/\\]/).pop()}</code></p>
+          <p style="margin-top:.4rem;font-size:.74rem">Open in editor:</p>
+          <button class="md-copy-btn" onclick="navigator.clipboard.writeText('${clean.replace(/'/g,"\\'")}');this.textContent='✓ Copied'">Copy path</button></div>`;
+      });
+  };
+
+  function closeMdViewer() {
+    backdrop.classList.remove('open');
+    panel.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  closeBtn.addEventListener('click', closeMdViewer);
+  backdrop.addEventListener('click', closeMdViewer);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && panel.classList.contains('open')) { e.stopPropagation(); closeMdViewer(); } });
+})();
+</script>
+
+<!-- MD Viewer -->
+<div id="md-backdrop"></div>
+<div id="md-panel">
+  <div id="md-panel-head">
+    <span id="md-panel-title"></span>
+    <button id="md-panel-close">✕ close</button>
+  </div>
+  <div id="md-panel-body"></div>
+</div>
+
+</body>
+</html>

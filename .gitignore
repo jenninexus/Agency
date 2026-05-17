@@ -35,8 +35,8 @@ agency.code-workspace
 
 # ── Local-only tooling ────────────────────────────────────────────────────────
 
-# Local agent roster dashboard (requires Live Server to run)
-agents.html
+# Local agent roster dashboard (requires Live Server to run) — copy from agency.html.example
+agency.html
 
 # Local roadmap / planning docs — keep in docs/ but off public repo
 # (docs/ in general IS tracked; only these specific planning files are local)
@@ -99,3 +99,4 @@ _archive/
 # projects/README.md  (concept doc only — project subdirs are local/gitignored)
 # docs/, templates/, examples/, scripts/
 # resources/images/banner.jpg
+# agency.html.example  ← public roster dashboard template (copy → agency.html, customize)
